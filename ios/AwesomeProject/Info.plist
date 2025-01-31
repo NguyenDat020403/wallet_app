@@ -26,14 +26,13 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	  <!-- Do not change NSAllowsArbitraryLoads to true, or you will risk app rejection! -->
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -48,5 +47,45 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Raleway-Bold.ttf</string>
+		<string>Raleway-Light.ttf</string>
+		<string>Raleway-Regular.ttf</string>
+		<string>inter_black.ttf</string>
+		<string>inter_blackitalic.ttf</string>
+		<string>inter_bold.ttf</string>
+		<string>inter_bolditalic.ttf</string>
+		<string>inter_extrabold.ttf</string>
+		<string>inter_extrabolditalic.ttf</string>
+		<string>inter_extralight.ttf</string>
+		<string>inter_extralightitalic.ttf</string>
+		<string>inter_italic.ttf</string>
+		<string>inter_light.ttf</string>
+		<string>inter_lightitalic.ttf</string>
+		<string>inter_medium.ttf</string>
+		<string>inter_mediumitalic.ttf</string>
+		<string>inter_regular.ttf</string>
+		<string>inter_semibold.ttf</string>
+		<string>inter_semibolditalic.ttf</string>
+		<string>inter_thin.ttf</string>
+		<string>inter_thinitalic.ttf</string>
+		<string>nunito_black.ttf</string>
+		<string>nunito_blackitalic.ttf</string>
+		<string>nunito_bold.ttf</string>
+		<string>nunito_bolditalic.ttf</string>
+		<string>nunito_extrabold.ttf</string>
+		<string>nunito_extrabolditalic.ttf</string>
+		<string>nunito_extralight.ttf</string>
+		<string>nunito_extralightitalic.ttf</string>
+		<string>nunito_italic.ttf</string>
+		<string>nunito_light.ttf</string>
+		<string>nunito_lightitalic.ttf</string>
+		<string>nunito_medium.ttf</string>
+		<string>nunito_mediumitalic.ttf</string>
+		<string>nunito_regular.ttf</string>
+		<string>nunito_semibold.ttf</string>
+		<string>nunito_semibolditalic.ttf</string>
+	</array>
 </dict>
 </plist>

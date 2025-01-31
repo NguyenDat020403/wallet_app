@@ -1,0 +1,153 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/inter/inter_black.ttf",
+      "sha1": "4424c931469bac621562a1953264c29fffc67067"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_blackitalic.ttf",
+      "sha1": "2d71266bdac31e9a238e7acea9a2b3f86d789d54"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_bold.ttf",
+      "sha1": "9461e7c083137c2abe6d198f784fb0d341a527a1"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_bolditalic.ttf",
+      "sha1": "fa76cc71099cb5e2b29c88db8b09eae6fc2e8e22"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_extrabold.ttf",
+      "sha1": "872bc40675c084c451af1c3eb10e21c13e2008a3"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_extrabolditalic.ttf",
+      "sha1": "0c2736695376051b85340197d8ca877a8e05e366"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_extralight.ttf",
+      "sha1": "aed9270b1ec764bb809a7bc7ddde66e39c6836c2"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_extralightitalic.ttf",
+      "sha1": "edcda582c10721ff1ecee6cab6cbda5dc9da19aa"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_italic.ttf",
+      "sha1": "0b141c525015d767f7143106b4a424fd282fba71"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_light.ttf",
+      "sha1": "8a6e2acc8d9c4fbbbbefc2fb34ebfcd8216c6b6e"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_lightitalic.ttf",
+      "sha1": "8d0000b7fb64c636ad30f12e8aed2d3915f31731"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_medium.ttf",
+      "sha1": "c1d25d8c10adb45a970e71c387bbd6380f10992d"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_mediumitalic.ttf",
+      "sha1": "57dd74a5e73094c7cfc90eff5e6a33998fff8a40"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_regular.ttf",
+      "sha1": "6e3430f906a4b42b4b63fd8f33e498a43d9f8d84"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_semibold.ttf",
+      "sha1": "b4bdaf6bdd6a479b46c452a7bbae13f5cb2079bf"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_semibolditalic.ttf",
+      "sha1": "45b62a0ed702c13cb3fa9ccb02e2aec3eab24331"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_thin.ttf",
+      "sha1": "50d48fc8e929b3a706e5d4ec58a75e89827ec7f4"
+    },
+    {
+      "path": "src/assets/fonts/inter/inter_thinitalic.ttf",
+      "sha1": "2d8a2be880c23111112da12b3f7cd83dc636656a"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_black.ttf",
+      "sha1": "01abc1142e597b9a7748eb2d14ff823d65a54f01"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_blackitalic.ttf",
+      "sha1": "f9d9f79f6d10505f4659294b9a8baf09b20cd71e"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_bold.ttf",
+      "sha1": "d8091536d0fab37a3239067f708a0221070835da"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_bolditalic.ttf",
+      "sha1": "0a317229386769448de8344da4dcaddef5150fd4"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_extrabold.ttf",
+      "sha1": "67f6aa1374efae5fc8f457fb92f721f49ecd45ba"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_extrabolditalic.ttf",
+      "sha1": "c9e77f8ae4f167a389851f2e56dcbae1494e31bc"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_extralight.ttf",
+      "sha1": "4ddd754e262de6dceba31e08b7403849d37c0d8a"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_extralightitalic.ttf",
+      "sha1": "5fa8b333a480476105b142c034c7376ed3fb4d2d"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_italic.ttf",
+      "sha1": "8bd20205f1cfac7715f5f0f945cbd745c2709c80"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_light.ttf",
+      "sha1": "c570f483013f57db1a325ae1ddc2e11c115bb441"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_lightitalic.ttf",
+      "sha1": "cbe38d47698ad165698243f6731a13a190da60fa"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_medium.ttf",
+      "sha1": "941255b6a8c1e2d286ed9613bd6b354e2423dad9"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_mediumitalic.ttf",
+      "sha1": "1c2a822552942e5cba150201ac4e0a1e0f65d881"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_regular.ttf",
+      "sha1": "465c464793593babb53e51e2a56562cdd79c237d"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_semibold.ttf",
+      "sha1": "047ca2a59c253520cc46b3506744fad6ef8192c6"
+    },
+    {
+      "path": "src/assets/fonts/nunito/nunito_semibolditalic.ttf",
+      "sha1": "d930314ed16c54fd734f85d3d45f17d988254578"
+    },
+    {
+      "path": "src/assets/fonts/Raleway-Bold.ttf",
+      "sha1": "ab21b55115bd50a57f3a95ec4eda834eee675d04"
+    },
+    {
+      "path": "src/assets/fonts/Raleway-Light.ttf",
+      "sha1": "e18f4467e6ddb09a6edd1d0c561a4fb360ff7be1"
+    },
+    {
+      "path": "src/assets/fonts/Raleway-Regular.ttf",
+      "sha1": "2b673d65ef7a66233c1fb1fd0424ef067a787cca"
+    }
+  ]
+}
