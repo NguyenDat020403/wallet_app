@@ -1,0 +1,6 @@
+export {default as demoStory1} from './demoStory1.png';
+export {default as demoStory2} from './demoStory2.png';
+export {default as demoStory3} from './demoStory3.jpg';
+export {default as demoNewItems} from './demoNewItems.png';
+export {default as demoNewItems2} from './demoNewItems2.png';
+export {default as ImageDemoStory} from './ImageDemoStory.png';
