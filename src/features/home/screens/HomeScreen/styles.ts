@@ -1,5 +1,5 @@
 import {AppEdgeInsets} from '@/hooks/types';
-import {typography} from '@/styles';
+import {spacing, typography} from '@/styles';
 import {ScreenWidth} from '@rneui/base';
 import {makeStyles} from '@rneui/themed';
 
@@ -8,6 +8,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   header: {
     position: 'absolute',
     top: insets.top,
+    paddingVertical: 16,
     width: insets.screenWidth,
     paddingHorizontal: 16,
     zIndex: 1000,
@@ -20,34 +21,70 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     alignItems: 'center',
     gap: 12,
   },
-  headerRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+  headerButtonRight: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: '#004CFF',
+    borderRadius: 32,
+    alignSelf: 'center',
   },
-  buttonHeaderRight: {
-    width: 35,
-    height: 35,
-    backgroundColor: '#F8F8F8',
-    borderRadius: 150,
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  avatarAndShadow: {
-    shadowColor: '#000',
-    shadowOffset: {width: 4, height: 4},
-    shadowOpacity: 0.25,
-    shadowRadius: 150,
-    elevation: 5,
-    backgroundColor: 'transparent',
-    borderRadius: 150,
+  headerTextButtonRight: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#FFFFFF',
+    fontFamily: 'nunito_medium',
   },
   avatar: {
-    width: 44,
-    height: 44,
+    width: spacing.avatarSizeL,
+    height: spacing.avatarSizeL,
     borderRadius: 150,
-    borderWidth: 4,
-    borderColor: '#FFFFFF',
+  },
+  textHeaderMessage: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#202020',
+    fontFamily: 'nunito_regular',
+  },
+  textHeaderName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#000000',
+    fontFamily: 'nunito_bold',
+  },
+  body: {
+    marginTop: insets.top + spacing.avatarSizeL + 16,
+    marginBottom: 60,
+  },
+  textLarge: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: '#FFFFFF',
+    fontFamily: 'nunito_bold',
+  },
+  textMedium: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#FFFFFF',
+    fontFamily: 'nunito_medium',
+  },
+  textRegular: {
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#FFFFFF',
+    fontFamily: 'nunito_regular',
+  },
+  buttonSelectPhoto: {
+    backgroundColor: '#FFFFFF',
+    width: 120,
+    alignItems: 'center',
+    paddingVertical: 8,
+    borderRadius: 12,
+  },
+  textButtonBanner: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#004CFF',
+    fontFamily: 'nunito_medium',
   },
   textWelcome: {
     marginVertical: 16,

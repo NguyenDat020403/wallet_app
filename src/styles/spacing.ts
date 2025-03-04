@@ -73,6 +73,9 @@ const spacing = {
   inputPaddingVertical: 8,
   inputPaddingHorizontal: 12,
   inputBorderRadius: 6,
+
+  // avatar sizes
+  avatarSizeL: 54,
 };
 
 export default spacing;
