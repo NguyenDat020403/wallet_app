@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity, FlatList, ScrollView} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
@@ -21,6 +21,7 @@ import {useAppSelector} from '@/redux/hooks';
 import {navigate} from '@/navigation/RootNavigation';
 import RecentlySeenItem from '../../components/RecentlySeenItem';
 import {CategoriesBox} from './components';
+import {ImageDemoHome1, ImageDemoHome2} from '@/assets/images';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -33,112 +34,64 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
     <AppWrapper>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity style={styles.avatarAndShadow}>
-            <Image
-              source={{
-                uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
-              }}
-              style={styles.avatar}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              if (!isNotAuth) {
-                navigate('LoginScreen');
-              }
-            }}
-            style={{
-              backgroundColor: '#004CFF',
-              borderRadius: 18,
-              height: 35,
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: '#FFFFFF',
-                paddingHorizontal: 16,
-              }}>
-              My Activity
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.headerRight}>
-          <TouchableOpacity style={styles.buttonHeaderRight}>
-            <Image
-              source={IconScan}
-              style={{
-                width: 20,
-                height: 16,
-                resizeMode: 'stretch',
-              }}
-              containerStyle={{alignSelf: 'center'}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonHeaderRight}>
-            <Image
-              source={IconNotification}
-              style={{
-                width: 8,
-                height: 8,
-                resizeMode: 'stretch',
-                alignSelf: 'center',
-              }}
-              containerStyle={{position: 'absolute', top: 0, right: 0}}
-            />
-            <Image
-              source={IconTopMenu}
-              style={{
-                width: 11,
-                height: 10,
-                resizeMode: 'stretch',
-              }}
-              containerStyle={{alignSelf: 'center'}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonHeaderRight}>
-            <Image
-              source={IconSetting}
-              style={{
-                width: 16,
-                resizeMode: 'stretch',
-                height: 16,
-              }}
-              containerStyle={{alignSelf: 'center'}}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{marginTop: 60, marginBottom: 60}}>
-        {/* ---------------------------------------------------- */}
-        <View style={{paddingHorizontal: 16}}>
-          <Text style={styles.textWelcome}>Hello, Romina!</Text>
-          <View style={styles.welcomeBody}>
-            <Text style={styles.textTitle}>Announcement</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  width: safeAreaInsets.screenWidth - 30 - 24 - 32 - 16,
+          {isNotAuth ? (
+            <></>
+          ) : (
+            <>
+              <Image
+                source={{
+                  uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
                 }}
-                numberOfLines={2}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Maecenas hendrerit luctus libero ac vulputate.
-              </Text>
-              <TouchableOpacity style={styles.iconArrowRight}>
-                <Icon
-                  type="antdesign"
-                  name="arrowright"
-                  size={14}
-                  color="#FFFFFF"
-                  style={{alignSelf: 'center'}}
-                />
-              </TouchableOpacity>
-            </View>
+                style={styles.avatar}
+              />
+              <View
+                style={{
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={styles.textHeaderMessage}>Welcome Back!</Text>
+                <Text style={styles.textHeaderName}>Dat N</Text>
+              </View>
+            </>
+          )}
+        </View>
+        <TouchableOpacity style={styles.headerButtonRight}>
+          <Text style={styles.headerTextButtonRight}>Go "Plus"</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
+        {/* ---------------------------------------------------- */}
+        <View
+          style={{
+            paddingHorizontal: 16,
+            height: (safeAreaInsets.screenWidth - 32) / 2,
+            position: 'relative',
+          }}>
+          <Image
+            source={ImageDemoHome2}
+            style={{
+              width: safeAreaInsets.screenWidth - 32,
+              height: (safeAreaInsets.screenWidth - 48) / 2,
+            }}
+            containerStyle={{borderRadius: 12}}
+          />
+          <View
+            style={{
+              height: (safeAreaInsets.screenWidth - 32) / 2 - 48,
+              position: 'absolute',
+              top: 16,
+              left: 32,
+              justifyContent: 'space-between',
+            }}>
+            <Text style={styles.textLarge}>Edit Photo</Text>
+            <Text numberOfLines={2} style={styles.textMedium}>
+              Unleash your creativity with the AI multi-editing toolbox!
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.buttonSelectPhoto}>
+              <Text style={styles.textButtonBanner}>Select Photo</Text>
+            </TouchableOpacity>
           </View>
         </View>
 

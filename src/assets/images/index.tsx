@@ -4,3 +4,5 @@ export {default as demoStory3} from './demoStory3.jpg';
 export {default as demoNewItems} from './demoNewItems.png';
 export {default as demoNewItems2} from './demoNewItems2.png';
 export {default as ImageDemoStory} from './ImageDemoStory.png';
+export {default as ImageDemoHome1} from './image1.png';
+export {default as ImageDemoHome2} from './image2.jpg';

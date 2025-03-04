@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {AppButton, AppWrapper} from '@/components';
@@ -9,110 +9,108 @@ import {
   ImageDemoStory,
 } from '@/assets/images';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Image} from '@rneui/themed';
 import {IconEyeOn, IconForward, IconLive} from '@/assets/icons';
 import {Text} from 'react-native';
 import {goBack} from '@/navigation/RootNavigation';
 import {PanGestureHandler} from 'react-native-gesture-handler';
+import {StoryResource, StoryResponse} from './types';
+import {ScreenWidth} from '@rneui/base';
 
 interface StoryScreenProps extends MainStackScreenProps<'StoryScreen'> {}
 
 const StoryScreen: React.FC<StoryScreenProps> = ({navigation, route}) => {
-  const styles = useStyles();
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
+  const styles = useStyles(safeAreaInsets);
 
-  const IMAGE_SCALE_WIDTH = safeAreaInsets.screenWidth;
-  const IMAGE_SCALE_HEIGHT =
-    safeAreaInsets.screenHeight -
-    safeAreaInsets.top -
-    safeAreaInsets.bottom -
-    60 -
-    40 -
-    32;
-  const onSwipe = ({nativeEvent}) => {
-    const {translationX, translationY} = nativeEvent;
+  const DEMO_DATA_RESPONSE = StoryResponse;
+  const [currentIndex, setCurrentIndex] = useState<number | null>();
 
-    if (translationX > 50) {
-      navigation.goBack();
-    } else if (translationX < -50) {
-      // navigation.navigate('NextScreen');
-      console.log('Vuốt phải');
-    } else if (translationY > 50) {
-      console.log('Vuốt xuống');
-    } else if (translationY < -50) {
-      console.log('Vuốt lên');
-    }
-  };
+  useEffect(() => {
+    console.log(currentIndex);
+  }, [currentIndex]);
 
   return (
-    <AppWrapper>
-      <PanGestureHandler
-        onGestureEvent={onSwipe}
-        onHandlerStateChange={onSwipe}>
-        <ScrollView
-          onScroll={() => {
-            goBack;
-          }}
-          style={{
-            flex: 1,
-            paddingHorizontal: 16,
-            paddingTop: 16,
-          }}>
-          <TouchableOpacity activeOpacity={0.8}>
-            <Image
-              source={{
-                uri: 'https://algonquinadventures.com/wallpaper/phones/StephenElms-SPWP-1.jpg',
-              }}
-              style={{
-                width: IMAGE_SCALE_WIDTH,
-                height: IMAGE_SCALE_HEIGHT,
-              }}
-              containerStyle={{borderRadius: 9}}
-            />
-          </TouchableOpacity>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingVertical: 8,
-              gap: 12,
-              alignItems: 'center',
-            }}>
+    <AppWrapper style={{position: 'relative'}}>
+      <FlatList
+        data={DEMO_DATA_RESPONSE}
+        pagingEnabled
+        renderItem={({item}) => {
+          return (
             <View
-              style={{
-                flexDirection: 'row',
-                gap: 4,
-              }}>
-              <Image
-                source={IconEyeOn}
-                style={{width: 22, height: 18, resizeMode: 'cover'}}
+              style={{flex: 1, height: safeAreaInsets.screenHeight - 60 - 16}}>
+              <FlatList
+                scrollEventThrottle={16}
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                horizontal
+                data={DEMO_DATA_RESPONSE[0].resource}
+                style={styles.container}
+                onViewableItemsChanged={({viewableItems, changed}) => {
+                  const index = viewableItems[0]?.index;
+                  const indexNext = viewableItems[1];
+                  if (!index && !indexNext) {
+                    setCurrentIndex(undefined);
+                  } else {
+                    setCurrentIndex(index);
+                  }
+                }}
+                keyExtractor={item => item.backgroundSoundUrl}
+                renderItem={({item, index}) => {
+                  return <StoryDetailItem data={item} />;
+                }}
               />
-              <Text style={styles.textViews}>2,530</Text>
+              <View style={styles.detail}>
+                <View style={styles.views}>
+                  <Image
+                    source={IconEyeOn}
+                    style={{width: 22, height: 18, resizeMode: 'cover'}}
+                  />
+                  <Text style={styles.textViews}>2,530</Text>
+                </View>
+                <Image
+                  source={IconLive}
+                  style={{width: 40, height: 18, resizeMode: 'cover'}}
+                />
+                <TouchableOpacity>
+                  <Image
+                    source={IconForward}
+                    style={{width: 25, height: 18, resizeMode: 'cover'}}
+                  />
+                </TouchableOpacity>
+                <AppButton
+                  title="Shop"
+                  buttonStyle={styles.shopButton}
+                  textStyle={styles.textButton}
+                />
+              </View>
             </View>
-            <Image
-              source={IconLive}
-              style={{width: 40, height: 18, resizeMode: 'cover'}}
-            />
-            <TouchableOpacity>
-              <Image
-                source={IconForward}
-                style={{width: 25, height: 18, resizeMode: 'cover'}}
-              />
-            </TouchableOpacity>
-            <AppButton
-              title="Shop"
-              buttonStyle={{
-                flex: 1,
-                paddingVertical: 6,
-                marginHorizontal: 0,
-              }}
-              textStyle={styles.textButton}
-            />
-          </View>
-        </ScrollView>
-      </PanGestureHandler>
+          );
+        }}
+      />
     </AppWrapper>
+  );
+};
+
+type StoryDetailItemProps = {
+  data: StoryResource;
+};
+const StoryDetailItem: React.FC<StoryDetailItemProps> = ({data}) => {
+  const safeAreaInsets = useSafeAreaInsetsWindowDimension();
+  const styles = useStyles(safeAreaInsets);
+  return (
+    <>
+      <TouchableOpacity activeOpacity={0.8} style={{paddingHorizontal: 16}}>
+        <Image
+          source={{
+            uri: data.url,
+          }}
+          style={styles.image}
+          containerStyle={{borderRadius: 9}}
+        />
+      </TouchableOpacity>
+    </>
   );
 };
 
