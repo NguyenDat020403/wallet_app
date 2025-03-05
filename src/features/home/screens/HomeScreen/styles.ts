@@ -52,7 +52,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     fontFamily: 'nunito_bold',
   },
   body: {
-    marginTop: insets.top + spacing.avatarSizeL + 16,
+    marginTop: insets.top + spacing.avatarSizeL,
     marginBottom: 60,
   },
   textLarge: {

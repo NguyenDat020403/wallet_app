@@ -14,18 +14,18 @@ import {
 } from '@/assets/icons';
 import {Icon, Image} from '@rneui/themed';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {CategoriesResponse, flashSaleItems, RecentlyViewedData} from './types';
+import {AIFunctionList, CategoriesResponse, flashSaleItems} from './types';
 import {FlashSaleList, HeaderList, NewItem, StoryItem} from '../../components';
 import MostPopularItem from '../../components/MostPopularItem';
 import {useAppSelector} from '@/redux/hooks';
 import {navigate} from '@/navigation/RootNavigation';
 import RecentlySeenItem from '../../components/RecentlySeenItem';
-import {CategoriesBox} from './components';
+import {AIItem, CategoriesBox} from './components';
 import {ImageDemoHome1, ImageDemoHome2} from '@/assets/images';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
-const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const isNotAuth = useAppSelector(state => state.authReducer.isAuthenticated);
@@ -33,7 +33,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   return (
     <AppWrapper>
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('MenuScreen');
+          }}
+          activeOpacity={0.7}
+          style={styles.headerLeft}>
           {isNotAuth ? (
             <></>
           ) : (
@@ -54,7 +59,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
               </View>
             </>
           )}
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.headerButtonRight}>
           <Text style={styles.headerTextButtonRight}>Go "Plus"</Text>
         </TouchableOpacity>
@@ -96,159 +101,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         </View>
 
         {/* ---------------------------------------------------- */}
-        <HeaderList title="Recently viewed" />
-        <FlatList
-          scrollEventThrottle={6}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            gap: 8,
-            paddingHorizontal: 16,
-            paddingBottom: 16,
-          }}
-          data={RecentlyViewedData}
-          renderItem={({item}) => {
-            return <RecentlySeenItem data={item} />;
-          }}
-        />
-        {/* ---------------------------------------------------- */}
-        <HeaderList title="My Orders" />
-        <View style={styles.myOrder}>
-          <TouchableOpacity style={styles.myOrderButton}>
-            <Text style={styles.textMyOrder}>To pay</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.myOrderButton}>
-            <Image
-              source={IconNotificationLight}
-              style={{
-                width: 14,
-                height: 14,
-                alignSelf: 'center',
-              }}
-              containerStyle={{position: 'absolute', top: -2, right: -2}}
-            />
-            <Text style={styles.textMyOrder}>To Recieve</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.myOrderButton}>
-            <Text style={styles.textMyOrder}>To Review</Text>
-          </TouchableOpacity>
-        </View>
-        {/* ---------------------------------------------------- */}
         <HeaderList title="Stories" />
         <FlatList
-          scrollEventThrottle={6}
-          horizontal
-          showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: 16,
-            gap: 8,
             paddingBottom: 16,
-          }}
-          data={RecentlyViewedData}
-          renderItem={({item}) => {
-            return <StoryItem data={item} />;
-          }}
-        />
-        {/* ---------------------------------------------------- */}
-        <HeaderList
-          title="New Items"
-          isHaveButton
-          onPress={() => {
-            console.log('New Items');
-          }}
-        />
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: 16,
-            gap: 8,
-            paddingBottom: 16,
-          }}
-          data={RecentlyViewedData}
-          renderItem={({item}) => {
-            return <NewItem data={item} />;
-          }}
-        />
-        {/* ---------------------------------------------------- */}
-        <HeaderList
-          title="Most Popular"
-          isHaveButton
-          onPress={() => {
-            console.log('Most Popular');
-          }}
-        />
-        <FlatList
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: 16,
-            gap: 8,
-            paddingBottom: 16,
-          }}
-          data={RecentlyViewedData}
-          renderItem={({item}) => {
-            return <MostPopularItem data={item} />;
-          }}
-        />
-        {/* ---------------------------------------------------- */}
-        <HeaderList
-          title="Categories"
-          isHaveButton
-          onPress={() => {
-            console.log('Categories');
-          }}
-        />
-
-        <FlatList
-          data={CategoriesResponse.slice(0, 4)}
-          keyExtractor={(item, index) => index.toString() + item.name}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            marginBottom: 10,
-          }}
-          contentContainerStyle={{
-            flexDirection: 'column',
-            paddingHorizontal: 16,
-            paddingBottom: 16,
-            gap: 5,
-          }}
-          renderItem={({item}) => {
-            return <CategoriesBox data={item} />;
-          }}
-        />
-
-        {/* ---------------------------------------------------- */}
-        <FlashSaleList data={flashSaleItems} />
-
-        {/* ---------------------------------------------------- */}
-        <HeaderList
-          title="Just For You"
-          onPress={() => {
-            console.log('Just For You');
-          }}
-          leftComponent={
-            <Image source={IconStar} style={{width: 14, height: 14}} />
-          }
-        />
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingHorizontal: 16,
-            gap: 5,
-            paddingBottom: 16,
+            gap: 16,
           }}
           numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-between',
-            marginBottom: 10,
-          }}
-          data={RecentlyViewedData}
+          data={AIFunctionList}
           renderItem={({item}) => {
-            return <NewItem data={item} numbItemPerRow={2} />;
+            return <AIItem title={item.title} url={item.uri} />;
           }}
         />
+        {/* ---------------------------------------------------- */}
       </ScrollView>
     </AppWrapper>
   );

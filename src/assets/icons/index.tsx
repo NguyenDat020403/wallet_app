@@ -28,3 +28,6 @@ export {default as IconWarning} from './IconWarning.png';
 export {default as IconStar} from './IconStar.png';
 export {default as IconLive} from './IconLive.png';
 export {default as IconForward} from './IconForward.png';
+
+export {default as IconBack} from './IconBack.png';
+export {default as IconCrown} from './IconCrown.png';
