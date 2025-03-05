@@ -5,6 +5,8 @@ export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
 
   HomeScreen: undefined;
+  MenuScreen: undefined;
+
   StoryScreen: {userId: string};
   //auth
   FirstScreen: undefined;

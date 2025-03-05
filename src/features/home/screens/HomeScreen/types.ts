@@ -1,51 +1,51 @@
-export const RecentlyViewedData = [
+export const AIFunctionList = [
   {
     id: '1',
-    userId: '1',
-    uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
+    title: 'AI Avatar Generator',
+    uri: 'https://img.freepik.com/free-photo/full-length-portrait-cute-little-kid-girl-stylish-jeans-clothes-smiling-standing-white-kids-fashion-concept_155003-20300.jpg',
   },
   {
-    userId: '2',
     id: '2',
-    uri: 'https://business.nimo.tv/ssp/material/Q1dJHB0upF5xWmWdwgE.jpg',
+    title: 'AI Scene Generator',
+    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVBUjCjdalhTcRjEe0OdRxJRvLiDvoWfaPUg&s',
   },
   {
-    userId: '3',
     id: '3',
-    uri: 'https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg',
+    title: 'AI Anime Generator',
+    uri: 'https://img.freepik.com/free-photo/full-length-portrait-cute-little-kid-girl-stylish-jeans-clothes-smiling-standing-white-kids-fashion-concept_155003-20300.jpg',
   },
   {
-    userId: '4',
+    title: 'AI Cartoon',
     id: '4',
     uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbE8HPSEk51hz2HPZp2bG4wouPZux_p-UPzQ&s',
   },
   {
-    userId: '5',
     id: '5',
-    uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
+    title: 'AI Transform',
+    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVBUjCjdalhTcRjEe0OdRxJRvLiDvoWfaPUg&s',
   },
   {
-    userId: '6',
+    title: 'AI Room Design',
     id: '6',
-    uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
+    uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVBUjCjdalhTcRjEe0OdRxJRvLiDvoWfaPUg&s',
   },
   {
-    userId: '7',
+    title: 'AI Photo Enhancer',
     id: '7',
     uri: 'https://business.nimo.tv/ssp/material/Q1dJHB0upF5xWmWdwgE.jpg',
   },
   {
-    userId: '8',
+    title: 'AI Magic Eraser',
     id: '8',
     uri: 'https://letsenhance.io/static/03620c83508fc72c6d2b218c7e304ba5/11499/UpscalerAfter.jpg',
   },
   {
-    userId: '9',
+    title: 'AI Change Facial',
     id: '9',
     uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbE8HPSEk51hz2HPZp2bG4wouPZux_p-UPzQ&s',
   },
   {
-    userId: '10',
+    title: 'AI Background',
     id: '10',
     uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
   },
