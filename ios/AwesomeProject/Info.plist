@@ -86,6 +86,13 @@
 		<string>nunito_regular.ttf</string>
 		<string>nunito_semibold.ttf</string>
 		<string>nunito_semibolditalic.ttf</string>
+		<string>ibm_bold.ttf</string>
+		<string>ibm_extralight.ttf</string>
+		<string>ibm_light.ttf</string>
+		<string>ibm_medium.ttf</string>
+		<string>ibm_regular.ttf</string>
+		<string>ibm_semibold.ttf</string>
+		<string>ibm_thin.ttf</string>
 	</array>
 </dict>
 </plist>

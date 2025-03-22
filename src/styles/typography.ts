@@ -62,8 +62,8 @@ const typography = StyleSheet.create({
     fontFamily: 'nunito_medium',
   },
   body1Regular: {
-    fontSize: 14,
-    fontFamily: 'nunito_regular',
+    fontSize: 18,
+    fontFamily: 'ibmPlexMono_Regular',
     fontWeight: '400',
     lineHeight: 16,
   },
@@ -80,10 +80,14 @@ const typography = StyleSheet.create({
     color: '#202020',
   },
   body2Medium: {
-    fontSize: 14,
-    fontFamily: 'nunito_medium',
-    fontWeight: '500',
-    lineHeight: 18,
+    fontSize: 24,
+    fontFamily: 'ibm_medium',
+    color: '#FFFFFF',
+  },
+  body2Regular: {
+    fontFamily: 'ibm_regular',
+    fontSize: 16,
+    color: '#FFFFFF',
   },
   button1Light: {
     fontSize: 18,
@@ -95,6 +99,16 @@ const typography = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Inter',
   },
+  body3Regular: {
+    fontFamily: 'ibm_regular',
+    fontSize: 18,
+    color: '#FFFFFF',
+  },
+  body3Medium: {
+    fontFamily: 'ibm_medium',
+    fontSize: 18,
+    color: '#FFFFFF',
+  },
   body3Bold: {
     fontFamily: 'nunito_bold',
     fontSize: 17,
@@ -103,7 +117,8 @@ const typography = StyleSheet.create({
   },
   caption1: {
     fontSize: 12,
-    fontFamily: 'Inter',
+    fontFamily: 'ibm_regular',
+    color: '#FFFFFF',
   },
   caption1Regular: {
     fontSize: 12,

@@ -51,6 +51,13 @@
 		611FB1E87F2E441581FB7444 /* nunito_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6DE031B099E49B594B16172 /* nunito_regular.ttf */; };
 		9FF7A7B52C1F439398F6008C /* nunito_semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 897B0052DA354EC68AA3067D /* nunito_semibold.ttf */; };
 		E5C8E8428B564AC7904F2C17 /* nunito_semibolditalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 79772693D7BC4F2DA00BA1B0 /* nunito_semibolditalic.ttf */; };
+		51DDA68BE8704BCA88B545B0 /* ibm_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDA3FD5168234287857DE59D /* ibm_bold.ttf */; };
+		A5FABDFFD7414FB9AD1EAC23 /* ibm_extralight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB4DF088F8F241528D7AA4C6 /* ibm_extralight.ttf */; };
+		C06072F55B6A4C3B8AD100D7 /* ibm_light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4B11AE3BEAD426CA4545DC0 /* ibm_light.ttf */; };
+		A85A2D160D03424286F6926D /* ibm_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1D65DA579CC4CB880759648 /* ibm_medium.ttf */; };
+		034E897EDEA24EBEBF15ACF4 /* ibm_regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4AA25DEA059541CF8F35A148 /* ibm_regular.ttf */; };
+		BAABE6819EDE454A8A95BFCA /* ibm_semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D69FE1E5BED945288756DA18 /* ibm_semibold.ttf */; };
+		6E06BE64CE534625800C4124 /* ibm_thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B13E2BA498B4AAA8C68AD7A /* ibm_thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +125,13 @@
 		E6DE031B099E49B594B16172 /* nunito_regular.ttf */ = {isa = PBXFileReference; name = "nunito_regular.ttf"; path = "../src/assets/fonts/nunito/nunito_regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		897B0052DA354EC68AA3067D /* nunito_semibold.ttf */ = {isa = PBXFileReference; name = "nunito_semibold.ttf"; path = "../src/assets/fonts/nunito/nunito_semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		79772693D7BC4F2DA00BA1B0 /* nunito_semibolditalic.ttf */ = {isa = PBXFileReference; name = "nunito_semibolditalic.ttf"; path = "../src/assets/fonts/nunito/nunito_semibolditalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DDA3FD5168234287857DE59D /* ibm_bold.ttf */ = {isa = PBXFileReference; name = "ibm_bold.ttf"; path = "../src/assets/fonts/ibm/ibm_bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EB4DF088F8F241528D7AA4C6 /* ibm_extralight.ttf */ = {isa = PBXFileReference; name = "ibm_extralight.ttf"; path = "../src/assets/fonts/ibm/ibm_extralight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E4B11AE3BEAD426CA4545DC0 /* ibm_light.ttf */ = {isa = PBXFileReference; name = "ibm_light.ttf"; path = "../src/assets/fonts/ibm/ibm_light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C1D65DA579CC4CB880759648 /* ibm_medium.ttf */ = {isa = PBXFileReference; name = "ibm_medium.ttf"; path = "../src/assets/fonts/ibm/ibm_medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4AA25DEA059541CF8F35A148 /* ibm_regular.ttf */ = {isa = PBXFileReference; name = "ibm_regular.ttf"; path = "../src/assets/fonts/ibm/ibm_regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D69FE1E5BED945288756DA18 /* ibm_semibold.ttf */ = {isa = PBXFileReference; name = "ibm_semibold.ttf"; path = "../src/assets/fonts/ibm/ibm_semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6B13E2BA498B4AAA8C68AD7A /* ibm_thin.ttf */ = {isa = PBXFileReference; name = "ibm_thin.ttf"; path = "../src/assets/fonts/ibm/ibm_thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +277,13 @@
 				E6DE031B099E49B594B16172 /* nunito_regular.ttf */,
 				897B0052DA354EC68AA3067D /* nunito_semibold.ttf */,
 				79772693D7BC4F2DA00BA1B0 /* nunito_semibolditalic.ttf */,
+				DDA3FD5168234287857DE59D /* ibm_bold.ttf */,
+				EB4DF088F8F241528D7AA4C6 /* ibm_extralight.ttf */,
+				E4B11AE3BEAD426CA4545DC0 /* ibm_light.ttf */,
+				C1D65DA579CC4CB880759648 /* ibm_medium.ttf */,
+				4AA25DEA059541CF8F35A148 /* ibm_regular.ttf */,
+				D69FE1E5BED945288756DA18 /* ibm_semibold.ttf */,
+				6B13E2BA498B4AAA8C68AD7A /* ibm_thin.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -400,6 +421,13 @@
 				611FB1E87F2E441581FB7444 /* nunito_regular.ttf in Resources */,
 				9FF7A7B52C1F439398F6008C /* nunito_semibold.ttf in Resources */,
 				E5C8E8428B564AC7904F2C17 /* nunito_semibolditalic.ttf in Resources */,
+				51DDA68BE8704BCA88B545B0 /* ibm_bold.ttf in Resources */,
+				A5FABDFFD7414FB9AD1EAC23 /* ibm_extralight.ttf in Resources */,
+				C06072F55B6A4C3B8AD100D7 /* ibm_light.ttf in Resources */,
+				A85A2D160D03424286F6926D /* ibm_medium.ttf in Resources */,
+				034E897EDEA24EBEBF15ACF4 /* ibm_regular.ttf in Resources */,
+				BAABE6819EDE454A8A95BFCA /* ibm_semibold.ttf in Resources */,
+				6E06BE64CE534625800C4124 /* ibm_thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,56 @@
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {Text} from '@rneui/themed';
+import {AppWrapper} from '@/components';
+import {MainStackScreenProps} from '@/navigation/types';
+import useStyles from './styles';
+import {TabView} from '@rneui/base';
+import {CreateScreen1, CreateScreen2} from './components';
+import AppHeader from '@/components/AppHeader';
+import CreateScreen3 from './components/CreateScreen3';
+
+interface CreateNewWalletScreenProps
+  extends MainStackScreenProps<'CreateNewWalletScreen'> {}
+
+const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const styles = useStyles();
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabIndex = (newTabIndex: number) => {
+    setTabIndex(newTabIndex);
+  };
+
+  return (
+    <AppWrapper>
+      <View style={styles.container}>
+        <AppHeader
+          title="Create New Wallet"
+          titleStyle={{color: '#FFFFFF'}}
+          style={{
+            paddingHorizontal: 16,
+            zIndex: 1,
+          }}
+        />
+        <TabView value={tabIndex} onChange={setTabIndex} disableSwipe={true}>
+          {/* Tab 1 */}
+          <TabView.Item style={{flex: 1}}>
+            <CreateScreen1 tabIndex={handleTabIndex} />
+          </TabView.Item>
+          {/* Tab 2 */}
+          <TabView.Item style={{flex: 1}}>
+            <CreateScreen2 tabIndex={handleTabIndex} />
+          </TabView.Item>
+          {/* Tab 3 */}
+          <TabView.Item style={{flex: 1}}>
+            <CreateScreen3 tabIndex={handleTabIndex} />
+          </TabView.Item>
+        </TabView>
+      </View>
+    </AppWrapper>
+  );
+};
+
+export default CreateNewWalletScreen;

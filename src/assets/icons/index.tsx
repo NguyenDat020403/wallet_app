@@ -18,7 +18,6 @@ export {default as IconLove} from './IconLove.png';
 export {default as AppLogo} from './AppLogo.png';
 export {default as IconEyeOff} from './IconEyeOff.png';
 export {default as IconEyeOn} from './IconEyeOn.png';
-export {default as IconCamera} from './IconCamera.png';
 export {default as BackgroundAuth} from './BackgroundAuth.png';
 export {default as BackgroundAuth2} from './BackgroundAuth2.png';
 export {default as IconCheckActive} from './IconCheckActive.png';
