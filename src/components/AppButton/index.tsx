@@ -9,6 +9,7 @@ type AppButtonProps = {
   onPress?: () => void;
   buttonStyle?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disable?: boolean;
 };
 
 const AppButton: React.FC<AppButtonProps> = ({
@@ -16,12 +17,14 @@ const AppButton: React.FC<AppButtonProps> = ({
   onPress,
   buttonStyle,
   textStyle,
+  disable,
 }) => {
   const styles = useStyles();
   return (
     <TouchableOpacity
       onPress={onPress && onPress}
       activeOpacity={0.6}
+      disabled={disable}
       style={[styles.button, buttonStyle]}>
       <Text style={[styles.textButton, textStyle]}>{title && title}</Text>
     </TouchableOpacity>

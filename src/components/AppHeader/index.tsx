@@ -9,7 +9,6 @@ import {
 import {Icon, Image, Text} from '@rneui/themed';
 import useStyles from './styles';
 import {goBack} from '@/navigation/RootNavigation';
-import {IconBack} from '@/assets/icons';
 
 export type AppHeaderProps = {
   style?: StyleProp<ViewStyle>;
@@ -54,7 +53,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 goBack();
               }
             }}>
-            <Icon type="feather" name="arrow-left" color={'#000000'} />
+            <Icon type="feather" name="arrow-left" color={'#FFFFFF'} />
           </TouchableOpacity>
         )}
       </View>

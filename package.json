@@ -28,6 +28,7 @@
     "@shopify/flash-list": "^1.7.2",
     "babel-plugin-module-resolver": "^5.0.2",
     "react": "18.2.0",
+    "react-hook-form": "^7.54.2",
     "react-native": "0.73.0",
     "react-native-flipper": "^0.273.0",
     "react-native-gesture-handler": "2.18.0",

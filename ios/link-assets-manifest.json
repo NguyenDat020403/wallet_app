@@ -2,6 +2,34 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/ibm/ibm_bold.ttf",
+      "sha1": "a921db7a8850fe3ccf326f419e48eb29241c8a8a"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_extralight.ttf",
+      "sha1": "bb18b2cef17debcbf03f9dd4862e2a525ef04251"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_light.ttf",
+      "sha1": "da990b8b0bd975df8a0b53ea8d65cc7e4d082f0d"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_medium.ttf",
+      "sha1": "8ac7cc2c8aa81ca5b8ef26a4a15f4b0adc4569e7"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_regular.ttf",
+      "sha1": "e1293fd8cce199a8bddb604e44d4af132911bd73"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_semibold.ttf",
+      "sha1": "10ef9e95ab5d667a14a5492795fb7a934d4f09dc"
+    },
+    {
+      "path": "src/assets/fonts/ibm/ibm_thin.ttf",
+      "sha1": "a1f62a1f07c283ade67a0516a5ad542adb546d7e"
+    },
+    {
       "path": "src/assets/fonts/inter/inter_black.ttf",
       "sha1": "4424c931469bac621562a1953264c29fffc67067"
     },
