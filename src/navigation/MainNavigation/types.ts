@@ -13,6 +13,8 @@ export type MainStackParamList = {
   CreateNewWalletScreen: undefined;
   BackUpWalletScreen: undefined;
   IcloudBackUpScreen: undefined;
+  ManualBackUpScreen: {listWordSecret: any[]};
+  ConfirmManualBackUpScreen: {listWordSecret: any[]};
   RecoveryPhraseScreen: undefined;
   LoginScreen: undefined;
   RegisterScreen: undefined;

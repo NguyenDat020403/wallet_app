@@ -1,13 +1,16 @@
-import {AppEdgeInsets} from '#/src/hooks/types';
+import {AppEdgeInsets} from '@/hooks/types';
+import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     width: insets.screenWidth - 32,
-    borderRadius: 19,
-    backgroundColor: '#F8F8F8',
+    borderRadius: 4,
+    backgroundColor: '#0F0F0F',
     alignItems: 'center',
     alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
   },
   iconWarning: {
     backgroundColor: '#FFFFFF',
@@ -19,18 +22,19 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     top: -40,
     elevation: 10,
   },
-  textWarning: {
-    marginHorizontal: 40,
+  textBody3Regular: {
     textAlign: 'center',
-    marginTop: 56,
-    fontFamily: 'nunito_medium',
-    fontSize: 18,
-    lineHeight: 26,
+    ...typography.body3Regular,
+  },
+  textBody2Regular: {
+    textAlign: 'center',
+    ...typography.body2Regular,
+    opacity: 0.6,
   },
   buttonStyle: {
+    width: '90%',
     marginVertical: 16,
-    width: 200,
-    backgroundColor: '#202020',
+    backgroundColor: '#FFFFFF',
   },
 }));
 

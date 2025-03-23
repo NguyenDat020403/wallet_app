@@ -6,8 +6,9 @@ const typography = StyleSheet.create({
     fontSize: 96,
   },
   heading1: {
-    fontSize: 52,
-    fontFamily: 'Inter',
+    fontSize: 32,
+    fontFamily: 'ibm_bold',
+    color: '#FFFFFF',
   },
   heading2: {
     fontSize: 48,

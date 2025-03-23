@@ -6,7 +6,7 @@ import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {TextStyle, View, ViewStyle} from 'react-native';
 import AppButton from '../AppButton';
 import {StyleProp} from 'react-native';
-import {IconWarning} from '@/assets/icons';
+import {IconSuccess, IconWarning} from '@/assets/icons';
 
 type AppDialogProps = {
   isVisible: boolean;
@@ -16,6 +16,8 @@ type AppDialogProps = {
   buttonComponent?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   onPress: () => void;
+  desc?: string;
+  descStyle?: StyleProp<TextStyle>;
 };
 
 const AppDialog: React.FC<AppDialogProps> = ({
@@ -24,6 +26,8 @@ const AppDialog: React.FC<AppDialogProps> = ({
   title,
   titleStyle,
   buttonComponent,
+  desc,
+  descStyle,
   style,
   onPress,
 }) => {
@@ -51,17 +55,11 @@ const AppDialog: React.FC<AppDialogProps> = ({
         margin: 0,
       }}>
       <View style={[styles.container, style]}>
-        <View style={styles.iconWarning}>
-          <Image
-            source={IconWarning}
-            style={{
-              width: 50,
-              height: 50,
-            }}
-            containerStyle={{alignSelf: 'center'}}
-          />
-        </View>
-        <Text style={[styles.textWarning, titleStyle]}>{title && title}</Text>
+        <Image source={IconSuccess} style={{width: 200, height: 200}} />
+        <Text style={[styles.textBody3Regular, titleStyle]}>
+          {title && title}
+        </Text>
+        <Text style={[styles.textBody2Regular, descStyle]}>{desc && desc}</Text>
         {buttonComponent ? (
           buttonComponent
         ) : (
@@ -69,7 +67,7 @@ const AppDialog: React.FC<AppDialogProps> = ({
             onPress={() => {
               onPress && onPress();
             }}
-            title="Done"
+            title="View Wallet"
             buttonStyle={styles.buttonStyle}
           />
         )}

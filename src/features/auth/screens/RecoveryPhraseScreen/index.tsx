@@ -74,6 +74,11 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
           iconRight={IconArrowRight}
         />
         <OptionItem
+          onPress={() => {
+            navigation.navigate('ManualBackUpScreen', {
+              listWordSecret: ListSecretWords,
+            });
+          }}
           title="Manual Backup"
           icon={IconManualBackUp}
           desc="Save your secret recovery phrase in a safe location."

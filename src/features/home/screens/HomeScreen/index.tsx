@@ -3,15 +3,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
-import {
-  IconClock,
-  IconNotification,
-  IconNotificationLight,
-  IconScan,
-  IconSetting,
-  IconStar,
-  IconTopMenu,
-} from '@/assets/icons';
 import {Icon, Image} from '@rneui/themed';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {AIFunctionList, CategoriesResponse, flashSaleItems} from './types';
@@ -22,6 +13,16 @@ import {navigate} from '@/navigation/RootNavigation';
 import RecentlySeenItem from '../../components/RecentlySeenItem';
 import {AIItem, CategoriesBox} from './components';
 import {ImageDemoHome1, ImageDemoHome2} from '@/assets/images';
+import AppHeader from '@/components/AppHeader';
+import {
+  IconArrowDown,
+  IconBuy,
+  IconQR,
+  IconReceive,
+  IconSetting,
+} from '@/assets/icons';
+import {IconCopy} from '@/features/auth/assets/icons';
+import {ImageAvatar} from '@/features/auth/assets/images';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -32,90 +33,47 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
   return (
     <AppWrapper>
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('MenuScreen');
-          }}
-          activeOpacity={0.7}
-          style={styles.headerLeft}>
-          {isNotAuth ? (
-            <></>
-          ) : (
-            <>
-              <Image
-                source={{
-                  uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
-                }}
-                style={styles.avatar}
-              />
-              <View
-                style={{
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={styles.textHeaderMessage}>Welcome Back!</Text>
-                <Text style={styles.textHeaderName}>Dat N</Text>
-              </View>
-            </>
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.headerButtonRight}>
-          <Text style={styles.headerTextButtonRight}>Go "Plus"</Text>
-        </TouchableOpacity>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.body}>
-        {/* ---------------------------------------------------- */}
-        <View
-          style={{
-            paddingHorizontal: 16,
-            height: (safeAreaInsets.screenWidth - 32) / 2,
-            position: 'relative',
-          }}>
-          <Image
-            source={ImageDemoHome2}
-            style={{
-              width: safeAreaInsets.screenWidth - 32,
-              height: (safeAreaInsets.screenWidth - 48) / 2,
-            }}
-            containerStyle={{borderRadius: 12}}
-          />
-          <View
-            style={{
-              height: (safeAreaInsets.screenWidth - 32) / 2 - 48,
-              position: 'absolute',
-              top: 16,
-              left: 32,
-              justifyContent: 'space-between',
-            }}>
-            <Text style={styles.textLarge}>Edit Photo</Text>
-            <Text numberOfLines={2} style={styles.textMedium}>
-              Unleash your creativity with the AI multi-editing toolbox!
-            </Text>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.buttonSelectPhoto}>
-              <Text style={styles.textButtonBanner}>Select Photo</Text>
+      <AppHeader
+        style={{paddingHorizontal: 16}}
+        leftComponent={
+          <TouchableOpacity>
+            <Image source={IconSetting} style={styles.iconHeader} />
+          </TouchableOpacity>
+        }
+        rightComponent={
+          <View style={{flexDirection: 'row', gap: 16}}>
+            <TouchableOpacity>
+              <Image source={IconCopy} style={styles.iconHeader} />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image source={IconQR} style={styles.iconHeader} />
             </TouchableOpacity>
           </View>
-        </View>
-
-        {/* ---------------------------------------------------- */}
-        <HeaderList title="Stories" />
-        <FlatList
-          contentContainerStyle={{
-            paddingHorizontal: 16,
-            paddingBottom: 16,
-            gap: 16,
-          }}
-          numColumns={2}
-          data={AIFunctionList}
-          renderItem={({item}) => {
-            return <AIItem title={item.title} url={item.uri} />;
-          }}
-        />
-        {/* ---------------------------------------------------- */}
-      </ScrollView>
+        }
+      />
+      <TouchableOpacity activeOpacity={0.8} style={styles.userInfo}>
+        <Image source={ImageAvatar} style={styles.icon} />
+        <Text style={styles.textBody3Regular}>userName</Text>
+        <Image source={IconArrowDown} style={styles.icon} />
+      </TouchableOpacity>
+      <Text
+        style={[styles.textHeading1, {textAlign: 'center', marginBottom: 16}]}>
+        $0.00
+      </Text>
+      <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
+        <TouchableOpacity activeOpacity={0.8}>
+          <View style={styles.backgroundIcon}>
+            <Image source={IconBuy} style={styles.icon} />
+          </View>
+          <Text style={styles.textCap1}>buy</Text>
+        </TouchableOpacity>
+        <TouchableOpacity activeOpacity={0.8}>
+          <View style={styles.backgroundIcon}>
+            <Image source={IconReceive} style={styles.icon} />
+          </View>
+          <Text style={styles.textCap1}>receive</Text>
+        </TouchableOpacity>
+      </View>
     </AppWrapper>
   );
 };

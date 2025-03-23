@@ -8,7 +8,6 @@ export {default as IconWishList} from './IconWishList.png';
 export {default as IconWishListActive} from './IconWishListActive.png';
 export {default as IconCartActive} from './IconCartActive.png';
 export {default as IconCart} from './IconCart.png';
-export {default as IconSetting} from './IconSetting.png';
 export {default as IconTopMenu} from './IconTopMenu.png';
 export {default as IconScan} from './IconScan.png';
 export {default as IconNotification} from './IconNotification.png';
@@ -30,3 +29,16 @@ export {default as IconForward} from './IconForward.png';
 
 export {default as IconBack} from './IconBack.png';
 export {default as IconCrown} from './IconCrown.png';
+export {default as IconSuccess} from './IconSuccess.png';
+
+export {default as IconWalletActive} from './IconWalletActive.png';
+export {default as IconWallet} from './IconWallet.png';
+export {default as IconSearchActive} from './IconSearchActive.png';
+export {default as IconSearch} from './IconSearch.png';
+export {default as IconHistoryActive} from './IconHistoryActive.png';
+export {default as IconHistory} from './IconHistory.png';
+export {default as IconSetting} from './IconSetting.png';
+export {default as IconQR} from './IconQR.png';
+export {default as IconBuy} from './IconBuy.png';
+export {default as IconReceive} from './IconReceive.png';
+export {default as IconArrowDown} from './IconArrowDown.png';
