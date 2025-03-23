@@ -5,13 +5,13 @@ const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    justifyContent: 'space-between',
   },
   textBody3Regular: {
     ...typography.body3Regular,
   },
   textBody2Regular: {
     ...typography.body2Regular,
+    opacity: 0.6,
   },
   textBody2Medium: {
     ...typography.body2Medium,
@@ -21,9 +21,19 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textCap1: {
     ...typography.caption1,
+    textAlign: 'center',
+    marginBottom: 16,
   },
   textBody1Regular: {
     ...typography.body1Regular,
+  },
+  boxSecret: {
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#FFFFFF',
+    height: 156,
+    gap: 16,
+    padding: 12,
   },
 }));
 

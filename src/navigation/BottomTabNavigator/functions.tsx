@@ -14,8 +14,7 @@ export const generateTabBarItemOptions = (
     tabBarIcon: ({focused}) => (
       <Image
         source={focused ? props.activeIcon : props.icon}
-        style={{width: 20, height: 20}}
-        resizeMode="contain"
+        style={{width: 32, height: 32}}
       />
     ),
   };

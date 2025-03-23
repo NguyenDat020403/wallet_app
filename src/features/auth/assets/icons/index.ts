@@ -7,3 +7,4 @@ export {default as IconArrowRight} from './IconArrowRight.png';
 export {default as IconManualBackUp} from './IconManualBackUp.png';
 export {default as IconEyeActive} from './IconEyeActived.png';
 export {default as IconEyeHided} from './IconEyeHiden.png';
+export {default as IconCopy} from './IconCopy.png';

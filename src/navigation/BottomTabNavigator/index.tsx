@@ -7,22 +7,22 @@ import {
 import {ScreenComponent} from '../types';
 import {
   AppTabStackParamList,
-  CartTabStackParamList,
-  CategoriesTabStackParamList,
-  HomeTabStackParamList,
-  WishListTabStackParamList,
+  HistoryTabStackParamList,
   ProfileTabStackParamList,
+  SearchTabStackParamList,
 } from './types';
 import {generateTabBarItemOptions} from './functions';
 import {
-  IconCart,
-  IconCartActive,
   IconCategories,
   IconCategoriesActive,
+  IconHistory,
+  IconHistoryActive,
   IconHome,
   IconHomeActive,
-  IconProfile,
-  IconProfileActive,
+  IconSearch,
+  IconSearchActive,
+  IconWallet,
+  IconWalletActive,
   IconWishList,
   IconWishListActive,
 } from '@/assets/icons';
@@ -30,36 +30,9 @@ import {HomeScreen, StoryScreen} from '@/features/home/screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 
 const Tab = createBottomTabNavigator<AppTabStackParamList>();
-const StackHome = createNativeStackNavigator<HomeTabStackParamList>();
-const StackWishList = createNativeStackNavigator<WishListTabStackParamList>();
-const StackCategories =
-  createNativeStackNavigator<CategoriesTabStackParamList>();
-const StackCart = createNativeStackNavigator<CartTabStackParamList>();
+const StackHistory = createNativeStackNavigator<HistoryTabStackParamList>();
+const StackSearch = createNativeStackNavigator<SearchTabStackParamList>();
 const StackProfile = createNativeStackNavigator<ProfileTabStackParamList>();
-
-const homeTabRoute = {
-  HomeScreen,
-  StoryScreen,
-};
-
-function HomeStack() {
-  return (
-    <StackHome.Navigator>
-      {Object.entries(homeTabRoute).map(([name, component]) => {
-        return (
-          <StackHome.Screen
-            key={name}
-            name={name as keyof HomeTabStackParamList}
-            component={component as ScreenComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
-        );
-      })}
-    </StackHome.Navigator>
-  );
-}
 
 const profileTabRoute = {
   HomeScreen,
@@ -83,18 +56,19 @@ function ProfileStack() {
     </StackProfile.Navigator>
   );
 }
-const WishListTabRoute = {
+
+const searchTabRoute = {
   HomeScreen,
 };
 
-function WishListStack() {
+function SearchStack() {
   return (
-    <StackWishList.Navigator>
-      {Object.entries(WishListTabRoute).map(([name, component]) => {
+    <StackSearch.Navigator>
+      {Object.entries(searchTabRoute).map(([name, component]) => {
         return (
-          <StackWishList.Screen
+          <StackSearch.Screen
             key={name}
-            name={name as keyof WishListTabStackParamList}
+            name={name as keyof SearchTabStackParamList}
             component={component as ScreenComponent}
             options={{
               headerShown: false,
@@ -102,22 +76,22 @@ function WishListStack() {
           />
         );
       })}
-    </StackWishList.Navigator>
+    </StackSearch.Navigator>
   );
 }
 
-const cartTabRoute = {
+const historyTabRoute = {
   HomeScreen,
 };
 
-function CartStack() {
+function HistoryStack() {
   return (
-    <StackCart.Navigator>
-      {Object.entries(cartTabRoute).map(([name, component]) => {
+    <StackHistory.Navigator>
+      {Object.entries(historyTabRoute).map(([name, component]) => {
         return (
-          <StackCart.Screen
+          <StackHistory.Screen
             key={name}
-            name={name as keyof CartTabStackParamList}
+            name={name as keyof HistoryTabStackParamList}
             component={component as ScreenComponent}
             options={{
               headerShown: false,
@@ -125,29 +99,7 @@ function CartStack() {
           />
         );
       })}
-    </StackCart.Navigator>
-  );
-}
-const categoriesTabRoute = {
-  HomeScreen,
-};
-
-function CategoriesStack() {
-  return (
-    <StackCategories.Navigator>
-      {Object.entries(categoriesTabRoute).map(([name, component]) => {
-        return (
-          <StackCategories.Screen
-            key={name}
-            name={name as keyof CategoriesTabStackParamList}
-            component={component as ScreenComponent}
-            options={{
-              headerShown: false,
-            }}
-          />
-        );
-      })}
-    </StackCategories.Navigator>
+    </StackHistory.Navigator>
   );
 }
 
@@ -156,6 +108,7 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
 
   return (
     <Tab.Navigator
+      initialRouteName="ProfileTab"
       screenOptions={({route}) => {
         return {
           lazy: true,
@@ -163,53 +116,35 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
             height: safeAreaInsets.bottom + 60,
-            borderTopWidth: 1,
-            borderTopColor: '#FEF7EB3D',
-            backgroundColor: '#FFFFFF',
-            elevation: 0,
+            paddingTop: 8,
+            backgroundColor: '#0F0F0F',
             position: 'absolute',
           },
           tabBarShowLabel: false,
         };
       }}>
       <Tab.Screen
-        name={'HomeTab'}
-        component={HomeStack}
+        name={'HistoryTab'}
+        component={HistoryStack}
         options={generateTabBarItemOptions({
-          icon: IconHome,
-          activeIcon: IconHomeActive,
-        })}
-      />
-      <Tab.Screen
-        name={'WishListTab'}
-        component={WishListStack}
-        options={generateTabBarItemOptions({
-          icon: IconWishList,
-          activeIcon: IconWishListActive,
-        })}
-      />
-      <Tab.Screen
-        name={'CategoriesTab'}
-        component={CategoriesStack}
-        options={generateTabBarItemOptions({
-          icon: IconCategories,
-          activeIcon: IconCategoriesActive,
-        })}
-      />
-      <Tab.Screen
-        name={'CartTab'}
-        component={CartStack}
-        options={generateTabBarItemOptions({
-          icon: IconCart,
-          activeIcon: IconCartActive,
+          icon: IconHistory,
+          activeIcon: IconHistoryActive,
         })}
       />
       <Tab.Screen
         name={'ProfileTab'}
         component={ProfileStack}
         options={generateTabBarItemOptions({
-          icon: IconProfile,
-          activeIcon: IconProfileActive,
+          icon: IconWallet,
+          activeIcon: IconWalletActive,
+        })}
+      />
+      <Tab.Screen
+        name={'SearchTab'}
+        component={SearchStack}
+        options={generateTabBarItemOptions({
+          icon: IconSearch,
+          activeIcon: IconSearchActive,
         })}
       />
     </Tab.Navigator>

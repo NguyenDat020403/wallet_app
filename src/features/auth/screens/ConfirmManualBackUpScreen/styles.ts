@@ -5,7 +5,6 @@ const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    justifyContent: 'space-between',
   },
   textBody3Regular: {
     ...typography.body3Regular,
@@ -24,6 +23,18 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textBody1Regular: {
     ...typography.body1Regular,
+  },
+  boxWord: {
+    backgroundColor: '#323232',
+    borderRadius: 4,
+    padding: 16,
+  },
+  wordSelect: {
+    backgroundColor: '#323232',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    padding: 12,
   },
 }));
 
