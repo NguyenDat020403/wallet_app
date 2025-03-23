@@ -11,7 +11,12 @@ const useStyles = makeStyles(({colors}) => ({
     height: undefined,
     aspectRatio: 1244 / 1208,
   },
-
+  button: {
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    backgroundColor: '#0F0F0F',
+  },
   textAppName: {
     ...typography.body3Regular,
     alignSelf: 'center',

@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
-import {Text} from '@rneui/themed';
 import {AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
-import {TabView} from '@rneui/base';
-import {CreateScreen1, CreateScreen2, CreateScreen3} from './components';
 import AppHeader from '@/components/AppHeader';
+import {TabView} from '@rneui/base';
+import {IcloudBackUpScreen1} from './components';
 
-interface CreateNewWalletScreenProps
-  extends MainStackScreenProps<'CreateNewWalletScreen'> {}
+interface IcloudBackUpScreenProps
+  extends MainStackScreenProps<'IcloudBackUpScreen'> {}
 
-const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({
+const IcloudBackUpScreen: React.FC<IcloudBackUpScreenProps> = ({
   navigation,
   route,
 }) => {
   const styles = useStyles();
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabIndex = (newTabIndex: number) => {
@@ -26,30 +26,30 @@ const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({
     <AppWrapper>
       <View style={styles.container}>
         <AppHeader
-          title="Create New Wallet"
+          title="Icloud Backup"
           titleStyle={{color: '#FFFFFF'}}
           style={{
-            paddingHorizontal: 16,
             zIndex: 1,
+            paddingHorizontal: 16,
           }}
         />
         <TabView value={tabIndex} onChange={setTabIndex} disableSwipe={true}>
           {/* Tab 1 */}
           <TabView.Item style={{flex: 1}}>
-            <CreateScreen1 tabIndex={handleTabIndex} />
+            <IcloudBackUpScreen1 tabIndex={handleTabIndex} />
           </TabView.Item>
           {/* Tab 2 */}
           <TabView.Item style={{flex: 1}}>
-            <CreateScreen2 tabIndex={handleTabIndex} />
+            <IcloudBackUpScreen1 tabIndex={handleTabIndex} />
           </TabView.Item>
           {/* Tab 3 */}
-          <TabView.Item style={{flex: 1}}>
+          {/* <TabView.Item style={{flex: 1}}>
             <CreateScreen3 tabIndex={handleTabIndex} />
-          </TabView.Item>
+          </TabView.Item> */}
         </TabView>
       </View>
     </AppWrapper>
   );
 };
 
-export default CreateNewWalletScreen;
+export default IcloudBackUpScreen;

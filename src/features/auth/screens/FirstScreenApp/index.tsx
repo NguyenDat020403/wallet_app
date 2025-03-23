@@ -31,12 +31,7 @@ const FirstScreen: React.FC<FirstScreenProps> = ({navigation, route}) => {
       <AppButton
         textStyle={{color: '#FFFFFF'}}
         title="Add an Existing Wallet"
-        buttonStyle={{
-          marginTop: 8,
-          borderWidth: 1,
-          borderColor: '#FFFFFF',
-          backgroundColor: '#0F0F0F',
-        }}
+        buttonStyle={styles.button}
         onPress={() => {
           // navigation.navigate('LoginScreen');
         }}
