@@ -11,6 +11,9 @@ export type MainStackParamList = {
   //auth
   FirstScreen: undefined;
   CreateNewWalletScreen: undefined;
+  BackUpWalletScreen: undefined;
+  IcloudBackUpScreen: undefined;
+  RecoveryPhraseScreen: undefined;
   LoginScreen: undefined;
   RegisterScreen: undefined;
   RecoveryPasswordScreen: undefined;

@@ -10,7 +10,6 @@ import {useAppSelector} from '@/redux/hooks';
 import * as authScreenList from '@/features/auth/screens';
 import * as settingScreenList from '@/features/setting/screens';
 import * as homeScreenList from '@/features/home/screens';
-
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {

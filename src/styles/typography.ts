@@ -62,10 +62,9 @@ const typography = StyleSheet.create({
     fontFamily: 'nunito_medium',
   },
   body1Regular: {
-    fontSize: 18,
-    fontFamily: 'ibmPlexMono_Regular',
-    fontWeight: '400',
-    lineHeight: 16,
+    fontSize: 14,
+    fontFamily: 'ibm_regular',
+    color: '#FFFFFF',
   },
   body1Bold: {
     fontSize: 18,
@@ -78,6 +77,11 @@ const typography = StyleSheet.create({
     fontSize: 13,
     lineHeight: 17,
     color: '#202020',
+  },
+  body2SemiBold: {
+    fontFamily: 'ibm_semibold',
+    fontSize: 16,
+    color: '#FFFFFF',
   },
   body2Medium: {
     fontSize: 24,
