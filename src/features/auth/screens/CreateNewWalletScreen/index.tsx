@@ -33,7 +33,7 @@ const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({
             zIndex: 1,
           }}
         />
-        <TabView value={tabIndex} onChange={setTabIndex} disableSwipe={true}>
+        <TabView value={tabIndex} onChange={setTabIndex}>
           {/* Tab 1 */}
           <TabView.Item style={{flex: 1}}>
             <CreateScreen1 tabIndex={handleTabIndex} />

@@ -1,9 +1,13 @@
 import {typography} from '@/styles';
-import {AppEdgeInsets} from '@/hooks/types';
 import {makeStyles} from '@rneui/themed';
 
-const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
+const useStyles = makeStyles(({colors}) => ({
   container: {flex: 1, backgroundColor: '#0F0F0F'},
+  noTokenContainer: {
+    alignItems: 'center',
+    gap: 16,
+    paddingTop: 32,
+  },
   textBody3Regular: {
     ...typography.body3Regular,
   },
@@ -27,34 +31,13 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textHeading1: {
     ...typography.heading1,
   },
-  userInfo: {
+  coinIcon: {
+    width: 24,
+    height: 24,
+  },
+  leftCoinItem: {
     flexDirection: 'row',
     gap: 8,
-    alignSelf: 'center',
-    marginBottom: 12,
-  },
-  icon: {
-    width: 32,
-    height: 32,
-  },
-  backgroundIcon: {
-    backgroundColor: '#804FB0',
-    borderRadius: 150,
-    padding: 8,
-  },
-  iconHeader: {
-    width: 28,
-    height: 28,
-  },
-  underline: {
-    borderBottomWidth: 1,
-    borderBottomColor: 'white',
-  },
-  tabBar: {
-    flexDirection: 'row',
-    gap: 16,
-    alignSelf: 'center',
-    paddingVertical: 16,
   },
 }));
 

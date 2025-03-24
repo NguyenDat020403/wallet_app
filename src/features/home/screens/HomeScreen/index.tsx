@@ -1,35 +1,37 @@
-import {View, Text, TouchableOpacity, FlatList, ScrollView} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
-import {Icon, Image} from '@rneui/themed';
+import {Image} from '@rneui/themed';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {AIFunctionList, CategoriesResponse, flashSaleItems} from './types';
-import {FlashSaleList, HeaderList, NewItem, StoryItem} from '../../components';
-import MostPopularItem from '../../components/MostPopularItem';
 import {useAppSelector} from '@/redux/hooks';
-import {navigate} from '@/navigation/RootNavigation';
-import RecentlySeenItem from '../../components/RecentlySeenItem';
-import {AIItem, CategoriesBox} from './components';
-import {ImageDemoHome1, ImageDemoHome2} from '@/assets/images';
 import AppHeader from '@/components/AppHeader';
 import {
   IconArrowDown,
   IconBuy,
   IconQR,
   IconReceive,
+  IconSend,
   IconSetting,
+  IconSwap,
 } from '@/assets/icons';
 import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
-
+import {TabView} from '@rneui/base';
+import {CryptoTabItem} from './components';
+import fakeCoins from './components/CryptoTabItem/types';
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const isNotAuth = useAppSelector(state => state.authReducer.isAuthenticated);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const handleTabIndex = (newTabIndex: number) => {
+    setTabIndex(newTabIndex);
+  };
 
   return (
     <AppWrapper>
@@ -61,21 +63,56 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         $0.00
       </Text>
       <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <View style={styles.backgroundIcon}>
-            <Image source={IconBuy} style={styles.icon} />
-          </View>
-          <Text style={styles.textCap1}>buy</Text>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.8}>
-          <View style={styles.backgroundIcon}>
-            <Image source={IconReceive} style={styles.icon} />
-          </View>
-          <Text style={styles.textCap1}>receive</Text>
-        </TouchableOpacity>
+        <ActionItem icon={IconBuy} title="buy" />
+        <ActionItem icon={IconSwap} title="swap" />
+        <ActionItem icon={IconSend} title="send" />
+        <ActionItem icon={IconReceive} title="receive" />
       </View>
+
+      <View style={styles.tabBar}>
+        {['Crypto', 'Collectibles'].map((tab, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleTabIndex(index)}
+            style={tabIndex === index ? styles.underline : null}>
+            <Text
+              style={[
+                styles.textCap1,
+                {opacity: tabIndex === index ? 1 : 0.6, lineHeight: 24},
+              ]}>
+              {tab}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      <TabView value={tabIndex} onChange={setTabIndex}>
+        <TabView.Item style={{flex: 1}}>
+          <CryptoTabItem data={fakeCoins} />
+        </TabView.Item>
+        <TabView.Item style={{flex: 1}}>
+          <Text style={styles.textCap1}>2</Text>
+        </TabView.Item>
+      </TabView>
     </AppWrapper>
   );
 };
 
 export default HomeScreen;
+
+type ActionItemProps = {
+  icon: any;
+  title: string;
+};
+
+export const ActionItem: React.FC<ActionItemProps> = ({icon, title}) => {
+  const styles = useStyles();
+  return (
+    <TouchableOpacity activeOpacity={0.8}>
+      <View style={styles.backgroundIcon}>
+        <Image source={icon} style={styles.icon} />
+      </View>
+      <Text style={styles.textCap1}>{title}</Text>
+    </TouchableOpacity>
+  );
+};

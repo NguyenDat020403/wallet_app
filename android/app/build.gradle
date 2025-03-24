@@ -10,7 +10,7 @@ apply plugin: 'com.google.gms.google-services'
  project.ext.vectoricons = [
     iconFontsDir: "../../node_modules/react-native-vector-icons/Fonts",
 ]
-apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")
 
 react {
     /* Folders */
