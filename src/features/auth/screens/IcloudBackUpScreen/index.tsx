@@ -22,7 +22,7 @@ const IcloudBackUpScreen: React.FC<IcloudBackUpScreenProps> = ({
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   return (
-    <AppWrapper>
+    <AppWrapper style={{paddingBottom: 12}}>
       <AppHeader
         title="Icloud Backup"
         titleStyle={{color: '#FFFFFF'}}

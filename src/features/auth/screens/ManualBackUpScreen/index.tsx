@@ -17,7 +17,7 @@ const ManualBackUpScreen: React.FC<ManualBackUpScreenProps> = ({
 }) => {
   const styles = useStyles();
   return (
-    <AppWrapper>
+    <AppWrapper style={{paddingBottom: 12}}>
       <View style={styles.container}>
         <AppHeader />
         <View style={{gap: 16}}>

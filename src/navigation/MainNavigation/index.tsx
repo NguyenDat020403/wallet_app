@@ -19,6 +19,7 @@ const screenOptions: NativeStackNavigationOptions = {
 const route = {
   ...settingScreenList,
   ...authScreenList,
+  ...homeScreenList,
 };
 
 const MainNavigator = () => {
