@@ -37,7 +37,7 @@ const useStyles = makeStyles(({colors}) => ({
     width: 24,
     height: 24,
   },
-  buttonViewMore: {
+  button: {
     backgroundColor: '#333333',
     borderRadius: 4,
     padding: 8,
