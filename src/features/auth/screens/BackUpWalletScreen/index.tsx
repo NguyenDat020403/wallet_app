@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppButton, AppWrapper} from '@/components';
@@ -7,6 +7,8 @@ import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
 import {Image} from '@rneui/base';
 import {ImageAvatar} from '@/features/auth/assets/images';
+import {useAppSelector} from '@/redux/hooks';
+import {useGetWalletDefaultMutation} from '../../redux/RTKQuery';
 
 interface BackUpWalletScreenProps
   extends MainStackScreenProps<'BackUpWalletScreen'> {}
@@ -16,6 +18,12 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
   route,
 }) => {
   const styles = useStyles();
+  const {currentUser, accessInfo} = useAppSelector(state => state.authReducer);
+  const [getWalletDefault, {data: dataWallet, isSuccess}] =
+    useGetWalletDefaultMutation();
+  useEffect(() => {
+    getWalletDefault({});
+  }, []);
   return (
     <AppWrapper>
       <AppHeader leftComponent={<></>} />
@@ -29,12 +37,19 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
         </Text>
         <View style={styles.card}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Image source={ImageAvatar} style={{width: 40, height: 40}} />
-            <Text style={styles.textBody2Regular}>userName</Text>
+            <Image
+              source={currentUser.avatar ? currentUser.avatar : ImageAvatar}
+              style={{width: 40, height: 40}}
+            />
+            <Text style={styles.textBody2Regular}>{currentUser.username}</Text>
           </View>
           <View>
-            <Text style={styles.textBody2Regular}>0x29e...76ef</Text>
-            <Text style={styles.textBody2SemiBold}>0 ETH</Text>
+            <Text numberOfLines={1} style={styles.textBody2Regular}>
+              {dataWallet?.data.wallet_address}
+            </Text>
+            <Text style={styles.textBody2SemiBold}>
+              {dataWallet?.data.wallet_balance} $
+            </Text>
           </View>
         </View>
       </View>

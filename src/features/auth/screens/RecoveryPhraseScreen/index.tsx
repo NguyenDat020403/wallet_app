@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppWrapper} from '@/components';
@@ -11,6 +11,9 @@ import {
   IconCloudBackUp,
   IconManualBackUp,
 } from '../../assets/icons';
+import {useAppSelector} from '@/redux/hooks';
+// import {useLazyLoginUserQuery} from '../../redux/RTKQuery';
+import {BlurView} from '@react-native-community/blur';
 
 interface RecoveryPhraseScreenProps
   extends MainStackScreenProps<'RecoveryPhraseScreen'> {}
@@ -35,6 +38,9 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   route,
 }) => {
   const styles = useStyles();
+  const walletSecret = useAppSelector(state => state.authReducer.secretLocal);
+  const words = walletSecret.mnemonic.split(' ');
+
   return (
     <AppWrapper>
       <View style={styles.container}>
@@ -49,24 +55,14 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
               Do not share.
             </Text>
           </Text>
-          <FlatList
-            data={ListSecretWords}
-            renderItem={({item, index}) => (
-              <Text style={styles.textBody1Regular}>
-                {index + 1}. {item}
-              </Text>
-            )}
-            contentContainerStyle={styles.boxSecret}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={3}
-            columnWrapperStyle={{justifyContent: 'space-between'}}
-          />
         </View>
+        <MnemonicItem words={words} />
       </View>
       <View style={{paddingHorizontal: 16}}>
         <OptionItem
           onPress={() => {
-            navigation.navigate('IcloudBackUpScreen');
+            // navigation.navigate('IcloudBackUpScreen');
+            // getData({name: 'Dat'});
           }}
           title="iCloud Backup"
           icon={IconCloudBackUp}
@@ -90,3 +86,30 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
 };
 
 export default RecoveryPhraseScreen;
+
+const MnemonicItem = (words: any) => {
+  const styles = useStyles();
+  return (
+    <View style={{position: 'relative'}}>
+      <BlurView
+        style={styles.blurStyle}
+        blurType="light"
+        blurAmount={10}
+        overlayColor="#FFFFFF00"
+      />
+
+      <FlatList
+        data={words}
+        renderItem={({item, index}) => (
+          <Text style={styles.textBody1Regular}>
+            {index + 1}. {item}
+          </Text>
+        )}
+        contentContainerStyle={styles.boxSecret}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3}
+        columnWrapperStyle={{justifyContent: 'space-between'}}
+      />
+    </View>
+  );
+};

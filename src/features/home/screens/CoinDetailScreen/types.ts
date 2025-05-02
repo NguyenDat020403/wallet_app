@@ -51,3 +51,13 @@ export const fakeMarketPriceResponse: MarketPriceResponse = {
     {x: 1742860800, y: 87509.31},
   ],
 };
+// import {ethers} from 'ethers';
+
+// const provider = new ethers.providers.JsonRpcProvider(
+//   'https://mainnet.infura.io/v3/YOUR_INFURA_API_KEY',
+// );
+
+// export const getBalance = async (address: string): Promise<string> => {
+//   const balance = await provider.getBalance(address);
+//   return ethers.utils.formatEther(balance);
+// };

@@ -72,19 +72,25 @@ const typography = StyleSheet.create({
     fontWeight: '700',
     lineHeight: 21,
   },
+  body2: {
+    fontFamily: 'ibm_regular',
+    fontSize: 16,
+    lineHeight: 18,
+    color: '#FFFFFF',
+  },
   body2Bold: {
-    fontFamily: 'nunito_bold',
+    fontFamily: 'ibm_semibold',
     fontSize: 13,
     lineHeight: 17,
     color: '#202020',
   },
   body2SemiBold: {
     fontFamily: 'ibm_semibold',
-    fontSize: 16,
+    fontSize: 18,
     color: '#FFFFFF',
   },
   body2Medium: {
-    fontSize: 24,
+    fontSize: 20,
     fontFamily: 'ibm_medium',
     color: '#FFFFFF',
   },

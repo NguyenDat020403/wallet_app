@@ -5,7 +5,6 @@ import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
-// import {persistor, store} from './src/redux';
 import {ThemeProvider, useTheme} from '@rneui/themed';
 import {theme} from './src/theme';
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';

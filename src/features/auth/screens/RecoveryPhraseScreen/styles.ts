@@ -35,6 +35,15 @@ const useStyles = makeStyles(({colors}) => ({
     gap: 16,
     padding: 12,
   },
+  blurStyle: {
+    height: '100%',
+    position: 'absolute',
+    width: '100%',
+  },
+  headerBg: {
+    flex: 1,
+    backgroundColor: '#FFF',
+  },
 }));
 
 export default useStyles;
