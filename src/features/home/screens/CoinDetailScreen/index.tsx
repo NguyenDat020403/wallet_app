@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppWrapper} from '@/components';
@@ -19,7 +19,7 @@ import {
 } from 'react-native-gifted-charts';
 import {ScrollView} from 'react-native';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {colors} from '#/src/theme/colors';
+import WalletScreen from './walletDemo';
 
 interface CoinDetailScreenProps
   extends MainStackScreenProps<'CoinDetailScreen'> {}
@@ -44,6 +44,7 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
     label: new Date(item.x * 1000).toLocaleDateString(),
   }));
   const [isSelected, setIsSelected] = useState(0);
+
   return (
     <AppWrapper>
       <AppHeader
@@ -55,7 +56,8 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
           </View>
         }
       />
-      <ScrollView style={styles.container}>
+      <WalletScreen />
+      {/* <ScrollView style={styles.container}>
         <View style={styles.infoCoin}>
           <View style={{gap: 6}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>Balance</Text>
@@ -200,7 +202,7 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
+      </ScrollView> */}
     </AppWrapper>
   );
 };

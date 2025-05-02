@@ -6,8 +6,14 @@ apply plugin: 'com.google.gms.google-services'
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
  */
+project.ext.envConfigFiles = [
+    devrelease: ".env.dev",
+    devdebug: ".env.dev",
+    // Các môi trường khác
+]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
- project.ext.vectoricons = [
+project.ext.vectoricons = [
     iconFontsDir: "../../node_modules/react-native-vector-icons/Fonts",
 ]
 apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")

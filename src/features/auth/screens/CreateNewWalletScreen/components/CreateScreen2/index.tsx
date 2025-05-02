@@ -121,6 +121,7 @@ const BottomSelectedModal: React.FC<BottomSelectedModalProps> = ({
         <View style={styles.headerBottomModal}>
           <Text style={styles.textBody3Regular}>Select Icon</Text>
           <TouchableOpacity
+            hitSlop={20}
             activeOpacity={0.8}
             style={styles.closeButton}
             onPress={() => {

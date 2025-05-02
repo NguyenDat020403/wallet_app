@@ -3,7 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import {persistStore} from 'redux-persist';
 import rootSaga from './sagas';
 import rootReducer from './reducers';
-import {RTKQueryIdentityApi} from '../features/auth/redux/RTKQuery';
+import {RTKQueryIdentityApi, RTKQueryWalletApi} from './RTKQuery';
 
 const createDebugger = require('redux-flipper').default;
 const sagaMiddleware = createSagaMiddleware();
@@ -15,6 +15,7 @@ export const store = configureStore({
     })
       .concat(sagaMiddleware)
       .concat(RTKQueryIdentityApi.middleware)
+      .concat(RTKQueryWalletApi.middleware)
       .concat(createDebugger()),
 });
 

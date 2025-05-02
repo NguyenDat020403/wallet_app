@@ -1,1 +1,1 @@
-export const LOGIN_USER = '/login';
+export const CREATE_USER = '/create';

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppWrapper} from '@/components';
@@ -11,10 +11,7 @@ import AppHeader from '@/components/AppHeader';
 interface CreateNewWalletScreenProps
   extends MainStackScreenProps<'CreateNewWalletScreen'> {}
 
-const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({}) => {
   const styles = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
 

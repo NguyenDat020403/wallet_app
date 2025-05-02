@@ -30,6 +30,7 @@ const MainNavigator = () => {
   return (
     <Stack.Navigator
       // initialRouteName={isFirstLaunch ? 'FirstScreen' : 'AppTabScreen'}
+      initialRouteName={'FirstScreen'}
       screenOptions={screenOptions}>
       <Stack.Screen
         name="AppTabScreen"
