@@ -6,3 +6,8 @@ export interface AccessInfoResponse {
   // subscriptionKey?: string;
   // roles?: string;
 }
+
+export interface LoginUserApiParams {
+  email: string;
+  password: string;
+}

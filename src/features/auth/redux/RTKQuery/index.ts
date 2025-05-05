@@ -1,5 +1,11 @@
 import {RTKQueryIdentityApi, RTKQueryWalletApi} from '@/redux/RTKQuery';
-import {FullResponse, SignUpResponse, WalletResponse} from './types';
+import {
+  FullResponse,
+  LoginRequest,
+  LoginResponse,
+  SignUpResponse,
+  WalletResponse,
+} from './types';
 
 const authRTKQueryApi = RTKQueryIdentityApi.injectEndpoints({
   endpoints: builder => ({
@@ -10,6 +16,14 @@ const authRTKQueryApi = RTKQueryIdentityApi.injectEndpoints({
         body: body,
       }),
       transformResponse: (response: FullResponse<SignUpResponse>) => response,
+    }),
+    loginUser: builder.mutation({
+      query: (body: LoginRequest) => ({
+        url: '/login',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<LoginResponse>) => response,
     }),
   }),
   overrideExisting: true,
@@ -26,5 +40,5 @@ const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
-export const {useSignUpUserMutation} = authRTKQueryApi;
+export const {useSignUpUserMutation, useLoginUserMutation} = authRTKQueryApi;
 export const {useGetWalletDefaultMutation} = walletRTKQueryApi;

@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {FlatList, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Image, Pressable, View} from 'react-native';
 import {Text} from '@rneui/themed';
-import {AppWrapper} from '@/components';
+import {AppButton, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
@@ -11,9 +11,9 @@ import {
   IconCloudBackUp,
   IconManualBackUp,
 } from '../../assets/icons';
-import {useAppSelector} from '@/redux/hooks';
-// import {useLazyLoginUserQuery} from '../../redux/RTKQuery';
-import {BlurView} from '@react-native-community/blur';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {useSafeAreaInsetsWindowDimension} from '@/hooks';
+import {setIsAuthenticated} from '../../redux/slices';
 
 interface RecoveryPhraseScreenProps
   extends MainStackScreenProps<'RecoveryPhraseScreen'> {}
@@ -37,28 +37,69 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   navigation,
   route,
 }) => {
+  const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
+  const dispatch = useAppDispatch();
   const walletSecret = useAppSelector(state => state.authReducer.secretLocal);
   const words = walletSecret.mnemonic.split(' ');
+  const [showBlur, setShowBlur] = useState(true);
 
   return (
     <AppWrapper>
       <View style={styles.container}>
-        <AppHeader />
-        <View style={{gap: 16}}>
-          <Text style={styles.textBody3Regular}>
-            Your Secret Recovery Phrase
+        <AppHeader title="Wallet Default" />
+        <View style={{paddingVertical: 16}}>
+          <Text style={styles.textBody3Medium}>Save your seed phrase</Text>
+          <Text style={styles.textBody1Regular}>
+            Write down the words in order and store them safely. Do not share —
+            losing them means losing your assets.
           </Text>
-          <Text style={styles.textBody2Regular}>
-            For your eyes only.{' '}
-            <Text style={[styles.textBody2Regular, {color: '#A87AD7'}]}>
-              Do not share.
-            </Text>
-          </Text>
+          <Pressable
+            onPress={() => {
+              setShowBlur(!showBlur);
+            }}
+            style={{
+              marginTop: 16,
+              position: 'relative',
+            }}>
+            <FlatList
+              data={words}
+              renderItem={({item, index}) => (
+                <Text
+                  style={[
+                    styles.textBody1Regular,
+                    {
+                      width: (safeAreaInsets.screenWidth - 24) / 2,
+                      marginLeft: 12,
+                    },
+                  ]}>
+                  {index + 1}. {item}
+                </Text>
+              )}
+              contentContainerStyle={styles.boxSecret}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={2}
+              columnWrapperStyle={{justifyContent: 'space-between'}}
+            />
+
+            {showBlur && (
+              <Pressable
+                onPress={() => {
+                  setShowBlur(!showBlur);
+                }}
+                style={styles.hideBoxSecret}>
+                <Text style={[styles.textBody2Regular, {textAlign: 'center'}]}>
+                  Tap to reveal your seed phrase.
+                </Text>
+                <Text style={[styles.textBody2Regular, {textAlign: 'center'}]}>
+                  Please ensure your screen is not visible to others.
+                </Text>
+              </Pressable>
+            )}
+          </Pressable>
         </View>
-        <MnemonicItem words={words} />
       </View>
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{paddingHorizontal: 16, marginBottom: 16}}>
         <OptionItem
           onPress={() => {
             // navigation.navigate('IcloudBackUpScreen');
@@ -69,16 +110,12 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
           desc="Encrypt your secret recovery phrase with a password."
           iconRight={IconArrowRight}
         />
-        <OptionItem
+        <AppButton
+          title="Done"
           onPress={() => {
-            navigation.navigate('ManualBackUpScreen', {
-              listWordSecret: ListSecretWords,
-            });
+            navigation.navigate('HomeScreen');
+            dispatch(setIsAuthenticated(true));
           }}
-          title="Manual Backup"
-          icon={IconManualBackUp}
-          desc="Save your secret recovery phrase in a safe location."
-          iconRight={IconArrowRight}
         />
       </View>
     </AppWrapper>
@@ -86,30 +123,3 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
 };
 
 export default RecoveryPhraseScreen;
-
-const MnemonicItem = (words: any) => {
-  const styles = useStyles();
-  return (
-    <View style={{position: 'relative'}}>
-      <BlurView
-        style={styles.blurStyle}
-        blurType="light"
-        blurAmount={10}
-        overlayColor="#FFFFFF00"
-      />
-
-      <FlatList
-        data={words}
-        renderItem={({item, index}) => (
-          <Text style={styles.textBody1Regular}>
-            {index + 1}. {item}
-          </Text>
-        )}
-        contentContainerStyle={styles.boxSecret}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={3}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
-      />
-    </View>
-  );
-};

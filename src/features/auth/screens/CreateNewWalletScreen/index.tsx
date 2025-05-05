@@ -23,7 +23,7 @@ const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({}) => {
     <AppWrapper>
       <View style={styles.container}>
         <AppHeader
-          title="Create New Wallet"
+          title="Create New Account"
           titleStyle={{color: '#FFFFFF'}}
           style={{
             paddingHorizontal: 16,

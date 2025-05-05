@@ -1,1 +1,2 @@
-// export * as authApi from './api';
+import * as authApi from './api';
+export {authApi};
