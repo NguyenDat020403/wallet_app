@@ -1,2 +1,2 @@
-import * as PROFILE_API from './api';
-export {PROFILE_API};
+import * as AUTH_API from './api';
+export {AUTH_API};

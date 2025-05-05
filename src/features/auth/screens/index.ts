@@ -8,3 +8,5 @@ export {default as RecoveryPhraseScreen} from './RecoveryPhraseScreen';
 export {default as IcloudBackUpScreen} from './IcloudBackUpScreen';
 export {default as ManualBackUpScreen} from './ManualBackUpScreen';
 export {default as ConfirmManualBackUpScreen} from './ConfirmManualBackUpScreen';
+export {default as CreateAccountScreen} from './CreateAccount';
+export {default as UserLoginScreen} from './UserLoginScreen';

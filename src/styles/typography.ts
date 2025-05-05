@@ -11,8 +11,9 @@ const typography = StyleSheet.create({
     color: '#FFFFFF',
   },
   heading2: {
-    fontSize: 48,
-    fontFamily: 'Inter',
+    fontSize: 28,
+    color: '#FFFFFF',
+    fontFamily: 'ibm_bold',
   },
   heading3: {
     fontSize: 36,
@@ -86,7 +87,7 @@ const typography = StyleSheet.create({
   },
   body2SemiBold: {
     fontFamily: 'ibm_semibold',
-    fontSize: 18,
+    fontSize: 20,
     color: '#FFFFFF',
   },
   body2Medium: {

@@ -4,7 +4,6 @@ import {Icon, Image, Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
-import {AppLogo} from '@/assets/icons';
 import AppButton from '@/components/AppButton';
 import {ImageWelcome} from '../../assets/images';
 
@@ -18,22 +17,22 @@ const FirstScreen: React.FC<FirstScreenProps> = ({navigation, route}) => {
         <Image source={ImageWelcome} style={styles.logo} />
         <Text style={styles.textAppName}>Welcome to Crypt0</Text>
         <Text style={styles.textAppInsight}>
-          Create a brand new wallet or add an existing one to get started
+          Create a brand new account or add an existing wallet to get started
           easily.
         </Text>
       </View>
       <AppButton
-        title="Create a New Wallet"
+        title="Already have an account?"
         onPress={() => {
-          navigation.navigate('CreateNewWalletScreen');
+          navigation.navigate('UserLoginScreen');
         }}
       />
       <AppButton
-        textStyle={{color: '#FFFFFF'}}
-        title="Add an Existing Wallet"
         buttonStyle={styles.button}
+        textStyle={{color: '#FFFFFF'}}
+        title="Create a New Account"
         onPress={() => {
-          // navigation.navigate('LoginScreen');
+          navigation.navigate('CreateNewWalletScreen');
         }}
       />
     </AppWrapper>

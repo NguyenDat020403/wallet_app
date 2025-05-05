@@ -23,7 +23,7 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textAppInsight: {
     ...typography.body2Regular,
-    alignSelf: 'center',
+    textAlign: 'center',
   },
   buttonStart: {
     backgroundColor: '#004CFF',

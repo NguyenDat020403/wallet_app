@@ -12,7 +12,9 @@ export type MainStackParamList = {
   StoryScreen: {userId: string};
   //auth
   FirstScreen: undefined;
+  CreateAccountScreen: undefined;
   CreateNewWalletScreen: undefined;
+  UserLoginScreen: undefined;
   BackUpWalletScreen: undefined;
   IcloudBackUpScreen: undefined;
   ManualBackUpScreen: {listWordSecret: any[]};

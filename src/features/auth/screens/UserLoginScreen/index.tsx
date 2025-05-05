@@ -1,108 +1,104 @@
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, Pressable, TextInput, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Pressable,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Image, Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
-import {IconEyeOff, IconEyeOn} from '@/assets/icons';
 import AppButton from '@/components/AppButton';
 import {goBack, navigate} from '@/navigation/RootNavigation';
 import AppWrapper from '@/components/AppWrapper';
 import BackgroundAuthentication from '../components/BackgroundAuth';
-import {useLazyLoginUserQuery} from '../../redux/RTKQuery';
+import {useForm} from 'react-hook-form';
+import AppTextInput from '@/components/AppTextInput';
+import AppHeader from '@/components/AppHeader';
+import {schemaValidate} from './schemaValidate';
+import {yupResolver} from '@hookform/resolvers/yup';
+import {useLoginUserMutation} from '../../redux/RTKQuery';
+import {useAppDispatch} from '@/redux/hooks';
+import {
+  loginUser,
+  setAccessInfo,
+  setCurrentUserProfile,
+  setIsAuthenticated,
+} from '../../redux/slices';
+import Config from 'react-native-config';
 
 interface LoginScreenProps extends MainStackScreenProps<'LoginScreen'> {}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
-  const [isShowPassword, setIsShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
 
-  const [
-    loginUserEmailPassword,
-    {data, isSuccess, isFetching, isLoading, isError},
-  ] = useLazyLoginUserQuery();
-  const handleLogin = async () => {
-    try {
-      const result = await loginUserEmailPassword({
-        email: 'trinhdattest@gmail.com',
-        password: '123123',
-      });
+  const {
+    control,
+    handleSubmit,
+    formState: {isValid},
+  } = useForm<{
+    email: string;
+    password: string;
+  }>({
+    mode: 'all',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(schemaValidate),
+  });
 
-      if ('data' in result) {
-        console.log('Login Success:', result.data);
-      } else {
-        console.error('Login Failed:', result.error);
-      }
-    } catch (err) {
-      console.error('Unexpected Error:', err);
-    }
+  const onSubmit = async (body: {email: string; password: string}) => {
+    dispatch(
+      loginUser({
+        email: body.email,
+        password: body.password,
+      }),
+    );
   };
-  if (isLoading) {
-    console.log('Loading...');
-  }
-  if (isSuccess) {
-    console.log(data.token);
-    goBack();
-  }
-  if (isError) {
-    console.log('Error...');
-  }
 
   return (
-    <AppWrapper style={styles.container}>
-      <BackgroundAuthentication />
-      <View style={{paddingHorizontal: 16}}>
-        <Text style={styles.textTitle}>Login</Text>
-        <Text style={styles.textDesc}>Good to see you back!</Text>
-      </View>
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={{flexDirection: 'column', gap: 8, marginTop: 32}}>
-        <TextInput
-          placeholder="Email/Phone"
-          style={styles.textInput}
-          placeholderTextColor={'#D2D2D2'}
-        />
-        <View style={{position: 'relative', justifyContent: 'center'}}>
-          <TextInput
-            secureTextEntry={!isShowPassword}
-            placeholder="Password"
-            style={styles.textInput}
-            placeholderTextColor={'#D2D2D2'}
+    <AppWrapper>
+      <View style={styles.container}>
+        <AppHeader title="Login" />
+        <Text style={styles.textBody2Medium}>Good to see you back!</Text>
+        <KeyboardAvoidingView
+          behavior="padding"
+          style={{flexDirection: 'column', gap: 8, marginTop: 32, flex: 1}}>
+          <AppTextInput
+            key={'email'}
+            title="Email"
+            required
+            name="email"
+            control={control}
           />
-          <Image
+          <AppTextInput
+            key={'password'}
+            title="Password"
+            required
+            name="password"
+            type="PASSWORD"
+            control={control}
+          />
+          <TouchableOpacity
+            style={{alignItems: 'flex-end'}}
             onPress={() => {
-              setIsShowPassword(!isShowPassword);
-            }}
-            source={isShowPassword ? IconEyeOn : IconEyeOff}
-            style={{width: 16, height: 16}}
-            containerStyle={{
-              position: 'absolute',
-              right: 32,
+              // navigation.navigate('RecoveryPasswordScreen');
+            }}>
+            <Text style={styles.textCap1}>Forgot your password?</Text>
+          </TouchableOpacity>
+          <AppButton
+            title="Login"
+            buttonStyle={{opacity: isValid ? 1 : 0.5}}
+            disable={!isValid}
+            onPress={() => {
+              handleSubmit(onSubmit)();
             }}
           />
-        </View>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('RecoveryPasswordScreen');
-          }}>
-          <Text style={styles.forgotText}>Forgot your password?</Text>
-        </Pressable>
-        <AppButton
-          title="Login"
-          onPress={() => {
-            handleLogin();
-          }}
-          buttonStyle={{marginTop: 32}}
-        />
-        <AppButton
-          onPress={() => {
-            goBack();
-          }}
-          title="Cancel"
-          buttonStyle={{backgroundColor: '#FFFFFF'}}
-          textStyle={{color: '#202020', fontSize: 15}}
-        />
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     </AppWrapper>
   );
 };

@@ -1,6 +1,8 @@
 export interface FullResponse<T> {
   message: string;
-  data: T;
+  data?: T;
+  status?: string;
+  error?: string;
 }
 export interface WalletResponse {
   wallet_id: string;
@@ -12,11 +14,15 @@ export interface WalletResponse {
 }
 
 export interface WalletSecretResponse {
-  private_key: string;
   mnemonic: string;
-  address: string;
+  walletSecret: WalletSecret[];
 }
 
+export interface WalletSecret {
+  address: string;
+  privateKey: string;
+  publickey: string;
+}
 export interface UserResponse {
   user_id?: string;
   username?: string;
@@ -25,6 +31,10 @@ export interface UserResponse {
   email?: string;
 }
 
+export interface WalletDefaultResponse {
+  wallet: WalletResponse;
+  walletSecret: WalletSecretResponse;
+}
 export interface TokenResponse {
   access_token: string;
   refresh_token: string;
@@ -34,5 +44,15 @@ export interface TokenResponse {
 export interface SignUpResponse {
   token: TokenResponse;
   user: UserResponse;
-  walletSecret: WalletSecretResponse;
+  walletDefault: WalletDefaultResponse;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  token: TokenResponse;
+  user: UserResponse;
 }

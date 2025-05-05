@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {MainStackParamList} from '@/navigation/MainNavigation/types';
 import {AccessInfo, AuthInitialState, SecretLocal, User} from './types';
+import {LoginUserApiParams} from '../../services/api/types';
 
 const initialState: AuthInitialState = {
   accessInfo: {},
@@ -10,10 +11,7 @@ const initialState: AuthInitialState = {
   isAuthenticated: false,
   isShowRequireLogin: false,
   screenNameBeforeAuth: 'AppTabScreen',
-  secretLocal: {
-    address: '',
-    mnemonic: '',
-  },
+  secretLocal: {},
   currentUser: {},
 };
 
@@ -21,6 +19,7 @@ export const authSlice = createSlice({
   name: 'AUTH',
   initialState,
   reducers: {
+    loginUser: (_, _action: PayloadAction<LoginUserApiParams>) => {},
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
     },
@@ -55,6 +54,7 @@ export const authSlice = createSlice({
 });
 
 export const {
+  loginUser,
   setIsFirstLaunch,
   setIsAuthenticated,
   setScreenBeforeAuth,

@@ -1,27 +1,33 @@
+import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    justifyContent: 'flex-end',
-    position: 'relative',
+    backgroundColor: '#0F0F0F',
+    paddingHorizontal: 16,
   },
-  textTitle: {
-    fontFamily: 'inter_bold',
-    fontSize: 52,
-    color: '#000000',
+  textBody3Regular: {
+    ...typography.body3Regular,
   },
-  textDesc: {
-    fontFamily: 'nunito_light',
-    fontSize: 20,
-    color: '#000000',
+  textBody3Medium: {
+    ...typography.body3Medium,
   },
-  textInput: {
-    backgroundColor: '#F8F8F8',
-    borderRadius: 60,
-    paddingHorizontal: 24,
-    marginHorizontal: 16,
+  textBody2Regular: {
+    ...typography.body2Regular,
+  },
+
+  textBody2Medium: {
+    ...typography.body2Medium,
+  },
+  textBody2SemiBold: {
+    ...typography.body2SemiBold,
+  },
+  textCap1: {
+    ...typography.caption1,
+  },
+  textBody1Regular: {
+    ...typography.body1Regular,
   },
   forgotText: {
     fontFamily: 'nunito_light',

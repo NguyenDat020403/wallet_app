@@ -2,11 +2,7 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
-  container: {
-    flex: 1,
-    backgroundColor: '#0F0F0F',
-    paddingHorizontal: 16,
-  },
+  container: {flex: 1, backgroundColor: '#0F0F0F', paddingHorizontal: 16},
   textBody3Regular: {
     ...typography.body3Regular,
   },
@@ -28,26 +24,6 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textBody1Regular: {
     ...typography.body1Regular,
-  },
-  boxSecret: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#FFFFFF',
-    gap: 24,
-    padding: 16,
-  },
-  hideBoxSecret: {
-    gap: 4,
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    top: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#323232',
-    borderRadius: 4,
-    padding: 12,
   },
 }));
 
