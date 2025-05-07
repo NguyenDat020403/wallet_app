@@ -1,53 +1,62 @@
-import React from 'react';
-import {FlatList, TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList, RefreshControl, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
-import {AppWrapper} from '@/components';
+import {AppListLoading, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {Image} from '@rneui/base';
 import {IconDown} from '@/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {navigate} from '@/navigation/RootNavigation';
+import {Tokens} from '@/features/home/redux/RTKQuery/types';
+import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 
 type CryptoTabItemProps = {
-  data?: any;
+  data?: Tokens[];
+  isLoading: boolean;
 };
 
-const CryptoTabItem: React.FC<CryptoTabItemProps> = ({data}) => {
+const CryptoTabItem: React.FC<CryptoTabItemProps> = ({data, isLoading}) => {
   const styles = useStyles();
+
   return (
     <View style={styles.container}>
-      {!data ? (
-        <View style={styles.noTokenContainer}>
-          <Image source={IconDown} style={{width: 150, height: 150}} />
-          <Text style={styles.textBody3Regular}>No tokens found</Text>
-          <Text
-            style={[
-              styles.textBody2Regular,
-              {opacity: 0.6, textAlign: 'center'},
-            ]}>
-            Deposit tokens to your address or buy Ethereum to get started
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={data}
-          style={{marginBottom: 60}}
-          contentContainerStyle={{gap: 16, paddingBottom: 16}}
-          renderItem={({item}) => {
-            return (
-              <CoinItem
-                coinName={item.coinName}
-                icon={item.icon}
-                currentPrice={item.currentPrice}
-                dailyChange={item.dailyChange}
-                marketCap={item.marketCap}
-                currentBalance={item.currentBalance}
-              />
-            );
-          }}
-        />
-      )}
+      <FlatList
+        data={data}
+        style={{marginBottom: 60}}
+        contentContainerStyle={{gap: 16, paddingBottom: 16}}
+        ListEmptyComponent={
+          isLoading ? (
+            <AppListLoading isLoading={isLoading} />
+          ) : !data ? (
+            <View style={styles.noTokenContainer}>
+              <Image source={IconDown} style={{width: 150, height: 150}} />
+              <Text style={styles.textBody3Regular}>No tokens found</Text>
+              <Text
+                style={[
+                  styles.textBody2Regular,
+                  {opacity: 0.6, textAlign: 'center'},
+                ]}>
+                Deposit tokens to your address or buy Ethereum to get started
+              </Text>
+            </View>
+          ) : (
+            <></>
+          )
+        }
+        renderItem={({item}) => {
+          return (
+            <CoinItem
+              coinName={item.token.token_name}
+              icon={item.token.symbol}
+              currentPrice={item.token.price_feed_id || 'TEST'}
+              dailyChange={item.token.percent_change_24h || 100}
+              marketCap={item.token.price_feed_id || 'TEST'}
+              currentBalance={item.balance}
+            />
+          );
+        }}
+      />
     </View>
   );
 };
@@ -98,7 +107,12 @@ const CoinItem: React.FC<CoinItemProps> = ({
             <Text
               style={[
                 styles.textCap1,
-                {color: dailyChange > 0 ? '#20BCA4' : '#BC3C20'},
+                {
+                  color:
+                    Number(dailyChange) > 0 && dailyChange !== undefined
+                      ? '#20BCA4'
+                      : '#BC3C20',
+                },
               ]}>
               {dailyChange}%
             </Text>

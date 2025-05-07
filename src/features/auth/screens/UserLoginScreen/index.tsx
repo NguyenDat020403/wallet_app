@@ -1,32 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Pressable,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Image, Text} from '@rneui/themed';
+import React from 'react';
+import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
+import {Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppButton from '@/components/AppButton';
-import {goBack, navigate} from '@/navigation/RootNavigation';
 import AppWrapper from '@/components/AppWrapper';
-import BackgroundAuthentication from '../components/BackgroundAuth';
 import {useForm} from 'react-hook-form';
 import AppTextInput from '@/components/AppTextInput';
 import AppHeader from '@/components/AppHeader';
 import {schemaValidate} from './schemaValidate';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {useLoginUserMutation} from '../../redux/RTKQuery';
-import {useAppDispatch} from '@/redux/hooks';
-import {
-  loginUser,
-  setAccessInfo,
-  setCurrentUserProfile,
-  setIsAuthenticated,
-} from '../../redux/slices';
-import Config from 'react-native-config';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
+import {loginUser} from '../../redux/slices';
 
 interface LoginScreenProps extends MainStackScreenProps<'LoginScreen'> {}
 

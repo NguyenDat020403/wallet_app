@@ -30,15 +30,16 @@ const authRTKQueryApi = RTKQueryIdentityApi.injectEndpoints({
 });
 const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
   endpoints: builder => ({
-    getWalletDefault: builder.mutation({
+    getUserWallets: builder.mutation({
       query: () => ({
-        url: '/getWalletDefault',
+        url: '/getUserWallets',
         method: 'GET',
       }),
-      transformResponse: (response: FullResponse<WalletResponse>) => response,
+      transformResponse: (response: FullResponse<WalletResponse[]>) =>
+        response.data,
     }),
   }),
   overrideExisting: true,
 });
 export const {useSignUpUserMutation, useLoginUserMutation} = authRTKQueryApi;
-export const {useGetWalletDefaultMutation} = walletRTKQueryApi;
+export const {useGetUserWalletsMutation} = walletRTKQueryApi;

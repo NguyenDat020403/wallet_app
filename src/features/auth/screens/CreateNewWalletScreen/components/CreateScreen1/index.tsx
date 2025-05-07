@@ -8,6 +8,7 @@ import {useForm} from 'react-hook-form';
 import {
   setAccessInfo,
   setCurrentUserProfile,
+  setCurrentWalletIDLocal,
   setSecretLocal,
 } from '@/features/auth/redux/slices';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
@@ -63,19 +64,21 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setAccessInfo({...dataResponse?.data.token}));
-      dispatch(setCurrentUserProfile({...dataResponse?.data.user}));
-      dispatch(setSecretLocal({...dataResponse.data.walletSecret}));
+      dispatch(setAccessInfo({...dataResponse.data?.token}));
+      dispatch(setCurrentUserProfile({...dataResponse.data?.user}));
+      dispatch(
+        setSecretLocal({...dataResponse.data?.walletDefault.walletSecret!}),
+      );
+      dispatch(
+        setCurrentWalletIDLocal(
+          dataResponse.data?.walletDefault.wallet.wallet_id!,
+        ),
+      );
+
       tabIndex(1);
     }
   }, [isSuccess]);
-  // const handleConfirmPassword = () => {
-  //   if (password !== confirmPassword) {
-  //     setIsPasswordChecked(false);
-  //   } else {
-  //     setIsPasswordChecked(true);
-  //   }
-  // };
+
   const onContinue = async (data: {
     accountName: string;
     email: string;

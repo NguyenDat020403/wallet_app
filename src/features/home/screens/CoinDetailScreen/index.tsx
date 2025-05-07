@@ -56,8 +56,7 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
           </View>
         }
       />
-      <WalletScreen />
-      {/* <ScrollView style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.infoCoin}>
           <View style={{gap: 6}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>Balance</Text>
@@ -202,7 +201,7 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
             </TouchableOpacity>
           </View>
         </View>
-      </ScrollView> */}
+      </ScrollView>
     </AppWrapper>
   );
 };
