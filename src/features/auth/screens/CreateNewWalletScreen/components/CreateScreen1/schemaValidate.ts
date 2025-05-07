@@ -12,9 +12,10 @@ const confirmPasswordSchema = yup
   .string()
   .oneOf([yup.ref('password')], 'Passwords must match')
   .required('Confirm Password is required');
-
+const usernameSchema = yup.string().required('Username is required');
 export const schemaValidate = yup
   .object({
+    accountName: usernameSchema,
     email: emailSchema,
     password: passwordSchema,
     confirmPassword: confirmPasswordSchema,

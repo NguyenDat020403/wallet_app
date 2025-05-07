@@ -8,7 +8,6 @@ import AppHeader from '@/components/AppHeader';
 import {Image} from '@rneui/base';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {useAppSelector} from '@/redux/hooks';
-import {useGetWalletDefaultMutation} from '../../redux/RTKQuery';
 
 interface BackUpWalletScreenProps
   extends MainStackScreenProps<'BackUpWalletScreen'> {}
@@ -18,12 +17,12 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
   route,
 }) => {
   const styles = useStyles();
-  const {currentUser, accessInfo} = useAppSelector(state => state.authReducer);
-  const [getWalletDefault, {data: dataWallet, isSuccess}] =
-    useGetWalletDefaultMutation();
+  const {currentUser, accessInfo, secretLocal} = useAppSelector(
+    state => state.authReducer,
+  );
   useEffect(() => {
-    getWalletDefault({});
-  }, []);
+    console.log(secretLocal);
+  }, [secretLocal]);
   return (
     <AppWrapper>
       <AppHeader leftComponent={<></>} />
@@ -45,10 +44,10 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
           </View>
           <View>
             <Text numberOfLines={1} style={styles.textBody2Regular}>
-              {dataWallet?.data.wallet_address}
+              {/* {currentWalletAddress} */}
             </Text>
             <Text style={styles.textBody2SemiBold}>
-              {dataWallet?.data.wallet_balance} $
+              {/* {dataWallet?.data.wallet_balance} $ */}0 $
             </Text>
           </View>
         </View>

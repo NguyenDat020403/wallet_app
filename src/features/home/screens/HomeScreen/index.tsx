@@ -1,5 +1,5 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
@@ -20,18 +20,31 @@ import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {TabView} from '@rneui/base';
 import {CryptoTabItem} from './components';
-import fakeCoins from './components/CryptoTabItem/types';
+import {useGetWalletMutation} from '../../redux/RTKQuery';
+import {appLoading} from '@/assets/json';
+import LottieView from 'lottie-react-native';
+
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
-  const isNotAuth = useAppSelector(state => state.authReducer.isAuthenticated);
+  const {currentUser, currentWalletID} = useAppSelector(
+    state => state.authReducer,
+  );
+  const [getWalletDetail, {data, isSuccess, isLoading}] =
+    useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
   };
+
+  console.log(currentWalletID);
+
+  useEffect(() => {
+    getWalletDetail({wallet_id: currentWalletID});
+  }, []);
 
   return (
     <AppWrapper>
@@ -53,9 +66,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           </View>
         }
       />
+
       <TouchableOpacity activeOpacity={0.8} style={styles.userInfo}>
         <Image source={ImageAvatar} style={styles.icon} />
-        <Text style={styles.textBody3Regular}>userName</Text>
+        <Text style={styles.textBody3Regular}>{currentUser.username}</Text>
         <Image source={IconArrowDown} style={styles.icon} />
       </TouchableOpacity>
       <Text
@@ -68,7 +82,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         <ActionItem icon={IconSend} title="send" />
         <ActionItem icon={IconReceive} title="receive" />
       </View>
-
       <View style={styles.tabBar}>
         {['Crypto', 'Collectibles'].map((tab, index) => (
           <TouchableOpacity
@@ -85,10 +98,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </View>
-
       <TabView value={tabIndex} onChange={setTabIndex}>
         <TabView.Item style={{flex: 1}}>
-          <CryptoTabItem data={fakeCoins} />
+          <CryptoTabItem data={data?.tokens} isLoading={isLoading} />
         </TabView.Item>
         <TabView.Item style={{flex: 1}}>
           <Text style={styles.textCap1}>2</Text>

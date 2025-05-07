@@ -7,12 +7,15 @@ import {
   loginUser,
   setAccessInfo,
   setCurrentUserProfile,
+  setCurrentWalletIDLocal,
   setIsAuthenticated,
 } from '../slices';
 import {navigate} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
+import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
+  showAppLoading();
   try {
     const {
       message: message,
@@ -29,9 +32,10 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
       yield put(setAccessInfo(dataLogin!.token));
       yield put(setCurrentUserProfile(dataLogin!.user));
       yield put(setIsAuthenticated(true));
+      yield put(setCurrentWalletIDLocal(dataLogin?.wallet.wallet_id!));
       navigate('HomeScreen');
     } else {
-      console.log(apiError);
+      console.log('mesadassda', apiError);
       switch (apiError) {
         case 'EA01':
           showToastMessage('User does not exist');
@@ -47,9 +51,10 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   } catch (e: any) {
     console.log('loginUserSaga1231232', e.message);
   } finally {
-    console.log('loginUserSaga done');
+    hideAppLoading();
   }
 }
+
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
 }

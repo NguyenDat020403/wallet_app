@@ -7,9 +7,12 @@ const headers = {
   Accept: 'application/json',
 };
 
-export const BASE_URL_AUTH = Config.API_URL_AUTH;
 const apiIdentity = axios.create({
-  baseURL: BASE_URL_AUTH,
+  baseURL: Config.API_URL_AUTH,
+  headers,
+});
+const apiWallet = axios.create({
+  baseURL: Config.API_URL_AUTH,
   headers,
 });
 

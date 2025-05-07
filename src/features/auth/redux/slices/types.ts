@@ -9,6 +9,7 @@ export type AuthInitialState = {
   screenNameBeforeAuth: keyof MainStackParamList;
   secretLocal: SecretLocal | {};
   currentUser: User;
+  currentWalletID: string;
 };
 
 export type SecretLocal = WalletSecretResponse;

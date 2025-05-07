@@ -55,4 +55,5 @@ export interface LoginRequest {
 export interface LoginResponse {
   token: TokenResponse;
   user: UserResponse;
+  wallet: WalletResponse;
 }

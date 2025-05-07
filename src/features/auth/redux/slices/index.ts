@@ -13,6 +13,7 @@ const initialState: AuthInitialState = {
   screenNameBeforeAuth: 'AppTabScreen',
   secretLocal: {},
   currentUser: {},
+  currentWalletID: '',
 };
 
 export const authSlice = createSlice({
@@ -44,6 +45,10 @@ export const authSlice = createSlice({
     setCurrentUserProfile: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
     },
+    setCurrentWalletIDLocal: (state, action: PayloadAction<string>) => {
+      state.currentWalletID = action.payload;
+    },
+
     logout: state => {
       return {
         ...initialState,
@@ -62,6 +67,7 @@ export const {
   setSecretLocal,
   setCurrentUserProfile,
   setAccessInfo,
+  setCurrentWalletIDLocal,
   logout,
 } = authSlice.actions;
 
@@ -74,6 +80,7 @@ const authPersistConfig = {
     'isFirstLaunch',
     'currentUser',
     'secretLocal',
+    'currentWalletAddress',
   ],
 };
 export default persistReducer(authPersistConfig, authSlice.reducer);
