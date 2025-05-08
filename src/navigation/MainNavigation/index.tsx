@@ -23,10 +23,7 @@ const route = {
 };
 
 const MainNavigator = () => {
-  const isFirstLaunch = useAppSelector(
-    store => store.authReducer.isFirstLaunch,
-  );
-
+  const {isFirstLaunch} = useAppSelector(store => store.authReducer);
   return (
     <Stack.Navigator
       initialRouteName={isFirstLaunch ? 'FirstScreen' : 'AppTabScreen'}

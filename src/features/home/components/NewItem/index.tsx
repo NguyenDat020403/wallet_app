@@ -3,7 +3,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {Image, Text} from '@rneui/themed';
 import useStyles from './styles';
 import {ScreenWidth} from '@rneui/base';
-import {demoNewItems2} from '@/assets/images';
+import {demoNewItems2} from '#/src/assets/images';
 
 type NewItemProps = {
   data: any;

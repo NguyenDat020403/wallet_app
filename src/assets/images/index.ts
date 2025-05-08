@@ -6,3 +6,4 @@ export {default as demoNewItems2} from './demoNewItems2.png';
 export {default as ImageDemoStory} from './ImageDemoStory.png';
 export {default as ImageDemoHome1} from './image1.png';
 export {default as ImageDemoHome2} from './image2.jpg';
+export {default as ImageWallet} from './ImageWallet.png';

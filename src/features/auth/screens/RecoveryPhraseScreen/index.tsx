@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, Pressable, View} from 'react-native';
+import {FlatList, Image, Pressable, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppButton, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -14,6 +14,8 @@ import {
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {setIsAuthenticated} from '../../redux/slices';
+import {IconQR} from '@/assets/icons';
+import {QRCodeModal} from './screens';
 
 interface RecoveryPhraseScreenProps
   extends MainStackScreenProps<'RecoveryPhraseScreen'> {}
@@ -40,9 +42,11 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
   const dispatch = useAppDispatch();
-  const walletSecret = useAppSelector(state => state.authReducer.secretLocal);
-  const words = walletSecret.mnemonic.split(' ');
+  const {secretLocal} = useAppSelector(state => state.authReducer);
+  const words = secretLocal.mnemonic.split(' ');
   const [showBlur, setShowBlur] = useState(true);
+
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <AppWrapper>
@@ -81,7 +85,6 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
               numColumns={2}
               columnWrapperStyle={{justifyContent: 'space-between'}}
             />
-
             {showBlur && (
               <Pressable
                 onPress={() => {
@@ -97,6 +100,21 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
               </Pressable>
             )}
           </Pressable>
+          <TouchableOpacity
+            onPress={() => {
+              setIsVisible(true);
+              setShowBlur(true);
+            }}
+            activeOpacity={0.6}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 16,
+            }}>
+            <Text style={[styles.textBody2Regular]}>Generate QRCode</Text>
+            <Image source={IconQR} style={{width: 32, height: 32}} />
+          </TouchableOpacity>
         </View>
       </View>
       <View style={{paddingHorizontal: 16, marginBottom: 16}}>
@@ -113,9 +131,14 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
         <AppButton
           title="Done"
           onPress={() => {
-            navigation.navigate('HomeScreen');
             dispatch(setIsAuthenticated(true));
+            navigation.navigate('AppTabScreen');
           }}
+        />
+        <QRCodeModal
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          data={secretLocal.mnemonic}
         />
       </View>
     </AppWrapper>

@@ -3,25 +3,31 @@ import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
   container: {
-    position: 'relative',
-    height: '100%',
+    flex: 1,
+    backgroundColor: '#0F0F0F',
     paddingHorizontal: 16,
   },
   textBody3Regular: {
-    marginTop: 8,
-    marginBottom: 4,
     ...typography.body3Regular,
   },
+  textBody3Medium: {
+    ...typography.body3Medium,
+  },
+  textBody2Regular: {
+    ...typography.body2Regular,
+  },
+
   textBody2Medium: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    borderColor: '#575757',
     ...typography.body2Medium,
-    fontSize: 20,
+  },
+  textBody2SemiBold: {
+    ...typography.body2SemiBold,
   },
   textCap1: {
     ...typography.caption1,
+  },
+  textBody1Regular: {
+    ...typography.body1Regular,
   },
 }));
 

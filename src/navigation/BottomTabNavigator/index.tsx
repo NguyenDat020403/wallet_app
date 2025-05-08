@@ -13,20 +13,14 @@ import {
 } from './types';
 import {generateTabBarItemOptions} from './functions';
 import {
-  IconCategories,
-  IconCategoriesActive,
   IconHistory,
   IconHistoryActive,
-  IconHome,
-  IconHomeActive,
   IconSearch,
   IconSearchActive,
   IconWallet,
   IconWalletActive,
-  IconWishList,
-  IconWishListActive,
 } from '@/assets/icons';
-import {HomeScreen, StoryScreen} from '@/features/home/screens';
+import {HomeScreen, SendScreen, StoryScreen} from '@/features/home/screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 
 const Tab = createBottomTabNavigator<AppTabStackParamList>();
@@ -36,6 +30,7 @@ const StackProfile = createNativeStackNavigator<ProfileTabStackParamList>();
 
 const profileTabRoute = {
   HomeScreen,
+  SendScreen,
 };
 
 function ProfileStack() {

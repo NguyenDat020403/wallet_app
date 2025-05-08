@@ -19,8 +19,8 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
   const URL = '123123';
 
   return (
-    <AppWrapper style={{paddingHorizontal: 16, paddingBottom: 12}}>
-      <View style={styles.container}>
+    <View style={styles.container}>
+      <View>
         <Text style={styles.textBody3Regular}>Enable Permissions</Text>
         <Text
           style={[styles.textBody3Regular, {opacity: 0.6, marginBottom: 16}]}>
@@ -41,16 +41,17 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
           desc="Enabled"
           textBelow="Get notified of new wallet activity and other important events."
         />
+        <Text
+          style={[
+            styles.textCap1,
+            {opacity: 0.6, marginBottom: 16, textAlign: 'center'},
+          ]}>
+          You can always change your preferences later.
+        </Text>
       </View>
-      <Text
-        style={[
-          styles.textCap1,
-          {opacity: 0.6, marginBottom: 16, textAlign: 'center'},
-        ]}>
-        You can always change your preferences later.
-      </Text>
       <AppButton
         buttonStyle={{
+          marginBottom: 16,
           opacity: URL ? 1 : 0.6,
         }}
         title="Continue"
@@ -59,7 +60,7 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
           navigate('BackUpWalletScreen');
         }}
       />
-    </AppWrapper>
+    </View>
   );
 };
 

@@ -19,10 +19,10 @@ import {
 import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {TabView} from '@rneui/base';
-import {CryptoTabItem} from './components';
 import {useGetWalletMutation} from '../../redux/RTKQuery';
 import {appLoading} from '@/assets/json';
 import LottieView from 'lottie-react-native';
+import {CryptoTabItem} from '../../components';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -35,6 +35,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getWalletDetail({wallet_id: currentWalletID}).unwrap();
+    setRefreshing(false);
+  };
 
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
@@ -79,7 +86,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
         <ActionItem icon={IconBuy} title="buy" />
         <ActionItem icon={IconSwap} title="swap" />
-        <ActionItem icon={IconSend} title="send" />
+        <ActionItem
+          icon={IconSend}
+          title="send"
+          onPress={() => {
+            navigation.navigate('SendScreen', {listCoin: data?.tokens});
+          }}
+        />
         <ActionItem icon={IconReceive} title="receive" />
       </View>
       <View style={styles.tabBar}>
@@ -100,7 +113,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       </View>
       <TabView value={tabIndex} onChange={setTabIndex}>
         <TabView.Item style={{flex: 1}}>
-          <CryptoTabItem data={data?.tokens} isLoading={isLoading} />
+          <CryptoTabItem
+            isHomeList
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            isLoading={isLoading}
+            data={data?.tokens}
+          />
         </TabView.Item>
         <TabView.Item style={{flex: 1}}>
           <Text style={styles.textCap1}>2</Text>
@@ -115,12 +134,17 @@ export default HomeScreen;
 type ActionItemProps = {
   icon: any;
   title: string;
+  onPress?: () => void;
 };
 
-export const ActionItem: React.FC<ActionItemProps> = ({icon, title}) => {
+export const ActionItem: React.FC<ActionItemProps> = ({
+  icon,
+  title,
+  onPress,
+}) => {
   const styles = useStyles();
   return (
-    <TouchableOpacity activeOpacity={0.8}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <View style={styles.backgroundIcon}>
         <Image source={icon} style={styles.icon} />
       </View>

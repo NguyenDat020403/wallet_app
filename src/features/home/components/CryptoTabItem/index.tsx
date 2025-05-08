@@ -13,15 +13,28 @@ import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 
 type CryptoTabItemProps = {
   data?: Tokens[];
-  isLoading: boolean;
+  isLoading?: boolean;
+  onRefresh?: () => {};
+  refreshing?: boolean;
+  onPress?: () => void;
+  isHomeList?: boolean;
 };
 
-const CryptoTabItem: React.FC<CryptoTabItemProps> = ({data, isLoading}) => {
+const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
+  data,
+  isLoading,
+  onRefresh,
+  refreshing,
+  onPress,
+  isHomeList = false,
+}) => {
   const styles = useStyles();
 
   return (
     <View style={styles.container}>
       <FlatList
+        refreshing={refreshing}
+        onRefresh={onRefresh}
         data={data}
         style={{marginBottom: 60}}
         contentContainerStyle={{gap: 16, paddingBottom: 16}}
@@ -47,6 +60,8 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({data, isLoading}) => {
         renderItem={({item}) => {
           return (
             <CoinItem
+              isHomeList={isHomeList}
+              onPress={onPress}
               coinName={item.token.token_name}
               icon={item.token.symbol}
               currentPrice={item.token.price_feed_id || 'TEST'}
@@ -70,6 +85,8 @@ type CoinItemProps = {
   dailyChange?: string;
   marketCap?: string;
   currentBalance?: string;
+  onPress?: () => void;
+  isHomeList?: boolean;
 };
 
 const CoinItem: React.FC<CoinItemProps> = ({
@@ -79,13 +96,21 @@ const CoinItem: React.FC<CoinItemProps> = ({
   currentPrice,
   dailyChange,
   marketCap,
+  onPress,
+  isHomeList,
 }) => {
   const styles = useStyles();
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={() => {
-        navigate('CoinDetailScreen', {coinName: coinName || ''});
+        if (isHomeList) {
+          navigate('CoinDetailScreen', {
+            coinName: coinName || '',
+          });
+        } else {
+          onPress;
+        }
       }}
       style={{
         flexDirection: 'row',

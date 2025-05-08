@@ -70,6 +70,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
           <TouchableOpacity
             style={{alignItems: 'flex-end'}}
             onPress={() => {
+              navigation.navigate('ImportWalletScreen');
               // navigation.navigate('RecoveryPasswordScreen');
             }}>
             <Text style={styles.textCap1}>Forgot your password?</Text>
