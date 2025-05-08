@@ -31,7 +31,7 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
       console.log('Da thanh cong o day');
       yield put(setAccessInfo(dataLogin!.token));
       yield put(setCurrentUserProfile(dataLogin!.user));
-      yield put(setIsAuthenticated(true));
+      yield put(setIsAuthenticated(false));
       yield put(setCurrentWalletIDLocal(dataLogin?.wallet.wallet_id!));
       navigate('HomeScreen');
     } else {

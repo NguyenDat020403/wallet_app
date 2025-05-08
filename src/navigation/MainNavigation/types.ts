@@ -5,6 +5,7 @@ export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
 
   HomeScreen: undefined;
+  SendScreen: {listCoin: any};
   CoinDetailScreen: {coinName: string};
 
   MenuScreen: undefined;
@@ -13,6 +14,7 @@ export type MainStackParamList = {
   //auth
   FirstScreen: undefined;
   CreateAccountScreen: undefined;
+  ImportWalletScreen: undefined;
   CreateNewWalletScreen: undefined;
   UserLoginScreen: undefined;
   BackUpWalletScreen: undefined;

@@ -17,3 +17,4 @@ export {default as IconImage} from './IconImage.png';
 export {default as IconBackgroundAvatar} from './IconBackgroundAvatar.png';
 export {default as IconSwap} from './IconSwap.png';
 export {default as IconSend} from './IconSend.png';
+export {default as IconDelete} from './IconDelete.png';

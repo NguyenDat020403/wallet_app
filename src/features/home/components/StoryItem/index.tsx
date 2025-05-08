@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Image, Text} from '@rneui/themed';
 import useStyles from './styles';
-import {demoStory1, demoStory2, demoStory3} from '@/assets/images';
+import {demoStory1, demoStory2, demoStory3} from '#/src/assets/images';
 import {ScreenWidth} from '@rneui/base';
 import {IconPlay} from '@/assets/icons';
 import {navigate} from '@/navigation/RootNavigation';

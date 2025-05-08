@@ -7,7 +7,7 @@ import {
   demoStory2,
   demoStory3,
   ImageDemoStory,
-} from '@/assets/images';
+} from '#/src/assets/images';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {FlatList, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Image} from '@rneui/themed';
