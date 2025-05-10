@@ -29,13 +29,13 @@ const baseQueryWithReAuth =
 
 export const RTKQueryIdentityApi = createApi({
   reducerPath: 'RTKQueryIdentityApi',
-  baseQuery: baseQueryWithReAuth('http://10.0.2.2:3333/auth'),
+  baseQuery: baseQueryWithReAuth(Config.API_URL_AUTH),
   endpoints: builder => ({}),
 });
 
 export const RTKQueryWalletApi = createApi({
   reducerPath: 'RTKQueryWalletApi',
-  baseQuery: baseQueryWithReAuth('http://10.0.2.2:3333/wallets'),
+  baseQuery: baseQueryWithReAuth(Config.API_URL_WALLET),
   endpoints: builder => ({}),
 });
 

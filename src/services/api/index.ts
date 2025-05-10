@@ -12,7 +12,7 @@ const apiIdentity = axios.create({
   headers,
 });
 const apiWallet = axios.create({
-  baseURL: Config.API_URL_AUTH,
+  baseURL: Config.API_URL_WALLET,
   headers,
 });
 

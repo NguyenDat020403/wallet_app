@@ -28,6 +28,8 @@ type AppTextInputProps<T extends {[x: string]: string}> = {
   type?: 'INPUT' | 'PASSWORD';
   style?: StyleProp<ViewStyle>;
   containerStyle?: StyleProp<ViewStyle>;
+  placeholderTextColor?: string;
+  hitSlop?: number;
 } & Omit<
   TextInputProps,
   'value' | 'placeholder' | 'style' | 'placeholderTextColor' | 'secureTextEntry'
@@ -43,6 +45,8 @@ const AppTextInput = <T extends {}>({
   style,
   containerStyle,
   textCount,
+  hitSlop,
+  placeholderTextColor,
   ...props
 }: AppTextInputProps<T>) => {
   const styles = useStyles();
@@ -95,6 +99,8 @@ const InputType = <T extends {}>({
   onChange,
   value,
   placeholder,
+  hitSlop,
+  placeholderTextColor,
   ...props
 }: InputTypeProps<T>) => {
   const styles = useStyles();
@@ -104,9 +110,19 @@ const InputType = <T extends {}>({
     case 'INPUT': {
       return (
         <TextInput
+          hitSlop={
+            hitSlop && {
+              top: hitSlop,
+              left: hitSlop,
+              right: hitSlop,
+              bottom: hitSlop,
+            }
+          }
           {...props}
           placeholder={placeholder}
-          placeholderTextColor={'#B0B0B0'}
+          placeholderTextColor={
+            placeholderTextColor ? placeholderTextColor : '#B0B0B0'
+          }
           style={styles.inputText}
           onChangeText={onChange}
           value={value}

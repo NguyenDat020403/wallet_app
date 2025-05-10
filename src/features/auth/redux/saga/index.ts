@@ -1,6 +1,6 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {SagaIterator} from 'redux-saga';
-import {FullResponse, LoginResponse} from '../RTKQuery/types';
+import {FullResponse, LoginResponse, SignUpResponse} from '../RTKQuery/types';
 import {authApi} from '../../services';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {
@@ -9,10 +9,13 @@ import {
   setCurrentUserProfile,
   setCurrentWalletIDLocal,
   setIsAuthenticated,
+  setSecretLocal,
+  signUpUser,
 } from '../slices';
 import {navigate} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
+import {SignUpUserApiParams} from '../../services/api/types';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   showAppLoading();
@@ -54,7 +57,40 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
     hideAppLoading();
   }
 }
+function* signUpUserSaga(
+  action: PayloadAction<SignUpUserApiParams>,
+): SagaIterator<any> {
+  showAppLoading();
+  try {
+    const {
+      message: message,
+      data: dataSignUp,
+      status,
+      error: apiError,
+    }: FullResponse<SignUpResponse> = yield call(authApi.signupUserApi, {
+      email: action.payload.email,
+      password: action.payload.password,
+      username: action.payload.username,
+    });
 
+    if (message === 'success') {
+      console.log('Da thanh cong o day');
+      yield put(setAccessInfo(dataSignUp!.token));
+      yield put(setCurrentUserProfile(dataSignUp!.user));
+      yield put(setIsAuthenticated(false));
+      yield put(
+        setCurrentWalletIDLocal(dataSignUp?.walletDefault.wallet.wallet_id!),
+      );
+      yield put(setSecretLocal(dataSignUp?.walletDefault.walletSecret!));
+      action.payload.callback && action.payload.callback();
+    }
+  } catch (e: any) {
+    showToastMessage(e.message);
+  } finally {
+    hideAppLoading();
+  }
+}
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
+  yield takeLatest(signUpUser, signUpUserSaga);
 }

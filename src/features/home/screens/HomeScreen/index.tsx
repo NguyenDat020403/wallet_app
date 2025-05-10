@@ -32,6 +32,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const {currentUser, currentWalletID} = useAppSelector(
     state => state.authReducer,
   );
+  console.log(currentUser);
+  console.log(currentWalletID);
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);

@@ -6,6 +6,7 @@ const useStyles = makeStyles(({colors}) => ({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: spacing.paddingSM,
+    paddingHorizontal: spacing.paddingMD,
     height: 40,
   },
   leftSide: {

@@ -15,7 +15,7 @@ const CreateAccountScreen: React.FC<CreateNewWalletScreenProps> = ({
 
   return (
     <AppWrapper>
-      <AppHeader title="Create New Account" style={{paddingHorizontal: 16}} />
+      <AppHeader title="Create New Account" />
       <View style={styles.container}>
         <Text style={styles.textBody2SemiBold}>Nhập thông tin của bạn</Text>
       </View>

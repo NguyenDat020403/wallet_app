@@ -10,7 +10,7 @@ const useStyles = makeStyles(({colors}) => ({
     marginBottom: spacing.marginSM,
   },
   title: {
-    ...typography.body1Medium,
+    ...typography.body1Regular,
     marginRight: spacing.marginXS,
   },
   required: {
@@ -39,8 +39,7 @@ const useStyles = makeStyles(({colors}) => ({
     height: '100%',
     paddingTop: 0,
     paddingBottom: 0,
-    ...typography.body2,
-    fontFamily: 'Inter',
+    ...typography.body1Regular,
     zIndex: 1,
   },
   error: {

@@ -11,3 +11,10 @@ export interface LoginUserApiParams {
   email: string;
   password: string;
 }
+
+export interface SignUpUserApiParams {
+  email: string;
+  password: string;
+  username: string;
+  callback?: () => void;
+}
