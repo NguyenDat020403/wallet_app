@@ -16,7 +16,7 @@ type CryptoTabItemProps = {
   isLoading?: boolean;
   onRefresh?: () => {};
   refreshing?: boolean;
-  onPress?: () => void;
+  onPress?: (network_id?: string, index?: number) => void;
   isHomeList?: boolean;
 };
 
@@ -57,7 +57,7 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
             <></>
           )
         }
-        renderItem={({item}) => {
+        renderItem={({item, index}) => {
           return (
             <CoinItem
               isHomeList={isHomeList}
@@ -68,6 +68,8 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
               dailyChange={item.token.percent_change_24h || 100}
               marketCap={item.token.price_feed_id || 'TEST'}
               currentBalance={item.balance}
+              network_id={item.network_id}
+              index={index}
             />
           );
         }}
@@ -85,8 +87,10 @@ type CoinItemProps = {
   dailyChange?: string;
   marketCap?: string;
   currentBalance?: string;
-  onPress?: () => void;
+  onPress?: (network_id?: string) => void;
   isHomeList?: boolean;
+  network_id?: string;
+  index: number;
 };
 
 const CoinItem: React.FC<CoinItemProps> = ({
@@ -97,6 +101,8 @@ const CoinItem: React.FC<CoinItemProps> = ({
   dailyChange,
   marketCap,
   onPress,
+  network_id,
+  index,
   isHomeList,
 }) => {
   const styles = useStyles();
@@ -109,7 +115,8 @@ const CoinItem: React.FC<CoinItemProps> = ({
             coinName: coinName || '',
           });
         } else {
-          onPress;
+          console.log(11);
+          onPress && onPress(network_id, index);
         }
       }}
       style={{

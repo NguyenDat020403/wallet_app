@@ -10,6 +10,7 @@ import {
   setCurrentWalletIDLocal,
   setIsAuthenticated,
   setSecretLocal,
+  signUpUser,
 } from '@/features/auth/redux/slices';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import AppTextInput from '@/components/AppTextInput';
@@ -27,7 +28,8 @@ interface CreateScreen1Props {
 const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
-  const [signUp, {data: dataResponse, isSuccess}] = useSignUpUserMutation();
+  const [signUp, {data: dataResponse, isSuccess, isError}] =
+    useSignUpUserMutation();
   const {
     control,
     handleSubmit,
@@ -48,34 +50,46 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
     resolver: yupResolver(schemaValidate),
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setAccessInfo({...dataResponse.data?.token}));
-      dispatch(setCurrentUserProfile({...dataResponse.data?.user}));
-      dispatch(
-        setSecretLocal({...dataResponse.data?.walletDefault.walletSecret!}),
-      );
-      dispatch(setIsAuthenticated(false));
-      dispatch(
-        setCurrentWalletIDLocal(
-          dataResponse.data?.walletDefault.wallet.wallet_id!,
-        ),
-      );
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     dispatch(setAccessInfo({...dataResponse.data?.token}));
+  //     dispatch(setCurrentUserProfile({...dataResponse.data?.user}));
+  //     dispatch(
+  //       setSecretLocal({...dataResponse.data?.walletDefault.walletSecret!}),
+  //     );
+  //     dispatch(setIsAuthenticated(false));
+  //     dispatch(
+  //       setCurrentWalletIDLocal(
+  //         dataResponse.data?.walletDefault.wallet.wallet_id!,
+  //       ),
+  //     );
+  //   }
+  //   if (isError) {
+  //     console.log('loi');
+  //   }
+  // }, [isSuccess, isError]);
 
-      tabIndex(1);
-    }
-  }, [isSuccess]);
-
-  const onContinue = async (data: {
+  const onContinue = (data: {
     accountName: string;
     email: string;
     password: string;
   }) => {
-    await signUp({
-      email: data.email,
-      username: data.accountName,
-      password: data.password,
-    });
+    // await signUp({
+    //   email: data.email,
+    //   username: data.accountName,
+    //   password: data.password,
+    // });
+    dispatch(
+      signUpUser({
+        email: data.email,
+        username: data.accountName,
+        password: data.password,
+        callback: () => {
+          console.log('call back');
+          tabIndex(1);
+        },
+      }),
+    );
   };
 
   return (

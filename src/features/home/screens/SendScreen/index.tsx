@@ -16,11 +16,10 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
   };
-
   return (
     <AppWrapper>
       <View style={styles.container}>
-        <AppHeader title="Send" style={{paddingHorizontal: 16}} />
+        <AppHeader title="Send" />
         <View style={styles.tabBar}>
           {['Crypto', 'Collectibles'].map((tab, index) => (
             <TouchableOpacity
@@ -39,7 +38,16 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
         </View>
         <TabView value={tabIndex} onChange={setTabIndex}>
           <TabView.Item style={{flex: 1}}>
-            <CryptoTabItem data={tokenData} />
+            <CryptoTabItem
+              data={tokenData}
+              onPress={(network_id, index) => {
+                console.log(network_id);
+                navigation.navigate('TransactionScreen', {
+                  token: tokenData[index!],
+                  network: network_id,
+                });
+              }}
+            />
           </TabView.Item>
           <TabView.Item style={{flex: 1}}>
             <Text style={styles.textCap1}>2</Text>

@@ -3,7 +3,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {MainStackParamList} from '@/navigation/MainNavigation/types';
 import {AccessInfo, AuthInitialState, SecretLocal, User} from './types';
-import {LoginUserApiParams} from '../../services/api/types';
+import {
+  LoginUserApiParams,
+  SignUpUserApiParams,
+} from '../../services/api/types';
 
 const initialState: AuthInitialState = {
   accessInfo: {},
@@ -21,6 +24,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     loginUser: (_, _action: PayloadAction<LoginUserApiParams>) => {},
+    signUpUser: (_, _action: PayloadAction<SignUpUserApiParams>) => {},
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
     },
@@ -60,6 +64,7 @@ export const authSlice = createSlice({
 
 export const {
   loginUser,
+  signUpUser,
   setIsFirstLaunch,
   setIsAuthenticated,
   setScreenBeforeAuth,
