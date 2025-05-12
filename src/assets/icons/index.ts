@@ -18,3 +18,5 @@ export {default as IconBackgroundAvatar} from './IconBackgroundAvatar.png';
 export {default as IconSwap} from './IconSwap.png';
 export {default as IconSend} from './IconSend.png';
 export {default as IconDelete} from './IconDelete.png';
+export {default as IconTrade} from './IconTrade.png';
+export {default as IconTrash} from './IconTrash.png';
