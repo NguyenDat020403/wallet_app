@@ -11,7 +11,7 @@ import AppTextInput from '@/components/AppTextInput';
 import {useForm} from 'react-hook-form';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {IconCopy} from '@/features/auth/assets/icons';
-import {IconDelete} from '@/assets/icons';
+import {IconDelete, IconTrash} from '@/assets/icons';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {WalletAddress} from '@/assets/images';
 import {Image} from '@rneui/base';
@@ -72,7 +72,7 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
     <>
       <View style={styles.container}>
         <Text style={styles.textHeading2}>Receiving Address</Text>
-        <Text style={styles.textCap1}>{token.balance && token.balance}</Text>
+
         <AppTextInput
           hitSlop={100}
           style={{backgroundColor: 'transparent', marginHorizontal: -16}}
@@ -88,8 +88,8 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
           onPress={fetchCopiedText}
           style={styles.boxPaste}>
           <Image
-            source={!isPressPaste ? IconCopy : IconDelete}
-            style={{width: 24, height: 24}}
+            source={!isPressPaste ? IconCopy : IconTrash}
+            style={{width: 20, height: 20}}
           />
           <Text style={styles.textBody1Regular}>
             {!isPressPaste ? 'Paste' : 'Clear'}
@@ -144,7 +144,7 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
             safeAreaInsets.bottom + safeAreaInsets.top + 16
           }>
           <AppButton
-            buttonStyle={{marginHorizontal: 16, marginBottom: 16}}
+            buttonStyle={{marginBottom: 16}}
             disable={!isValid}
             title="Confirm"
             onPress={() => {

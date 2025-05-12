@@ -8,8 +8,7 @@ import {Image} from '@rneui/base';
 import {IconDown} from '@/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {navigate} from '@/navigation/RootNavigation';
-import {Tokens} from '@/features/home/redux/RTKQuery/types';
-import {hideAppLoading, showAppLoading} from '@/features/common/functions';
+import {Network, Tokens} from './types';
 
 type CryptoTabItemProps = {
   data?: Tokens[];
@@ -62,13 +61,7 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
             <CoinItem
               isHomeList={isHomeList}
               onPress={onPress}
-              coinName={item.token.token_name}
-              icon={item.token.symbol}
-              currentPrice={item.token.price_feed_id || 'TEST'}
-              dailyChange={item.token.percent_change_24h || 100}
-              marketCap={item.token.price_feed_id || 'TEST'}
-              currentBalance={item.balance}
-              network_id={item.network_id}
+              data={item}
               index={index}
             />
           );
@@ -81,27 +74,15 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
 export default CryptoTabItem;
 
 type CoinItemProps = {
-  coinName?: string;
-  icon?: any;
-  currentPrice?: string;
-  dailyChange?: string;
-  marketCap?: string;
-  currentBalance?: string;
+  data: Tokens;
   onPress?: (network_id?: string) => void;
   isHomeList?: boolean;
-  network_id?: string;
   index: number;
 };
 
 const CoinItem: React.FC<CoinItemProps> = ({
-  coinName,
-  icon,
-  currentBalance,
-  currentPrice,
-  dailyChange,
-  marketCap,
+  data,
   onPress,
-  network_id,
   index,
   isHomeList,
 }) => {
@@ -112,11 +93,11 @@ const CoinItem: React.FC<CoinItemProps> = ({
       onPress={() => {
         if (isHomeList) {
           navigate('CoinDetailScreen', {
-            coinName: coinName || '',
+            token_id: data.token.token_id || '',
           });
         } else {
           console.log(11);
-          onPress && onPress(network_id, index);
+          onPress && onPress(data.network?.network_id, index);
         }
       }}
       style={{
@@ -126,35 +107,36 @@ const CoinItem: React.FC<CoinItemProps> = ({
       }}>
       <View style={styles.leftCoinItem}>
         <Image
-          source={ImageAvatar}
+          source={{uri: data.token.thumbnail}}
           style={styles.coinIcon}
-          containerStyle={{alignSelf: 'center'}}
+          containerStyle={{alignSelf: 'center', borderRadius: 150}}
         />
         <View>
-          <Text style={styles.textBody3Regular}>{coinName}</Text>
+          <Text style={styles.textBody3Regular}>{data.token.token_name}</Text>
           <View style={{flexDirection: 'row', gap: 12}}>
             <Text style={[styles.textCap1, {color: '#7B849B'}]}>
-              {marketCap}
+              {data.token.price_feed_id || 'loading...'}
             </Text>
             <Text
               style={[
                 styles.textCap1,
                 {
                   color:
-                    Number(dailyChange) > 0 && dailyChange !== undefined
+                    Number(data.token.percent_change_24h) > 0 &&
+                    data.token.percent_change_24h !== undefined
                       ? '#20BCA4'
                       : '#BC3C20',
                 },
               ]}>
-              {dailyChange}%
+              {data.token.percent_change_24h}%
             </Text>
           </View>
         </View>
       </View>
       <View style={{alignItems: 'flex-end'}}>
-        <Text style={styles.textBody3Regular}>{currentPrice}</Text>
+        <Text style={styles.textBody3Regular}>{data.network?.symbol}</Text>
         <Text style={[styles.textCap1, {color: '#7B849B'}]}>
-          {currentBalance}
+          {data.balance}
         </Text>
       </View>
     </TouchableOpacity>

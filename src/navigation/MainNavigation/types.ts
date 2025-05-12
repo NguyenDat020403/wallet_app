@@ -6,7 +6,7 @@ export type MainStackParamList = {
 
   HomeScreen: undefined;
   SendScreen: {listCoin: any};
-  CoinDetailScreen: {coinName: string};
+  CoinDetailScreen: {token_id: string};
   TransactionScreen: {token: any; network: string | undefined};
 
   MenuScreen: undefined;

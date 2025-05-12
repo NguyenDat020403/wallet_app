@@ -58,7 +58,7 @@ const typography = StyleSheet.create({
     fontWeight: '500',
   },
   body1Medium: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#FFFFFF',
     fontFamily: 'ibm_medium',
   },
