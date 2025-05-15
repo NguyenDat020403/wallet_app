@@ -36,3 +36,36 @@ export interface Network {
   rpc_url: string;
   creator_id: any;
 }
+export interface BTCFee {
+  economyFee?: number;
+  fastestFee?: number;
+  halfHourFee?: number;
+  hourFee?: number;
+  minimumFee?: number;
+}
+export interface GasEstimateRequest {
+  chain_id: string;
+  ownerAddress?: string;
+  amount?: number;
+}
+export interface GasEstimatesResponse extends BTCFee {
+  low?: GasOption;
+  medium?: GasOption;
+  high?: GasOption;
+  estimatedBaseFee?: string;
+  networkCongestion?: number;
+  latestPriorityFeeRange?: [string, string];
+  historicalPriorityFeeRange?: [string, string];
+  historicalBaseFeeRange?: [string, string];
+  priorityFeeTrend?: 'up' | 'down' | 'stable';
+  baseFeeTrend?: 'up' | 'down' | 'stable';
+  version?: string;
+}
+
+export interface GasOption {
+  suggestedMaxPriorityFeePerGas?: string;
+  suggestedMaxFeePerGas?: string;
+  minWaitTimeEstimate?: number;
+  maxWaitTimeEstimate?: number;
+  totalCost?: string;
+}

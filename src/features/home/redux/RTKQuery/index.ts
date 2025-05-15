@@ -1,6 +1,15 @@
 import {FullResponse} from '@/redux/RTKQuery/types';
-import {RTKQueryNetworkApi, RTKQueryWalletApi} from '@/redux/RTKQuery';
-import {DetailWalletResponse, WalletResponse} from './types';
+import {
+  RTKQueryNetworkApi,
+  RTKQueryTransactionApi,
+  RTKQueryWalletApi,
+} from '@/redux/RTKQuery';
+import {
+  DetailWalletResponse,
+  GasEstimateRequest,
+  GasEstimatesResponse,
+  WalletResponse,
+} from './types';
 
 const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
   endpoints: builder => ({
@@ -39,5 +48,22 @@ const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
+
+const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
+  endpoints: builder => ({
+    getEstimateGas: builder.mutation({
+      query: (body: GasEstimateRequest) => ({
+        url: '/getEstimateGas',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<GasEstimatesResponse>) =>
+        response.data,
+    }),
+  }),
+  overrideExisting: true,
+});
+
 export const {useGetWalletMutation, useGetUserWalletsMutation} =
   walletRTKQueryApi;
+export const {useGetEstimateGasMutation} = transactionRTKQueryApi;

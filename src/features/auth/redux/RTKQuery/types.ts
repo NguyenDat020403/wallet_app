@@ -14,14 +14,17 @@ export interface WalletResponse {
 }
 
 export interface WalletSecretResponse {
-  mnemonic: string;
-  walletSecret: WalletSecret[];
+  mnemonic?: string;
+  wallets?: WalletSecret[];
 }
 
 export interface WalletSecret {
   address: string;
   privateKey: string;
   publickey: string;
+  xpriv?: string;
+  xpub?: string;
+  wif?: string;
 }
 export interface UserResponse {
   user_id?: string;
