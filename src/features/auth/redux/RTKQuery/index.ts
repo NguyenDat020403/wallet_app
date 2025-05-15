@@ -38,6 +38,14 @@ const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
       transformResponse: (response: FullResponse<WalletResponse[]>) =>
         response.data,
     }),
+    importWallet: builder.mutation({
+      query: (body: {mnemonic: string}) => ({
+        url: '/importWallet',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<any>) => response.data,
+    }),
   }),
   overrideExisting: true,
 });

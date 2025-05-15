@@ -44,3 +44,9 @@ export const RTKQueryNetworkApi = createApi({
   baseQuery: baseQueryWithReAuth('http://10.0.2.2:3333/networks'),
   endpoints: builder => ({}),
 });
+
+export const RTKQueryTransactionApi = createApi({
+  reducerPath: 'RTKQueryTransactionApi',
+  baseQuery: baseQueryWithReAuth('http://10.0.2.2:3333/transactions'),
+  endpoints: builder => ({}),
+});

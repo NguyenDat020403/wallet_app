@@ -12,7 +12,10 @@ interface SendScreenProps extends MainStackScreenProps<'SendScreen'> {}
 const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
-  const tokenData = route.params.listCoin;
+  const data = route.params.listCoin;
+  const tokenData = data?.filter((token: any) => parseFloat(token.balance) > 0);
+  console.log(tokenData);
+
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
   };

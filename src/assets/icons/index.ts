@@ -20,3 +20,8 @@ export {default as IconSend} from './IconSend.png';
 export {default as IconDelete} from './IconDelete.png';
 export {default as IconTrade} from './IconTrade.png';
 export {default as IconTrash} from './IconTrash.png';
+
+export {default as IconSuperFast} from './IconSuperFast.png';
+export {default as IconSlow} from './IconSlow.png';
+export {default as IconLightSpeed} from './IconLightSpeed.png';
+export {default as IconFast} from './IconFast.png';

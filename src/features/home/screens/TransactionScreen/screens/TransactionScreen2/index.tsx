@@ -13,14 +13,12 @@ import {IconDelete, IconTrade} from '@/assets/icons';
 import {Image} from '@rneui/base';
 import {AppButton} from '@/components';
 type TransactionScreen2Props = {
-  address: string;
   token: Tokens;
   setTabIndex: React.Dispatch<SetStateAction<number>>;
   setAmountTotal: React.Dispatch<SetStateAction<string>>;
 };
 
 const TransactionScreen2: React.FC<TransactionScreen2Props> = ({
-  address,
   token,
   setTabIndex,
   setAmountTotal,

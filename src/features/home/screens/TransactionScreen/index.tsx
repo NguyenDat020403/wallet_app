@@ -66,14 +66,17 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
           <TabView.Item style={{flex: 1}}>
             <TransactionScreen2
               setAmountTotal={setAmount}
-              address={address}
               token={token}
               setTabIndex={setTabIndex}
             />
           </TabView.Item>
           {/* Tab 3 */}
           <TabView.Item style={{flex: 1}}>
-            <TransactionScreen3 amount={amount} />
+            <TransactionScreen3
+              amount={amount}
+              token={token}
+              address={address}
+            />
           </TabView.Item>
         </TabView>
       </View>
