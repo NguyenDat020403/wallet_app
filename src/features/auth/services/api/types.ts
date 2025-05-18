@@ -18,3 +18,7 @@ export interface SignUpUserApiParams {
   username: string;
   callback?: () => void;
 }
+
+export interface RegisterNotiTokenApi {
+  FCMToken: string;
+}

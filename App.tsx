@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
-import {Platform, StatusBar, StyleSheet, useColorScheme} from 'react-native';
+import React from 'react';
+import {StatusBar} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {PersistGate} from 'redux-persist/integration/react';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
 import {ThemeProvider, useTheme} from '@rneui/themed';
 import {theme} from './src/theme';
@@ -13,7 +12,7 @@ import RootNavigator from './src/navigation';
 import {persistor, store} from './src/redux';
 import {Text} from 'react-native';
 import {TextInput} from 'react-native';
-import TrackPlayer from 'react-native-track-player';
+import NotificationSetup from './src/functions/notification';
 
 (Text as any).defaultProps = (Text as any).defaultProps || {};
 (Text as any).defaultProps.allowFontScaling = false;
@@ -29,6 +28,7 @@ function App(): React.JSX.Element {
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider theme={theme}>
               <BottomSheetModalProvider>
+                <NotificationSetup />
                 <FlipperAsyncStorage />
                 <RootNavigator />
               </BottomSheetModalProvider>

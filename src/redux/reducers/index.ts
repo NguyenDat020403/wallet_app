@@ -4,6 +4,7 @@ import commonReducer from '@/features/common/redux/slices';
 import {
   RTKQueryIdentityApi,
   RTKQueryNetworkApi,
+  RTKQueryNotificationApi,
   RTKQueryTransactionApi,
   RTKQueryWalletApi,
 } from '../RTKQuery';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   [RTKQueryWalletApi.reducerPath]: RTKQueryWalletApi.reducer,
   [RTKQueryNetworkApi.reducerPath]: RTKQueryNetworkApi.reducer,
   [RTKQueryTransactionApi.reducerPath]: RTKQueryTransactionApi.reducer,
+  [RTKQueryNotificationApi.reducerPath]: RTKQueryNotificationApi.reducer,
 });
 
 export default rootReducer;

@@ -8,6 +8,7 @@ import {
   setAccessInfo,
   setCurrentUserProfile,
   setCurrentWalletIDLocal,
+  setDeviceNotiToken,
   setIsAuthenticated,
   setSecretLocal,
   signUpUser,
@@ -15,7 +16,10 @@ import {
 import {navigate} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
-import {SignUpUserApiParams} from '../../services/api/types';
+import {
+  RegisterNotiTokenApi,
+  SignUpUserApiParams,
+} from '../../services/api/types';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   showAppLoading();
@@ -88,6 +92,29 @@ function* signUpUserSaga(
     showToastMessage(e.message);
   } finally {
     hideAppLoading();
+  }
+}
+
+function* registerNotiTokenSaga(
+  action: PayloadAction<RegisterNotiTokenApi>,
+): SagaIterator<any> {
+  try {
+    const {
+      message: message,
+      data: dataResponse,
+      status,
+      error: apiError,
+    }: FullResponse<SignUpResponse> = yield call(authApi.registerNotiTokenApi, {
+      FCMToken: action.payload.FCMToken,
+    });
+
+    if (message === 'success') {
+      console.log('Da luu thanh cong noti token: ', dataResponse);
+    }
+  } catch (e: any) {
+    showToastMessage(e.message);
+  } finally {
+    console.log('Da luu thanh cong noti token');
   }
 }
 export default function* authSaga() {

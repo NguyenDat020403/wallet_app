@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {AppTab} from '../BottomTabNavigator';
 import {ScreenComponent} from '../types';
 import {MainStackParamList} from './types';
@@ -10,6 +10,7 @@ import {useAppSelector} from '@/redux/hooks';
 import * as authScreenList from '@/features/auth/screens';
 import * as settingScreenList from '@/features/setting/screens';
 import * as homeScreenList from '@/features/home/screens';
+import {useRegisterTokenNotificationMutation} from '@/features/home/redux/RTKQuery';
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {
@@ -23,7 +24,16 @@ const route = {
 };
 
 const MainNavigator = () => {
-  const {isFirstLaunch} = useAppSelector(store => store.authReducer);
+  const {isFirstLaunch, notificationToken, isAuthenticated} = useAppSelector(
+    store => store.authReducer,
+  );
+  console.log('noti: ', notificationToken);
+  const [registerNotiToken] = useRegisterTokenNotificationMutation();
+  useEffect(() => {
+    if (isAuthenticated) {
+      registerNotiToken({FCMToken: notificationToken});
+    }
+  }, [isAuthenticated]);
   return (
     <Stack.Navigator
       initialRouteName={isFirstLaunch ? 'FirstScreen' : 'AppTabScreen'}

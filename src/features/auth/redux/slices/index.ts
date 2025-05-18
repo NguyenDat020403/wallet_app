@@ -10,6 +10,7 @@ import {
 
 const initialState: AuthInitialState = {
   accessInfo: {},
+  notificationToken: '',
   isFirstLaunch: true,
   isAuthenticated: false,
   isShowRequireLogin: false,
@@ -30,6 +31,9 @@ export const authSlice = createSlice({
     },
     setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
+    },
+    setDeviceNotiToken: (state, action: PayloadAction<string>) => {
+      state.notificationToken = action.payload;
     },
     setIsFirstLaunch: (state, action: PayloadAction<boolean>) => {
       state.isFirstLaunch = action.payload;
@@ -66,6 +70,7 @@ export const {
   loginUser,
   signUpUser,
   setIsFirstLaunch,
+  setDeviceNotiToken,
   setIsAuthenticated,
   setScreenBeforeAuth,
   setIsShowRequireLogin,

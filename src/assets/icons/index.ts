@@ -25,3 +25,4 @@ export {default as IconSuperFast} from './IconSuperFast.png';
 export {default as IconSlow} from './IconSlow.png';
 export {default as IconLightSpeed} from './IconLightSpeed.png';
 export {default as IconFast} from './IconFast.png';
+export {default as IconSendTransaction} from './IconSendTransaction.png';

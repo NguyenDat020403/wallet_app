@@ -2,10 +2,10 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
-  container: {flex: 1, backgroundColor: '#FFFFFF'},
   button: {
     backgroundColor: '#FFFFFF',
     paddingVertical: 16,
+    borderRadius: 12,
   },
   textButton: {
     ...typography.body3Medium,

@@ -5,6 +5,7 @@ import useStyles from './styles';
 import {TouchableOpacity} from 'react-native';
 
 type AppButtonProps = {
+  isOpposite?: boolean;
   title?: string;
   onPress?: () => void;
   buttonStyle?: StyleProp<ViewStyle>;
@@ -18,6 +19,7 @@ const AppButton: React.FC<AppButtonProps> = ({
   buttonStyle,
   textStyle,
   disable,
+  isOpposite,
 }) => {
   const styles = useStyles();
   return (
@@ -25,8 +27,15 @@ const AppButton: React.FC<AppButtonProps> = ({
       onPress={onPress && onPress}
       activeOpacity={0.6}
       disabled={disable}
-      style={[styles.button, buttonStyle]}>
-      <Text style={[styles.textButton, textStyle]}>{title && title}</Text>
+      style={[
+        styles.button,
+        buttonStyle,
+        isOpposite && {backgroundColor: '#333'},
+      ]}>
+      <Text
+        style={[styles.textButton, textStyle, isOpposite && {color: '#FFF'}]}>
+        {title && title}
+      </Text>
     </TouchableOpacity>
   );
 };

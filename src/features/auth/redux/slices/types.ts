@@ -3,6 +3,7 @@ import {AccessInfoResponse} from '../../services/api/types';
 import {UserResponse, WalletSecretResponse} from '../RTKQuery/types';
 export type AuthInitialState = {
   accessInfo: AccessInfo;
+  notificationToken: string;
   isFirstLaunch: boolean;
   isAuthenticated: boolean;
   isShowRequireLogin: boolean;
