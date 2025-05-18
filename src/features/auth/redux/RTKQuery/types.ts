@@ -32,6 +32,7 @@ export interface UserResponse {
   avatar?: any;
   bio?: any;
   email?: string;
+  notiToken?: string;
 }
 
 export interface WalletDefaultResponse {

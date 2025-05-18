@@ -20,16 +20,15 @@ import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {TabView} from '@rneui/base';
 import {useGetWalletMutation} from '../../redux/RTKQuery';
-import {appLoading} from '@/assets/json';
-import LottieView from 'lottie-react-native';
 import {CryptoTabItem} from '../../components';
+import {showToastMessage} from '@/functions';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
-  const {currentUser, currentWalletID} = useAppSelector(
+  const {currentUser, currentWalletID, isAuthenticated} = useAppSelector(
     state => state.authReducer,
   );
   const [getWalletDetail, {data, isSuccess, isLoading}] =
@@ -50,6 +49,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   console.log(currentWalletID);
 
   useEffect(() => {
+    if (isAuthenticated) {
+      navigation.replace('UserLoginScreen');
+      showToastMessage('login first');
+    }
     getWalletDetail({wallet_id: currentWalletID});
   }, []);
 

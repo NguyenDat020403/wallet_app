@@ -11,12 +11,22 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textCap1: {...typography.caption1, textAlign: 'center'},
   textBody1Regular: {...typography.body1Regular},
   textHeading2: {...typography.heading2},
+  textHeading3: {...typography.heading3Bold},
+  textHeading5: {...typography.heading5},
   divider: {
     marginVertical: 16,
     height: 1,
     marginHorizontal: -16,
     width: insets.screenWidth,
     backgroundColor: '#333333',
+  },
+  itemFee: {
+    flexDirection: 'row',
+    borderRadius: 12,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 16,
   },
 }));
 

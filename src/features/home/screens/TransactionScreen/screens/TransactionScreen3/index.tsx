@@ -13,10 +13,12 @@ import {AppBottomSheetModal, AppButton} from '@/components';
 import {
   IconFast,
   IconLightSpeed,
+  IconSendTransaction,
   IconSlow,
   IconSuperFast,
 } from '@/assets/icons';
 import {Image} from '@rneui/base';
+import {goBack} from '@/navigation/RootNavigation';
 
 type TransactionScreen3 = {
   amount: string;
@@ -35,77 +37,115 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
   const walletIndex = token.network.chain_id === '0' ? 1 : 0;
   const [getGas, {data, isSuccess}] = useGetEstimateGasMutation();
 
-  const [dataFee, setDataFee] = useState<boolean>();
   const [selectedFee, setSelectedFee] = useState({
-    fee: dataFee ? data?.economyFee!.toString() : data?.medium?.totalCost,
+    fee: 0,
     index: 0,
   });
   const [isPickTheRange, setIsPickTheRange] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (token?.network?.chain_id && token.network.chain_id === '0') {
-        const ownerAddress = secretLocal.wallets?.[1]?.address;
-        if (!ownerAddress) return;
-        getGas({
-          chain_id: token.network.chain_id,
-          ownerAddress: ownerAddress,
-          amount: parseFloat(amount),
-        });
-      } else {
-        getGas({chain_id: token.network.chain_id});
-      }
-    }, 1000);
+    if (token?.network?.chain_id && token.network.chain_id === '0') {
+      console.log('dasdasd');
 
-    return () => clearTimeout(timeout);
+      const ownerAddress = secretLocal.wallets?.[1]?.address;
+      if (!ownerAddress) return;
+      getGas({
+        chain_id: token.network.chain_id,
+        ownerAddress: ownerAddress,
+        amount: parseFloat(amount),
+      });
+    } else {
+      getGas({chain_id: token.network.chain_id});
+    }
   }, [token, amount]);
 
   useEffect(() => {
     if (isSuccess) {
+      console.log(data);
       if (token.network.chain_id === '0') {
-        setDataFee(true);
-        console.log(data);
+        setSelectedFee({fee: data.economyFee || 0, index: 0});
       } else {
-        setDataFee(false);
+        setSelectedFee({
+          fee: parseFloat(data.medium?.totalCost || '0'),
+          index: 0,
+        });
       }
     }
   }, [isSuccess]);
 
   return (
     <View style={styles.container}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={styles.textHeading2}>Send</Text>
+      <View
+        style={{
+          alignItems: 'center',
+          height: safeAreaInsets.screenWidth / 1.5,
+          justifyContent: 'center',
+        }}>
+        <Image source={IconSendTransaction} style={{width: 100, height: 100}} />
+        <Text style={styles.textHeading3}>Send</Text>
         <View style={{flexDirection: 'row'}}>
-          <Text style={styles.textBody3Regular}>-{amount}</Text>
-          <Text style={[styles.textBody3Regular, {color: '#B3B3B3'}]}>
+          <Text style={styles.textHeading5}>-{amount}</Text>
+          <Text style={[styles.textHeading5, {color: '#B3B3B3'}]}>
             {' ' + token.token.symbol}
           </Text>
         </View>
       </View>
       <View style={styles.divider} />
-      <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>
-        {token.token.token_name} fee
-      </Text>
-      {isPickTheRange ? (
-        <TouchableOpacity
-          onPress={() => {
-            setIsVisible(true);
-          }}>
-          <Text style={styles.textBody1Regular}>
-            {selectedFee.fee} {' ' + token.token.symbol} | Choose others"
+      <View style={{flexGrow: 1}}>
+        <View style={{gap: 8, marginBottom: 16}}>
+          <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>
+            {token.token.token_name} fee
           </Text>
-        </TouchableOpacity>
-      ) : (
-        <></>
-      )}
-      <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>From</Text>
-      <Text style={styles.textBody1Regular}>
-        {secretLocal.wallets![walletIndex].address}
-      </Text>
-      <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>To</Text>
-      <Text style={styles.textBody1Regular}>{address}</Text>
+          {isPickTheRange ? (
+            <TouchableOpacity
+              onPress={() => {
+                setIsVisible(true);
+              }}>
+              <Text style={styles.textBody1Regular}>
+                {selectedFee.fee} {' ' + token.token.symbol} | Choose others"
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <></>
+          )}
+        </View>
+        <View style={{gap: 8, marginBottom: 16}}>
+          <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>
+            From
+          </Text>
+          <Text style={styles.textBody1Regular}>
+            {secretLocal.wallets![walletIndex].address}
+          </Text>
+        </View>
+        <View style={{gap: 8, marginBottom: 16}}>
+          <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>To</Text>
+          <Text style={styles.textBody1Regular}>{address}</Text>
+        </View>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 16,
+          marginBottom: 16,
+          width: safeAreaInsets.screenWidth - 32,
+        }}>
+        <AppButton
+          buttonStyle={{width: (safeAreaInsets.screenWidth - 32 - 16) / 2}}
+          isOpposite={true}
+          title="Cancel"
+          onPress={() => {
+            goBack();
+          }}
+        />
+        <AppButton
+          buttonStyle={{width: (safeAreaInsets.screenWidth - 32 - 16) / 2}}
+          title="Confirm"
+          onPress={() => {
+            setIsVisible(false);
+          }}
+        />
+      </View>
       <AppBottomSheetModal
         autoSize
         isVisible={isVisible}
@@ -132,10 +172,9 @@ export default TransactionScreen3;
 type FeeListProps = {
   data?: GasEstimatesResponse;
   indexCurrent?: number;
-  setSelectedFee: React.Dispatch<
-    SetStateAction<{fee: string | undefined; index: number}>
-  >;
+  setSelectedFee: React.Dispatch<SetStateAction<{fee: number; index: number}>>;
 };
+
 const FeeList: React.FC<FeeListProps> = ({
   data,
   setSelectedFee,
@@ -155,7 +194,8 @@ const FeeList: React.FC<FeeListProps> = ({
     {
       key: 2,
       title: 'Economy',
-      value: data?.economyFee,
+      // value: data?.economyFee,
+      value: 0.000012,
       icon: IconFast,
     },
     {
@@ -170,7 +210,6 @@ const FeeList: React.FC<FeeListProps> = ({
       value: data?.halfHourFee,
       icon: IconSuperFast,
     },
-
     {
       key: 5,
       title: 'Fastest',
@@ -187,21 +226,18 @@ const FeeList: React.FC<FeeListProps> = ({
             activeOpacity={0.7}
             onPress={() => {
               setIsSelected(item.key);
-              setSelectedFee({fee: item.value!.toString(), index: item.key});
+              setSelectedFee({fee: item.value!, index: item.key});
             }}
             key={item.key}
-            style={{
-              flexDirection: 'row',
-              borderRadius: 12,
-              borderWidth: 1,
-              borderColor: isSelected === item.key ? '#FFF' : '#0F0F0F',
-              paddingHorizontal: 16,
-              paddingVertical: 12,
-              gap: 16,
-            }}>
+            style={[
+              styles.itemFee,
+              {
+                borderColor: isSelected === item.key ? '#FFF' : '#0F0F0F',
+              },
+            ]}>
             <Image
               source={item.icon}
-              style={{width: 60, height: 60}}
+              style={{width: 40, height: 40}}
               resizeMode="contain"
             />
             <View
@@ -216,6 +252,10 @@ const FeeList: React.FC<FeeListProps> = ({
           </TouchableOpacity>
         );
       })}
+      {/* Option 
+      <View style={styles.itemFee}>
+        <Image source={IconOptionFee} style={{width: 40, height: 40}} />
+      </View>*/}
     </View>
   );
 };

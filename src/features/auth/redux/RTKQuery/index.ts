@@ -1,9 +1,14 @@
-import {RTKQueryIdentityApi, RTKQueryWalletApi} from '@/redux/RTKQuery';
+import {
+  RTKQueryIdentityApi,
+  RTKQueryNotificationApi,
+  RTKQueryWalletApi,
+} from '@/redux/RTKQuery';
 import {
   FullResponse,
   LoginRequest,
   LoginResponse,
   SignUpResponse,
+  UserResponse,
   WalletResponse,
 } from './types';
 
@@ -49,5 +54,6 @@ const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
+
 export const {useSignUpUserMutation, useLoginUserMutation} = authRTKQueryApi;
 export const {useGetUserWalletsMutation} = walletRTKQueryApi;

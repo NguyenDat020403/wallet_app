@@ -14,27 +14,29 @@ const FirstScreen: React.FC<FirstScreenProps> = ({navigation, route}) => {
   return (
     <AppWrapper style={{paddingHorizontal: 16, paddingBottom: 12}}>
       <View style={styles.container}>
-        <Image source={ImageWelcome} style={styles.logo} />
-        <Text style={styles.textAppName}>Welcome to Crypt0</Text>
-        <Text style={styles.textAppInsight}>
-          Create a brand new account or add an existing wallet to get started
-          easily.
-        </Text>
+        <View style={{flexGrow: 1}}>
+          <Image source={ImageWelcome} style={styles.logo} />
+          <Text style={styles.textAppName}>Welcome to Crypt0</Text>
+          <Text style={styles.textAppInsight}>
+            Create a brand new account or add an existing wallet to get started
+            easily.
+          </Text>
+        </View>
+        <AppButton
+          title="Already have an account?"
+          onPress={() => {
+            navigation.navigate('UserLoginScreen');
+          }}
+        />
+        <AppButton
+          buttonStyle={styles.button}
+          textStyle={{color: '#FFFFFF'}}
+          title="Create a New Account"
+          onPress={() => {
+            navigation.navigate('CreateNewWalletScreen');
+          }}
+        />
       </View>
-      <AppButton
-        title="Already have an account?"
-        onPress={() => {
-          navigation.navigate('UserLoginScreen');
-        }}
-      />
-      <AppButton
-        buttonStyle={styles.button}
-        textStyle={{color: '#FFFFFF'}}
-        title="Create a New Account"
-        onPress={() => {
-          navigation.navigate('CreateNewWalletScreen');
-        }}
-      />
     </AppWrapper>
   );
 };

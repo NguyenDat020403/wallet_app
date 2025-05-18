@@ -6,6 +6,7 @@ import rootReducer from './reducers';
 import {
   RTKQueryIdentityApi,
   RTKQueryNetworkApi,
+  RTKQueryNotificationApi,
   RTKQueryTransactionApi,
   RTKQueryWalletApi,
 } from './RTKQuery';
@@ -23,6 +24,7 @@ export const store = configureStore({
       .concat(RTKQueryWalletApi.middleware)
       .concat(RTKQueryTransactionApi.middleware)
       .concat(RTKQueryNetworkApi.middleware)
+      .concat(RTKQueryNotificationApi.middleware)
       .concat(createDebugger()),
 });
 

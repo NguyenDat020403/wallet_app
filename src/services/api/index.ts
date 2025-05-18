@@ -16,6 +16,12 @@ const apiWallet = axios.create({
   headers,
 });
 
-setInterceptor(apiIdentity);
+const apiNotification = axios.create({
+  baseURL: Config.API_URL_NOTIFICATION,
+  headers,
+});
 
-export {apiIdentity};
+setInterceptor(apiIdentity);
+setInterceptor(apiNotification);
+
+export {apiIdentity, apiNotification};
