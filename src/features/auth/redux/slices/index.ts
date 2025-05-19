@@ -91,6 +91,7 @@ const authPersistConfig = {
     'currentUser',
     'secretLocal',
     'currentWalletAddress',
+    'notificationToken',
   ],
 };
 export default persistReducer(authPersistConfig, authSlice.reducer);
