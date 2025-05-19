@@ -24,16 +24,7 @@ const route = {
 };
 
 const MainNavigator = () => {
-  const {isFirstLaunch, notificationToken, isAuthenticated} = useAppSelector(
-    store => store.authReducer,
-  );
-  console.log('noti: ', notificationToken);
-  const [registerNotiToken] = useRegisterTokenNotificationMutation();
-  useEffect(() => {
-    if (isAuthenticated) {
-      registerNotiToken({FCMToken: notificationToken});
-    }
-  }, [isAuthenticated]);
+  const {isFirstLaunch} = useAppSelector(store => store.authReducer);
   return (
     <Stack.Navigator
       initialRouteName={isFirstLaunch ? 'FirstScreen' : 'AppTabScreen'}

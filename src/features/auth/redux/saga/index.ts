@@ -10,6 +10,7 @@ import {
   setCurrentWalletIDLocal,
   setDeviceNotiToken,
   setIsAuthenticated,
+  setIsFirstLaunch,
   setSecretLocal,
   signUpUser,
 } from '../slices';
@@ -38,7 +39,8 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
       console.log('Da thanh cong o day');
       yield put(setAccessInfo(dataLogin!.token));
       yield put(setCurrentUserProfile(dataLogin!.user));
-      yield put(setIsAuthenticated(false));
+      yield put(setIsAuthenticated(true));
+      yield put(setIsFirstLaunch(false));
       yield put(setCurrentWalletIDLocal(dataLogin?.wallet.wallet_id!));
       navigate('HomeScreen');
     } else {
@@ -81,7 +83,8 @@ function* signUpUserSaga(
       console.log('Da thanh cong o day');
       yield put(setAccessInfo(dataSignUp!.token));
       yield put(setCurrentUserProfile(dataSignUp!.user));
-      yield put(setIsAuthenticated(false));
+      yield put(setIsAuthenticated(true));
+      yield put(setIsFirstLaunch(false));
       yield put(
         setCurrentWalletIDLocal(dataSignUp?.walletDefault.wallet.wallet_id!),
       );
