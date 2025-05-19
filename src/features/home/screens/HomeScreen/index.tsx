@@ -55,7 +55,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   useEffect(() => {
     if (!isAuthenticated) {
       navigation.replace('UserLoginScreen');
-
       showToastMessage('login first');
     } else {
       registerNotiToken({FCMToken: notificationToken});
