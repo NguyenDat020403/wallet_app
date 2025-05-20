@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {PermissionsAndroid, Platform, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import useStyles from './styles';
 import {AppButton, AppWrapper} from '@/components';
@@ -7,6 +7,8 @@ import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {IconCamera, IconNotification} from '@/features/auth/assets/icons';
 import {navigate} from '@/navigation/RootNavigation';
 import {OptionItem} from '@/features/auth/components';
+import {useRegisterTokenNotificationMutation} from '@/features/home/redux/RTKQuery';
+import {requestUserPermission} from '@/functions/notification/functions';
 
 interface CreateScreen3Props {
   tabIndex: (newTabIndex: number) => void;
@@ -15,7 +17,7 @@ interface CreateScreen3Props {
 const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
-
+  const [registerNotiToken] = useRegisterTokenNotificationMutation();
   const URL = '123123';
 
   return (
@@ -36,6 +38,10 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
         />
         <OptionItem
           isForCheck
+          onPress={async () => {
+            const token = await requestUserPermission();
+            registerNotiToken({FCMToken: token});
+          }}
           title="Notifications"
           icon={IconNotification}
           desc="Enabled"

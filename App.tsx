@@ -12,7 +12,6 @@ import RootNavigator from './src/navigation';
 import {persistor, store} from './src/redux';
 import {Text} from 'react-native';
 import {TextInput} from 'react-native';
-import NotificationSetup from './src/functions/notification';
 
 (Text as any).defaultProps = (Text as any).defaultProps || {};
 (Text as any).defaultProps.allowFontScaling = false;
@@ -28,7 +27,6 @@ function App(): React.JSX.Element {
           <PersistGate loading={null} persistor={persistor}>
             <ThemeProvider theme={theme}>
               <BottomSheetModalProvider>
-                <NotificationSetup />
                 <FlipperAsyncStorage />
                 <RootNavigator />
               </BottomSheetModalProvider>

@@ -1,7 +1,10 @@
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {navigate, navigationRef} from '@/navigation/RootNavigation';
-import {AppState} from 'react-native';
+import {AppState, PermissionsAndroid, Platform} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import {store} from '@/redux';
+import {setDeviceNotiToken} from '@/features/auth/redux/slices';
 
 export const displayNotification = async (
   res: FirebaseMessagingTypes.RemoteMessage,
@@ -36,4 +39,36 @@ export const onForegroundEvent = async () => {
       navigate(navigationId);
     }
   });
+};
+
+export const requestUserPermission = async () => {
+  if (Platform.OS === 'android') {
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+    );
+  }
+
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  console.log('enabled', enabled);
+  if (enabled) {
+    console.log('Notification permission granted:', authStatus);
+    const token = await messaging().getToken();
+    console.log('FCM Token:', token);
+
+    if (token) {
+      try {
+        store.dispatch(setDeviceNotiToken(token));
+        console.log('Token registered successfully');
+        return token;
+      } catch (err) {
+        console.error('Failed to register token:', err);
+      }
+    }
+  } else {
+    console.log('Notification permission not granted');
+  }
 };

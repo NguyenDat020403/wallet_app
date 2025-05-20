@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -12,6 +12,7 @@ import {schemaValidate} from './schemaValidate';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {loginUser} from '../../redux/slices';
+import {requestUserPermission} from '@/functions/notification/functions';
 
 interface LoginScreenProps extends MainStackScreenProps<'LoginScreen'> {}
 
@@ -43,6 +44,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       }),
     );
   };
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
 
   return (
     <AppWrapper>

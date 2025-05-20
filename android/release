@@ -1,1 +1,52 @@
-Starting a Gradle Daemon, 1 incompatible and 3 stopped Daemons could not be reused, use --status for details
+> Task :gradle-plugin:compileKotlin UP-TO-DATE
+> Task :gradle-plugin:compileJava NO-SOURCE
+> Task :gradle-plugin:pluginDescriptors UP-TO-DATE
+> Task :gradle-plugin:processResources UP-TO-DATE
+> Task :gradle-plugin:classes UP-TO-DATE
+> Task :gradle-plugin:jar UP-TO-DATE
+> Task :gradle-plugin:inspectClassesForKotlinIC UP-TO-DATE
+
+> Configure project :app
+Reading env from: .env.dev
+
+> Configure project :notifee_react-native
+:notifee_react-native @notifee/react-native found at D:\rn\AwesomeProject\node_modules\@notifee\react-native
+:notifee_react-native package.json found at D:\rn\AwesomeProject\node_modules\@notifee\react-native\package.json
+:notifee_react-native:version set from package.json: 9.1.8 (9,1,8 - 9001008)
+:notifee_react-native:android.compileSdk using custom value: 34
+:notifee_react-native:android.targetSdk using custom value: 34
+:notifee_react-native:android.minSdk using custom value: 21
+:notifee_react-native:reactNativeAndroidDir D:\rn\AwesomeProject\node_modules\react-native\android
+
+> Configure project :react-native-firebase_app
+:react-native-firebase_app package.json found at D:\rn\AwesomeProject\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:firebase.bom using default value: 33.13.0
+:react-native-firebase_app:play.play-services-auth using default value: 21.3.0
+:react-native-firebase_app package.json found at D:\rn\AwesomeProject\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_app:version set from package.json: 22.2.0 (22,2,0 - 22002000)
+:react-native-firebase_app:android.compileSdk using custom value: 34
+:react-native-firebase_app:android.targetSdk using custom value: 34
+:react-native-firebase_app:android.minSdk using custom value: 21
+:react-native-firebase_app:reactNativeAndroidDir D:\rn\AwesomeProject\node_modules\react-native\android
+
+> Configure project :react-native-firebase_messaging
+:react-native-firebase_messaging package.json found at D:\rn\AwesomeProject\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_app package.json found at D:\rn\AwesomeProject\node_modules\@react-native-firebase\app\package.json
+:react-native-firebase_messaging:firebase.bom using default value: 33.13.0
+:react-native-firebase_messaging package.json found at D:\rn\AwesomeProject\node_modules\@react-native-firebase\messaging\package.json
+:react-native-firebase_messaging:version set from package.json: 22.2.0 (22,2,0 - 22002000)
+:react-native-firebase_messaging:android.compileSdk using custom value: 34
+:react-native-firebase_messaging:android.targetSdk using custom value: 34
+:react-native-firebase_messaging:android.minSdk using custom value: 21
+:react-native-firebase_messaging:reactNativeAndroidDir D:\rn\AwesomeProject\node_modules\react-native\android
+
+> Configure project :react-native-reanimated
+Android gradle plugin: 8.1.1
+Gradle: 8.3
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+5 actionable tasks: 5 up-to-date

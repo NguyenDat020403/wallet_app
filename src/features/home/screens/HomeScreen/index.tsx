@@ -24,7 +24,7 @@ import {
   useRegisterTokenNotificationMutation,
 } from '../../redux/RTKQuery';
 import {CryptoTabItem} from '../../components';
-import {showToastMessage} from '@/functions';
+import {requestUserPermission} from '@/functions/notification/functions';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -33,8 +33,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const styles = useStyles(safeAreaInsets);
   const [registerNotiToken] = useRegisterTokenNotificationMutation();
 
-  const {currentUser, currentWalletID, isAuthenticated, notificationToken} =
-    useAppSelector(state => state.authReducer);
+  const {currentUser, currentWalletID} = useAppSelector(
+    state => state.authReducer,
+  );
+
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
@@ -50,15 +52,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     setTabIndex(newTabIndex);
   };
 
-  console.log(currentWalletID);
+  const handleCheckPermission = async () => {
+    const token = await requestUserPermission();
+    if (token) {
+      registerNotiToken({FCMToken: token});
+    }
+  };
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigation.replace('UserLoginScreen');
-      showToastMessage('login first');
-    } else {
-      registerNotiToken({FCMToken: notificationToken});
-    }
+    handleCheckPermission();
     getWalletDetail({wallet_id: currentWalletID});
   }, []);
 
@@ -90,7 +92,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       </TouchableOpacity>
       <Text
         style={[styles.textHeading1, {textAlign: 'center', marginBottom: 16}]}>
-        $0.00
+        {data?.wallet.wallet_balance || 0} $
       </Text>
       <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
         <ActionItem icon={IconBuy} title="buy" />

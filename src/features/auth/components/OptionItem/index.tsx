@@ -29,13 +29,10 @@ const OptionItem: React.FC<OptionItemProps> = ({
     <View style={{paddingBottom: 16}}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={
-          onPress
-            ? onPress
-            : () => {
-                setIsAccepted(!isAccepted);
-              }
-        }
+        onPress={() => {
+          onPress && onPress();
+          setIsAccepted(!isAccepted);
+        }}
         style={styles.container}>
         <Image source={icon} style={styles.icons} />
         <View style={{flexDirection: 'column', flex: 1}}>
