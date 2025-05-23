@@ -14,7 +14,6 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
   const [tabIndex, setTabIndex] = useState(0);
   const data = route.params.listCoin;
   const tokenData = data?.filter((token: any) => parseFloat(token.balance) > 0);
-  console.log(tokenData);
 
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
@@ -44,7 +43,6 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
             <CryptoTabItem
               data={tokenData}
               onPress={(network_id, index) => {
-                console.log(network_id);
                 navigation.navigate('TransactionScreen', {
                   token: tokenData[index!],
                   network: network_id,

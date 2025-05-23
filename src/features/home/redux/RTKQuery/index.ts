@@ -6,9 +6,13 @@ import {
   RTKQueryWalletApi,
 } from '@/redux/RTKQuery';
 import {
+  createTransactionBTCRequest,
+  createTransactionEVMRequest,
   DetailWalletResponse,
   GasEstimateRequest,
   GasEstimatesResponse,
+  getTransactionHistoryRequest,
+  TransactionHistory,
   WalletResponse,
 } from './types';
 import {showToastMessage} from '@/functions';
@@ -68,6 +72,39 @@ const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
         return response.data;
       },
     }),
+    createTransactionBTC: builder.mutation({
+      query: (body: createTransactionBTCRequest) => ({
+        url: '/createTransactionBTC',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<string>) => response.data,
+    }),
+    createTransactionEVM: builder.mutation({
+      query: (body: createTransactionEVMRequest) => ({
+        url: '/sendTransactionEVM',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<string>) => response.data,
+    }),
+    getTransactionHistory: builder.mutation({
+      query: (body: getTransactionHistoryRequest) => ({
+        url: '/getTransactionHistory',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<TransactionHistory>) =>
+        response.data,
+    }),
+    getSendTransactionToAddressHistory: builder.mutation({
+      query: (body: {address: string}) => ({
+        url: '/getSendTransactionToAddressHistory',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<string[]>) => response.data,
+    }),
   }),
   overrideExisting: true,
 });
@@ -88,4 +125,10 @@ const notificationRTKQueryApi = RTKQueryNotificationApi.injectEndpoints({
 export const {useRegisterTokenNotificationMutation} = notificationRTKQueryApi;
 export const {useGetWalletMutation, useGetUserWalletsMutation} =
   walletRTKQueryApi;
-export const {useGetEstimateGasMutation} = transactionRTKQueryApi;
+export const {
+  useGetEstimateGasMutation,
+  useCreateTransactionBTCMutation,
+  useGetTransactionHistoryMutation,
+  useCreateTransactionEVMMutation,
+  useGetSendTransactionToAddressHistoryMutation,
+} = transactionRTKQueryApi;

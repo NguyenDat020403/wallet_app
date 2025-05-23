@@ -21,6 +21,7 @@ export interface Tokens {
     percent_change_24h: any;
   };
   network: Network;
+  contract_address?: string;
   balance: string;
 }
 export interface Network {
@@ -68,4 +69,72 @@ export interface GasOption {
   minWaitTimeEstimate?: number;
   maxWaitTimeEstimate?: number;
   totalCost?: string;
+}
+export interface createTransactionBTCRequest {
+  privateKeyWIF: string;
+  receiverAddress: string;
+  sendAddress: string;
+  amount: number;
+  feeSelected: number;
+}
+export interface createTransactionEVMRequest {
+  privateKey: string;
+  from: string;
+  to: string;
+  amount: string;
+  contract_address?: string;
+  rpc_url: string;
+  decimals?: number;
+  fee: {
+    suggestedMaxPriorityFeePerGas: string;
+    suggestedMaxFeePerGas: string;
+  };
+}
+export interface getTransactionHistoryRequest {
+  address: string;
+}
+export interface TransactionHistory {
+  txid: string;
+  version: number;
+  locktime: number;
+  vin: Vin[];
+  vout: Vout[];
+  size: number;
+  weight: number;
+  sigops: number;
+  fee: number;
+  status: Status;
+}
+export interface Vin {
+  txid: string;
+  vout: number;
+  prevout: Prevout;
+  scriptsig: string;
+  scriptsig_asm: string;
+  witness: string[];
+  is_coinbase: boolean;
+  sequence: number;
+}
+
+export interface Prevout {
+  scriptpubkey: string;
+  scriptpubkey_asm: string;
+  scriptpubkey_type: string;
+  scriptpubkey_address: string;
+  value: number;
+}
+
+export interface Vout {
+  scriptpubkey: string;
+  scriptpubkey_asm: string;
+  scriptpubkey_type: string;
+  scriptpubkey_address: string;
+  value: number;
+}
+
+export interface Status {
+  confirmed: boolean;
+  block_height: number;
+  block_hash: string;
+  block_time: number;
 }

@@ -10,7 +10,6 @@ const WalletScreen: React.FC = () => {
 
   // Tạo ví mới
   const createWallet = async () => {
-    console.log(111);
     const newWallet = ethers.Wallet.createRandom(); // Tạo ví Ethereum mới
     // setWallet(newWallet);
     // fetchBalance(newWallet.address);

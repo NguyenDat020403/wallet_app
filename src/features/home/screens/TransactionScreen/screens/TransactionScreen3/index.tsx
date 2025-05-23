@@ -7,7 +7,11 @@ import {
   Tokens,
 } from '@/features/home/redux/RTKQuery/types';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {useGetEstimateGasMutation} from '@/features/home/redux/RTKQuery';
+import {
+  useCreateTransactionBTCMutation,
+  useCreateTransactionEVMMutation,
+  useGetEstimateGasMutation,
+} from '@/features/home/redux/RTKQuery';
 import {useAppSelector} from '@/redux/hooks';
 import {AppBottomSheetModal, AppButton} from '@/components';
 import {
@@ -36,7 +40,9 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
   const {secretLocal} = useAppSelector(state => state.authReducer);
   const walletIndex = token.network.chain_id === '0' ? 1 : 0;
   const [getGas, {data, isSuccess}] = useGetEstimateGasMutation();
-
+  const [createTransactionBTC, {data: dataTxHex}] =
+    useCreateTransactionBTCMutation();
+  const [createTransactionEVM] = useCreateTransactionEVMMutation();
   const [selectedFee, setSelectedFee] = useState({
     fee: 0,
     index: 0,
@@ -44,6 +50,34 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
   const [isPickTheRange, setIsPickTheRange] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
+  const handleCreateTransaction = () => {
+    if (secretLocal.wallets !== null && token.network.chain_id === '0') {
+      createTransactionBTC({
+        privateKeyWIF: secretLocal.wallets![1].wif || 'undefined',
+        sendAddress: secretLocal.wallets![1].address,
+        receiverAddress: address,
+        amount: Math.round(parseFloat(amount) * 1e8),
+        feeSelected: Number(selectedFee.fee) * 1e8,
+      });
+    } else {
+      const feeLevels = [data?.low, data?.medium, data?.high];
+      const fee = feeLevels[selectedFee.index];
+      createTransactionEVM({
+        privateKey: secretLocal.wallets![0].privateKey,
+        from: secretLocal.wallets![0].address,
+        to: address,
+        amount: amount,
+        rpc_url: token.network.rpc_url,
+        contract_address: token.contract_address ? token.contract_address : '',
+        decimals: token.token.decimals,
+        fee: {
+          suggestedMaxFeePerGas: fee?.suggestedMaxFeePerGas!,
+          suggestedMaxPriorityFeePerGas: fee?.suggestedMaxPriorityFeePerGas!,
+        },
+      });
+    }
+  };
+
   useEffect(() => {
     if (token?.network?.chain_id && token.network.chain_id === '0') {
       console.log('dasdasd');
@@ -82,7 +116,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
           height: safeAreaInsets.screenWidth / 1.5,
           justifyContent: 'center',
         }}>
-        <Image source={IconSendTransaction} style={{width: 100, height: 100}} />
+        {/* <Image source={IconSendTransaction} style={{width: 100, height: 100}} /> */}
         <Text style={styles.textHeading3}>Send</Text>
         <View style={{flexDirection: 'row'}}>
           <Text style={styles.textHeading5}>-{amount}</Text>
@@ -142,6 +176,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
           buttonStyle={{width: (safeAreaInsets.screenWidth - 32 - 16) / 2}}
           title="Confirm"
           onPress={() => {
+            handleCreateTransaction();
             setIsVisible(false);
           }}
         />
@@ -153,6 +188,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
         isBottomInset>
         <FeeList
           data={data}
+          isEVM={token.network.chain_id !== '0'}
           setSelectedFee={setSelectedFee}
           indexCurrent={selectedFee.index}
         />
@@ -170,6 +206,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
 export default TransactionScreen3;
 
 type FeeListProps = {
+  isEVM: boolean;
   data?: GasEstimatesResponse;
   indexCurrent?: number;
   setSelectedFee: React.Dispatch<SetStateAction<{fee: number; index: number}>>;
@@ -178,6 +215,7 @@ type FeeListProps = {
 const FeeList: React.FC<FeeListProps> = ({
   data,
   setSelectedFee,
+  isEVM,
   indexCurrent,
 }) => {
   const styles = useStyles();
@@ -194,8 +232,7 @@ const FeeList: React.FC<FeeListProps> = ({
     {
       key: 2,
       title: 'Economy',
-      // value: data?.economyFee,
-      value: 0.000012,
+      value: data?.economyFee,
       icon: IconFast,
     },
     {
@@ -217,10 +254,30 @@ const FeeList: React.FC<FeeListProps> = ({
       icon: IconLightSpeed,
     },
   ];
-
+  const ListFeeEVM = [
+    {
+      key: 0,
+      title: 'Low',
+      value: data?.low?.totalCost,
+      icon: IconSlow,
+    },
+    {
+      key: 1,
+      title: 'Medium',
+      value: data?.medium?.totalCost,
+      icon: IconFast,
+    },
+    {
+      key: 2,
+      title: 'High',
+      value: data?.high?.totalCost,
+      icon: IconSuperFast,
+    },
+  ];
+  const List = isEVM ? ListFeeEVM : ListFeeBTC;
   return (
     <View style={{gap: 12, flex: 1, marginBottom: 16}}>
-      {ListFeeBTC.map(item => {
+      {List.map(item => {
         return (
           <TouchableOpacity
             activeOpacity={0.7}

@@ -85,7 +85,6 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
         username: data.accountName,
         password: data.password,
         callback: () => {
-          console.log('call back');
           tabIndex(1);
         },
       }),
@@ -144,8 +143,7 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
         title="Continue"
         disable={!isValid}
         onPress={() => {
-          handleSubmit(onContinue)(); // <- gọi hàm
-          console.log('da nhan');
+          handleSubmit(onContinue)();
         }}
       />
     </View>

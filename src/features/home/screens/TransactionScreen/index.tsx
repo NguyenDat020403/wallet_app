@@ -22,11 +22,12 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+
   const [tabIndex, setTabIndex] = useState(0);
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
   const token = route.params.token;
-  console.log(token);
+
   return (
     <AppWrapper>
       <AppHeader title="Transaction" />
@@ -53,6 +54,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
         <TabView
           value={tabIndex}
           onChange={setTabIndex}
+          disableSwipe={true}
           animationType={'timing'}>
           {/* Tab 1  */}
           <TabView.Item style={{flex: 1}}>

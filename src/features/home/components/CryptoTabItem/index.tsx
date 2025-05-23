@@ -96,7 +96,6 @@ const CoinItem: React.FC<CoinItemProps> = ({
             token_id: data.token.token_id || '',
           });
         } else {
-          console.log(11);
           onPress && onPress(data.network?.network_id, index);
         }
       }}

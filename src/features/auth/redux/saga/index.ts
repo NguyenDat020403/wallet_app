@@ -17,10 +17,7 @@ import {
 import {navigate} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
-import {
-  RegisterNotiTokenApi,
-  SignUpUserApiParams,
-} from '../../services/api/types';
+import {SignUpUserApiParams} from '../../services/api/types';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   showAppLoading();
@@ -36,7 +33,6 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
     );
 
     if (status === '200') {
-      console.log('Da thanh cong o day');
       yield put(setAccessInfo(dataLogin!.token));
       yield put(setCurrentUserProfile(dataLogin!.user));
       yield put(setIsAuthenticated(true));
@@ -44,7 +40,6 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
       yield put(setCurrentWalletIDLocal(dataLogin?.wallet.wallet_id!));
       navigate('HomeScreen');
     } else {
-      console.log('mesadassda', apiError);
       switch (apiError) {
         case 'EA01':
           showToastMessage('User does not exist');
@@ -80,7 +75,6 @@ function* signUpUserSaga(
     });
 
     if (message === 'success') {
-      console.log('Da thanh cong o day');
       yield put(setAccessInfo(dataSignUp!.token));
       yield put(setCurrentUserProfile(dataSignUp!.user));
       yield put(setIsAuthenticated(true));
@@ -98,28 +92,6 @@ function* signUpUserSaga(
   }
 }
 
-function* registerNotiTokenSaga(
-  action: PayloadAction<RegisterNotiTokenApi>,
-): SagaIterator<any> {
-  try {
-    const {
-      message: message,
-      data: dataResponse,
-      status,
-      error: apiError,
-    }: FullResponse<SignUpResponse> = yield call(authApi.registerNotiTokenApi, {
-      FCMToken: action.payload.FCMToken,
-    });
-
-    if (message === 'success') {
-      console.log('Da luu thanh cong noti token: ', dataResponse);
-    }
-  } catch (e: any) {
-    showToastMessage(e.message);
-  } finally {
-    console.log('Da luu thanh cong noti token');
-  }
-}
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
   yield takeLatest(signUpUser, signUpUserSaga);

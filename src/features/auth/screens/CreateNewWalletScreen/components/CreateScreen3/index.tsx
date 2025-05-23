@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {PermissionsAndroid, Platform, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import useStyles from './styles';
@@ -9,6 +9,7 @@ import {navigate} from '@/navigation/RootNavigation';
 import {OptionItem} from '@/features/auth/components';
 import {useRegisterTokenNotificationMutation} from '@/features/home/redux/RTKQuery';
 import {requestUserPermission} from '@/functions/notification/functions';
+import {showToastMessage} from '@/functions';
 
 interface CreateScreen3Props {
   tabIndex: (newTabIndex: number) => void;
@@ -17,8 +18,15 @@ interface CreateScreen3Props {
 const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
-  const [registerNotiToken] = useRegisterTokenNotificationMutation();
+  const [registerNotiToken, isSuccess] = useRegisterTokenNotificationMutation();
   const URL = '123123';
+  useEffect(() => {
+    if (isSuccess) {
+      showToastMessage('success');
+    } else {
+      showToastMessage('failll');
+    }
+  }, [isSuccess]);
 
   return (
     <View style={styles.container}>
@@ -40,7 +48,12 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
           isForCheck
           onPress={async () => {
             const token = await requestUserPermission();
-            registerNotiToken({FCMToken: token});
+            if (token) {
+              registerNotiToken({FCMToken: token});
+              showToastMessage(token);
+            } else {
+              showToastMessage('Loi khi dang ki noti Token');
+            }
           }}
           title="Notifications"
           icon={IconNotification}

@@ -27,7 +27,6 @@ const TransactionScreen2: React.FC<TransactionScreen2Props> = ({
   const styles = useStyles(safeAreaInsets);
   const [amount, setAmount] = useState('0');
   const [isBalanceAmount, setIsBalanceAmount] = useState(true);
-  console.log(amount);
 
   useEffect(() => {
     const numericAmount = parseFloat(amount);

@@ -109,9 +109,7 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
         <AppButton
           buttonStyle={{marginHorizontal: 16, marginBottom: 16}}
           title="Confirm"
-          onPress={() => {
-            console.log('da nhan');
-          }}
+          onPress={() => {}}
         />
       </KeyboardAvoidingView>
     </AppWrapper>

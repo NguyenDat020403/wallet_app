@@ -21,6 +21,7 @@ type AppTextInputProps<T extends {[x: string]: string}> = {
   control: Control<T>;
   name: FieldPath<T>;
   required?: boolean;
+  isShowError?: boolean;
   rules?: RegisterOptions<T>;
   title?: string;
   placeholder?: string;
@@ -46,6 +47,7 @@ const AppTextInput = <T extends {}>({
   containerStyle,
   textCount,
   hitSlop,
+  isShowError = true,
   placeholderTextColor,
   ...props
 }: AppTextInputProps<T>) => {
@@ -71,7 +73,12 @@ const AppTextInput = <T extends {}>({
                 </Text>
               )}
             </View>
-            <View style={[styles.input, style, error && styles.inputError]}>
+            <View
+              style={[
+                styles.input,
+                style,
+                isShowError && error && styles.inputError,
+              ]}>
               <InputType
                 {...props}
                 type={type}

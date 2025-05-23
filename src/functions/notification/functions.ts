@@ -34,7 +34,6 @@ export const onForegroundEvent = async () => {
   return notifee.onForegroundEvent(({type, detail}) => {
     if (type === EventType.PRESS) {
       const {notification} = detail;
-      console.log('notification', notification);
       const navigationId = notification?.data?.navigationId;
       navigate(navigationId);
     }
@@ -53,7 +52,6 @@ export const requestUserPermission = async () => {
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-  console.log('enabled', enabled);
   if (enabled) {
     console.log('Notification permission granted:', authStatus);
     const token = await messaging().getToken();
@@ -62,11 +60,8 @@ export const requestUserPermission = async () => {
     if (token) {
       try {
         store.dispatch(setDeviceNotiToken(token));
-        console.log('Token registered successfully');
         return token;
-      } catch (err) {
-        console.error('Failed to register token:', err);
-      }
+      } catch (err) {}
     }
   } else {
     console.log('Notification permission not granted');

@@ -20,6 +20,7 @@ import {
 import {ScrollView} from 'react-native';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import WalletScreen from './walletDemo';
+import TransactionHistoryItem from '../../components/TransactionHistoryItem';
 
 interface CoinDetailScreenProps
   extends MainStackScreenProps<'CoinDetailScreen'> {}
@@ -156,20 +157,6 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
             );
           })}
         </View>
-        <View style={{gap: 6}}>
-          <Text style={[styles.textCap1, {opacity: 0.6}]}>
-            About {coinName}
-          </Text>
-          <Text style={styles.textBody1Regular}>
-            Ethereum is a decentralized open-source blockchain system that
-            features its own cryptocurrency, Ether. ETH works as a platform for
-            numerous other cryptocurrencies, as well as for the execution of
-            decentralized smart contracts.
-          </Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={[styles.textCap1, {opacity: 0.6}]}>View More</Text>
-          </TouchableOpacity>
-        </View>
         <View style={{gap: 6, paddingVertical: 16}}>
           <Text style={[styles.textCap1, {opacity: 0.6}]}>Stats</Text>
 
@@ -201,6 +188,7 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
             </TouchableOpacity>
           </View>
         </View>
+        <TransactionHistoryItem />
       </ScrollView>
     </AppWrapper>
   );

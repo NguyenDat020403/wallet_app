@@ -7,6 +7,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     flex: 1,
     backgroundColor: '#0F0F0F',
     paddingHorizontal: 16,
+    paddingTop: 16,
   },
   textBody3Regular: {...typography.body3Regular},
   textBody2Regular: {...typography.body2Regular, opacity: 0.6},

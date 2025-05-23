@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, ViewStyle} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
@@ -25,6 +25,7 @@ import {
 } from '../../redux/RTKQuery';
 import {CryptoTabItem} from '../../components';
 import {requestUserPermission} from '@/functions/notification/functions';
+import {StyleProp} from 'react-native';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -33,10 +34,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const styles = useStyles(safeAreaInsets);
   const [registerNotiToken] = useRegisterTokenNotificationMutation();
 
-  const {currentUser, currentWalletID} = useAppSelector(
+  const {currentUser, currentWalletID, secretLocal} = useAppSelector(
     state => state.authReducer,
   );
-
+  console.log(secretLocal);
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
@@ -69,7 +70,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       <AppHeader
         style={{paddingHorizontal: 16}}
         leftComponent={
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('LoginScreen');
+            }}>
             <Image source={IconSetting} style={styles.iconHeader} />
           </TouchableOpacity>
         }
@@ -144,22 +148,24 @@ export default HomeScreen;
 
 type ActionItemProps = {
   icon: any;
-  title: string;
+  title?: string;
   onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
 };
 
 export const ActionItem: React.FC<ActionItemProps> = ({
   icon,
   title,
   onPress,
+  style,
 }) => {
   const styles = useStyles();
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-      <View style={styles.backgroundIcon}>
+      <View style={[styles.backgroundIcon, style]}>
         <Image source={icon} style={styles.icon} />
       </View>
-      <Text style={styles.textCap1}>{title}</Text>
+      {title && <Text style={styles.textCap1}>{title}</Text>}
     </TouchableOpacity>
   );
 };
