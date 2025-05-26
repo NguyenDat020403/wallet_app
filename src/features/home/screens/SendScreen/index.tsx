@@ -43,9 +43,8 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
             <CryptoTabItem
               data={tokenData}
               onPress={(network_id, index) => {
-                navigation.navigate('TransactionScreen', {
+                navigation.navigate('CoinDetailScreen', {
                   token: tokenData[index!],
-                  network: network_id,
                 });
               }}
             />

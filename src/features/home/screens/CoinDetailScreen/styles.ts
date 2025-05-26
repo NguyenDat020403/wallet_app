@@ -15,9 +15,6 @@ const useStyles = makeStyles(({colors}) => ({
   textBody3Regular: {
     ...typography.body3Regular,
   },
-  textBody2Regular: {
-    ...typography.body2Regular,
-  },
   textBody2Medium: {
     ...typography.body2Medium,
   },

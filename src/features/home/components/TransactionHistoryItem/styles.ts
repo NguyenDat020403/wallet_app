@@ -2,33 +2,50 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
-  container: {flex: 1, backgroundColor: '#0F0F0F'},
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 16,
+    alignItems: 'center',
+    gap: 12,
+  },
   noTokenContainer: {
     gap: 16,
     paddingTop: 32,
   },
-  textBody3Regular: {
-    ...typography.body3Regular,
-  },
-  textBody2Regular: {
-    ...typography.body2Regular,
-    opacity: 0.6,
-  },
-  textBody2Medium: {
-    ...typography.body2Medium,
-  },
-  textBody2SemiBold: {
-    ...typography.body2SemiBold,
-  },
   textCap1: {
     ...typography.caption1,
-    textAlign: 'center',
   },
-  textBody1Regular: {
+  textRegular: {
     ...typography.body1Regular,
   },
-  textHeading1: {
-    ...typography.heading1,
+  content: {
+    flex: 1,
+    gap: 12,
+    flexDirection: 'row',
+  },
+  leftColumn: {
+    width: '40%',
+  },
+  rightColumn: {
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
+    flexGrow: 1,
+    flexDirection: 'row',
+    gap: 8,
+  },
+  noDataView: {
+    height: 40,
+    width: 80,
+    backgroundColor: '#333333',
+    borderRadius: 8,
+  },
+  actionItem: {
+    backgroundColor: 'transparent',
+    borderWidth: 0.5,
+    borderColor: '#FFF',
+    width: 28,
+    height: 28,
   },
 }));
 

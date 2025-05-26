@@ -2,9 +2,12 @@ import axios from 'axios';
 import setInterceptor from './interceptor';
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
+import {store} from '@/redux';
+const access_token = store.getState().authReducer.accessInfo.access_token;
 
 const headers = {
   Accept: 'application/json',
+  Authorization: `Bearer ${access_token}`,
 };
 
 const apiIdentity = axios.create({
@@ -15,6 +18,10 @@ const apiWallet = axios.create({
   baseURL: Config.API_URL_WALLET,
   headers,
 });
+const apiTransaction = axios.create({
+  baseURL: Config.API_URL_TRANSACTION,
+  headers,
+});
 
 const apiNotification = axios.create({
   baseURL: Config.API_URL_NOTIFICATION,
@@ -23,5 +30,6 @@ const apiNotification = axios.create({
 
 setInterceptor(apiIdentity);
 setInterceptor(apiNotification);
+setInterceptor(apiTransaction);
 
-export {apiIdentity, apiNotification};
+export {apiIdentity, apiNotification, apiTransaction};

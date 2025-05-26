@@ -14,7 +14,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   tabBar: {
     height: 4,
     borderRadius: 12,
-    width: (insets.screenWidth - 32) / 4,
+    width: (insets.screenWidth - 32) / 5,
   },
 }));
 

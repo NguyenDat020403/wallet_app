@@ -8,10 +8,12 @@ import {
   TransactionScreen1,
   TransactionScreen2,
   TransactionScreen3,
+  TransactionScreen4,
 } from './screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {TabView} from '@rneui/base';
 import {Animated} from 'react-native';
+import {TransactionHistory} from '../../redux/RTKQuery/types';
 
 interface TransactionScreenProps
   extends MainStackScreenProps<'TransactionScreen'> {}
@@ -26,6 +28,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
   const [tabIndex, setTabIndex] = useState(0);
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
+
   const token = route.params.token;
 
   return (
@@ -38,7 +41,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
             gap: 8,
             justifyContent: 'center',
           }}>
-          {[0, 1, 2].map(index => (
+          {[0, 1, 2, 3].map(index => (
             <View
               key={index}
               style={[
@@ -54,7 +57,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
         <TabView
           value={tabIndex}
           onChange={setTabIndex}
-          disableSwipe={true}
+          // disableSwipe={true}
           animationType={'timing'}>
           {/* Tab 1  */}
           <TabView.Item style={{flex: 1}}>

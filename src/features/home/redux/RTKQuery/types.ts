@@ -90,51 +90,31 @@ export interface createTransactionEVMRequest {
     suggestedMaxFeePerGas: string;
   };
 }
-export interface getTransactionHistoryRequest {
+export interface getTransactionsHistoryRequest {
   address: string;
+  chain_id: string;
+  token_id: string;
+}
+export interface getCurrentTransactionRequest
+  extends getTransactionsHistoryRequest {
+  tx: string;
+  token_id: string;
 }
 export interface TransactionHistory {
-  txid: string;
-  version: number;
-  locktime: number;
-  vin: Vin[];
-  vout: Vout[];
-  size: number;
-  weight: number;
-  sigops: number;
-  fee: number;
-  status: Status;
-}
-export interface Vin {
-  txid: string;
-  vout: number;
-  prevout: Prevout;
-  scriptsig: string;
-  scriptsig_asm: string;
-  witness: string[];
-  is_coinbase: boolean;
-  sequence: number;
-}
-
-export interface Prevout {
-  scriptpubkey: string;
-  scriptpubkey_asm: string;
-  scriptpubkey_type: string;
-  scriptpubkey_address: string;
-  value: number;
-}
-
-export interface Vout {
-  scriptpubkey: string;
-  scriptpubkey_asm: string;
-  scriptpubkey_type: string;
-  scriptpubkey_address: string;
-  value: number;
-}
-
-export interface Status {
-  confirmed: boolean;
-  block_height: number;
+  transaction_hash: string;
+  time_transaction: string;
+  action_transaction: string;
+  from_address: string;
+  to_address: string;
+  fee_network: string;
+  network_name: string;
   block_hash: string;
-  block_time: number;
+  block_height: number;
+  status?: string;
+  gas_limit?: string;
+  nonce?: number;
+  value?: string;
+}
+export interface TransactionHistoryByDate {
+  [date: string]: TransactionHistory[];
 }

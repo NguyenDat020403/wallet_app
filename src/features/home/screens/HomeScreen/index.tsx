@@ -1,4 +1,10 @@
-import {View, Text, TouchableOpacity, ViewStyle} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ViewStyle,
+  ImageStyle,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
@@ -37,7 +43,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const {currentUser, currentWalletID, secretLocal} = useAppSelector(
     state => state.authReducer,
   );
-  console.log(secretLocal);
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
@@ -151,6 +156,7 @@ type ActionItemProps = {
   title?: string;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
+  iconStyle?: StyleProp<ImageStyle>;
 };
 
 export const ActionItem: React.FC<ActionItemProps> = ({
@@ -158,12 +164,13 @@ export const ActionItem: React.FC<ActionItemProps> = ({
   title,
   onPress,
   style,
+  iconStyle,
 }) => {
   const styles = useStyles();
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <View style={[styles.backgroundIcon, style]}>
-        <Image source={icon} style={styles.icon} />
+        <Image source={icon} style={[styles.icon, iconStyle]} />
       </View>
       {title && <Text style={styles.textCap1}>{title}</Text>}
     </TouchableOpacity>

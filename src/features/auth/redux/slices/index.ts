@@ -29,6 +29,9 @@ export const authSlice = createSlice({
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
     },
+    getAccessInfo: (state, action) => {
+      state.accessInfo = action.payload;
+    },
     setIsAuthenticated: (state, action: PayloadAction<boolean>) => {
       state.isAuthenticated = action.payload;
     },
@@ -92,6 +95,7 @@ const authPersistConfig = {
     'secretLocal',
     'currentWalletAddress',
     'notificationToken',
+    'currentWalletID',
   ],
 };
 export default persistReducer(authPersistConfig, authSlice.reducer);

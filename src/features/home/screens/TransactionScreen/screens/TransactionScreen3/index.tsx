@@ -5,6 +5,7 @@ import useStyles from './styles';
 import {
   GasEstimatesResponse,
   Tokens,
+  TransactionHistory,
 } from '@/features/home/redux/RTKQuery/types';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {
@@ -12,7 +13,7 @@ import {
   useCreateTransactionEVMMutation,
   useGetEstimateGasMutation,
 } from '@/features/home/redux/RTKQuery';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {AppBottomSheetModal, AppButton} from '@/components';
 import {
   IconFast,
@@ -23,6 +24,9 @@ import {
 } from '@/assets/icons';
 import {Image} from '@rneui/base';
 import {goBack} from '@/navigation/RootNavigation';
+import {getCurrentTransaction} from '@/features/home/redux/slices';
+import {hideAppLoading, showAppLoading} from '@/features/common/functions';
+import {showToastMessage} from '@/functions';
 
 type TransactionScreen3 = {
   amount: string;
@@ -37,12 +41,28 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+  const dispatch = useAppDispatch();
   const {secretLocal} = useAppSelector(state => state.authReducer);
   const walletIndex = token.network.chain_id === '0' ? 1 : 0;
   const [getGas, {data, isSuccess}] = useGetEstimateGasMutation();
-  const [createTransactionBTC, {data: dataTxHex}] =
-    useCreateTransactionBTCMutation();
-  const [createTransactionEVM] = useCreateTransactionEVMMutation();
+  const [
+    createTransactionBTC,
+    {
+      data: dataTxHexBTC,
+      isSuccess: isBTCSuccess,
+      isLoading: isLoadingBTC,
+      isError: isErrorBTC,
+    },
+  ] = useCreateTransactionBTCMutation();
+  const [
+    createTransactionEVM,
+    {
+      data: dataTxHexEVM,
+      isSuccess: isEVMSuccess,
+      isLoading: isLoadingEVM,
+      isError: isErrorEVM,
+    },
+  ] = useCreateTransactionEVMMutation();
   const [selectedFee, setSelectedFee] = useState({
     fee: 0,
     index: 0,
@@ -96,7 +116,6 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(data);
       if (token.network.chain_id === '0') {
         setSelectedFee({fee: data.economyFee || 0, index: 0});
       } else {
@@ -107,6 +126,28 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
       }
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isLoadingBTC || isLoadingEVM) {
+      showAppLoading();
+    }
+    if (isEVMSuccess || isBTCSuccess) {
+      hideAppLoading();
+      goBack();
+    }
+    if (isErrorBTC || isErrorEVM) {
+      hideAppLoading();
+      showToastMessage('error');
+      goBack();
+    }
+  }, [
+    isLoadingBTC,
+    isLoadingEVM,
+    isBTCSuccess,
+    isEVMSuccess,
+    isErrorEVM,
+    isErrorBTC,
+  ]);
 
   return (
     <View style={styles.container}>

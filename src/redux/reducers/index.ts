@@ -1,6 +1,7 @@
 import {combineReducers} from '@reduxjs/toolkit';
 import authReducer from '@/features/auth/redux/slices';
 import commonReducer from '@/features/common/redux/slices';
+import homeReducer from '@/features/home/redux/slices';
 import {
   RTKQueryIdentityApi,
   RTKQueryNetworkApi,
@@ -10,7 +11,7 @@ import {
 } from '../RTKQuery';
 
 const rootReducer = combineReducers({
-  // homeReducer,
+  homeReducer,
   authReducer,
   commonReducer,
   [RTKQueryIdentityApi.reducerPath]: RTKQueryIdentityApi.reducer,

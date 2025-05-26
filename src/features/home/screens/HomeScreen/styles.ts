@@ -38,9 +38,11 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     height: 32,
   },
   backgroundIcon: {
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#804FB0',
     borderRadius: 150,
-    padding: 8,
   },
   iconHeader: {
     width: 28,

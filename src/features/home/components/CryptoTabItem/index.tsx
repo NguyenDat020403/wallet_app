@@ -93,7 +93,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
       onPress={() => {
         if (isHomeList) {
           navigate('CoinDetailScreen', {
-            token_id: data.token.token_id || '',
+            token: data,
           });
         } else {
           onPress && onPress(data.network?.network_id, index);

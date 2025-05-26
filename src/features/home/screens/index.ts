@@ -3,3 +3,4 @@ export {default as SendScreen} from './SendScreen';
 export {default as StoryScreen} from './StoryScreen';
 export {default as CoinDetailScreen} from './CoinDetailScreen';
 export {default as TransactionScreen} from './TransactionScreen';
+export {default as TransactionHistoryScreen} from './TransactionHistoryScreen';

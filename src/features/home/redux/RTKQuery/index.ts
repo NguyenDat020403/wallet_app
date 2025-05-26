@@ -11,8 +11,10 @@ import {
   DetailWalletResponse,
   GasEstimateRequest,
   GasEstimatesResponse,
-  getTransactionHistoryRequest,
+  getCurrentTransactionRequest,
+  getTransactionsHistoryRequest,
   TransactionHistory,
+  TransactionHistoryByDate,
   WalletResponse,
 } from './types';
 import {showToastMessage} from '@/functions';
@@ -74,7 +76,7 @@ const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
     }),
     createTransactionBTC: builder.mutation({
       query: (body: createTransactionBTCRequest) => ({
-        url: '/createTransactionBTC',
+        url: '/sendTransactionBTC',
         method: 'POST',
         body: body,
       }),
@@ -88,15 +90,25 @@ const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
       }),
       transformResponse: (response: FullResponse<string>) => response.data,
     }),
-    getTransactionHistory: builder.mutation({
-      query: (body: getTransactionHistoryRequest) => ({
-        url: '/getTransactionHistory',
+    getTransactionsHistory: builder.mutation({
+      query: (body: getTransactionsHistoryRequest) => ({
+        url: '/getTransactionsHistory',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<TransactionHistoryByDate>) =>
+        response.data,
+    }),
+    getCurrentTransaction: builder.mutation({
+      query: (body: getCurrentTransactionRequest) => ({
+        url: '/getCurrentTransactionHistory',
         method: 'POST',
         body: body,
       }),
       transformResponse: (response: FullResponse<TransactionHistory>) =>
         response.data,
     }),
+
     getSendTransactionToAddressHistory: builder.mutation({
       query: (body: {address: string}) => ({
         url: '/getSendTransactionToAddressHistory',
@@ -128,7 +140,8 @@ export const {useGetWalletMutation, useGetUserWalletsMutation} =
 export const {
   useGetEstimateGasMutation,
   useCreateTransactionBTCMutation,
-  useGetTransactionHistoryMutation,
+  useGetTransactionsHistoryMutation,
+  useGetCurrentTransactionMutation,
   useCreateTransactionEVMMutation,
   useGetSendTransactionToAddressHistoryMutation,
 } = transactionRTKQueryApi;

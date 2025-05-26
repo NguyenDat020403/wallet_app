@@ -1,14 +1,15 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {AppTabStackParamList} from '../BottomTabNavigator/types';
+import {Tokens} from '@/features/home/redux/RTKQuery/types';
 
 export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
 
   HomeScreen: undefined;
   SendScreen: {listCoin: any};
-  CoinDetailScreen: {token_id: string};
-  TransactionScreen: {token: any; network: string | undefined};
-
+  CoinDetailScreen: {token: Tokens};
+  TransactionScreen: {token: any};
+  TransactionHistoryScreen: {token: Tokens; txHash: string};
   MenuScreen: undefined;
   StoryScreen: {userId: string};
   //auth

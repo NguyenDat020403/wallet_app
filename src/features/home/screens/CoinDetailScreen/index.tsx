@@ -21,6 +21,7 @@ import {ScrollView} from 'react-native';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import WalletScreen from './walletDemo';
 import TransactionHistoryItem from '../../components/TransactionHistoryItem';
+import {RefreshControl} from 'react-native';
 
 interface CoinDetailScreenProps
   extends MainStackScreenProps<'CoinDetailScreen'> {}
@@ -31,7 +32,8 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
-  const coinName = route.params.coinName;
+  const data = route.params.token;
+  const coinName = data.token.token_name;
   const optionChart = [
     {id: '1', title: '1H'},
     {id: '2', title: '1D'},
@@ -45,6 +47,13 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
     label: new Date(item.x * 1000).toLocaleDateString(),
   }));
   const [isSelected, setIsSelected] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    setRefreshing(false);
+  };
+  useEffect(() => {}, [refreshing]);
 
   return (
     <AppWrapper>
@@ -57,7 +66,11 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
           </View>
         }
       />
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <View style={styles.infoCoin}>
           <View style={{gap: 6}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>Balance</Text>
@@ -71,18 +84,26 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
         <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
           <ActionItem icon={IconBuy} title="buy" />
           <ActionItem icon={IconSwap} title="swap" />
-          <ActionItem icon={IconSend} title="send" />
+          <ActionItem
+            icon={IconSend}
+            title="send"
+            onPress={() => {
+              navigation.navigate('TransactionScreen', {
+                token: data,
+              });
+            }}
+          />
           <ActionItem icon={IconReceive} title="receive" />
         </View>
-        <View style={{paddingVertical: 16, gap: 6}}>
+        {/* <View style={{paddingVertical: 16, gap: 6}}>
           <Text style={[styles.textCap1, {opacity: 0.6}]}>Price</Text>
           <Text style={styles.textBody3Regular}>$1,555.68</Text>
           <View style={{flexDirection: 'row', gap: 8}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>+$5.16</Text>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>(+1.23%)</Text>
           </View>
-        </View>
-        <View style={{marginHorizontal: -48}}>
+        </View> */}
+        {/* <View style={{marginHorizontal: -48}}>
           <LineChart
             data={lineData.map((item, index) => ({
               value: item.value,
@@ -187,8 +208,9 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
               <Text style={[styles.textCap1, {opacity: 0.6}]}>Reddit</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        <TransactionHistoryItem />
+        </View> */}
+        <Text style={styles.textBody2SemiBold}>History</Text>
+        <TransactionHistoryItem data={data} />
       </ScrollView>
     </AppWrapper>
   );
