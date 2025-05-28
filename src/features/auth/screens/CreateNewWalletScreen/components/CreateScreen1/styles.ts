@@ -3,14 +3,18 @@ import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
   container: {
+    flex: 1,
     position: 'relative',
-    height: '100%',
     paddingHorizontal: 16,
+    justifyContent: 'space-between',
   },
   textBody3Regular: {
     marginTop: 8,
     marginBottom: 4,
     ...typography.body3Regular,
+  },
+  textBody1Regular: {
+    ...typography.body1Regular,
   },
   textBody2Medium: {
     borderWidth: 1,

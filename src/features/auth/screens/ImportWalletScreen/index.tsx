@@ -109,7 +109,9 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
         <AppButton
           buttonStyle={{marginHorizontal: 16, marginBottom: 16}}
           title="Confirm"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('PasswordRecoveryScreen', {mnemonic: words});
+          }}
         />
       </KeyboardAvoidingView>
     </AppWrapper>

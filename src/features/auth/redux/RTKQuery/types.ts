@@ -50,6 +50,7 @@ export interface SignUpResponse {
   user: UserResponse;
   walletDefault: WalletDefaultResponse;
 }
+export interface ImportWalletResponse extends SignUpResponse {}
 
 export interface LoginRequest {
   email: string;

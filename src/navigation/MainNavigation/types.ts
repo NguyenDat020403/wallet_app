@@ -11,19 +11,17 @@ export type MainStackParamList = {
   TransactionScreen: {token: any};
   TransactionHistoryScreen: {token: Tokens; txHash: string};
   MenuScreen: undefined;
-  StoryScreen: {userId: string};
+  NetworkScreen: undefined;
+  AddNetworkScreen: undefined;
   //auth
   FirstScreen: undefined;
-  CreateAccountScreen: undefined;
   ImportWalletScreen: undefined;
+  PasswordRecoveryScreen: {mnemonic: string};
   CreateNewWalletScreen: undefined;
-  UserLoginScreen: undefined;
   BackUpWalletScreen: undefined;
   IcloudBackUpScreen: undefined;
   ManualBackUpScreen: {listWordSecret: any[]};
   ConfirmManualBackUpScreen: {listWordSecret: any[]};
   RecoveryPhraseScreen: undefined;
   LoginScreen: undefined;
-  RegisterScreen: undefined;
-  RecoveryPasswordScreen: undefined;
 };

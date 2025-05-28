@@ -77,14 +77,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         leftComponent={
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('LoginScreen');
+              navigation.navigate('MenuScreen');
             }}>
             <Image source={IconSetting} style={styles.iconHeader} />
           </TouchableOpacity>
         }
         rightComponent={
           <View style={{flexDirection: 'row', gap: 16}}>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('LoginScreen');
+              }}>
               <Image source={IconCopy} style={styles.iconHeader} />
             </TouchableOpacity>
             <TouchableOpacity>

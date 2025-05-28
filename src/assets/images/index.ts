@@ -8,3 +8,4 @@ export {default as ImageDemoHome1} from './image1.png';
 export {default as ImageDemoHome2} from './image2.jpg';
 export {default as ImageWallet} from './ImageWallet.png';
 export {default as WalletAddress} from './WalletAddress.png';
+export {default as ImageError} from './ImageError.png';

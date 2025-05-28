@@ -11,6 +11,7 @@ export type AuthInitialState = {
   secretLocal: SecretLocal;
   currentUser: User;
   currentWalletID: string;
+  biometricPublicKey: string;
 };
 
 export type SecretLocal = WalletSecretResponse;

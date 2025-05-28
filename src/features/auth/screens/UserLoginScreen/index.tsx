@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -13,13 +13,29 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {loginUser} from '../../redux/slices';
 import {requestUserPermission} from '@/functions/notification/functions';
+import {showToastMessage} from '@/functions';
+import {AppDialog} from '@/components';
+import {Image} from '@rneui/base';
+import {IconFingerprint} from '@/assets/icons';
+import {handleSignIn} from './function';
 
 interface LoginScreenProps extends MainStackScreenProps<'LoginScreen'> {}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
-
+  const {secretLocal, currentUser, biometricPublicKey} = useAppSelector(
+    state => state.authReducer,
+  );
+  const [isWarning, setIsWarning] = useState(false);
+  useEffect(() => {
+    console.log('wallets', secretLocal.wallets);
+    if (!secretLocal.wallets) {
+      showToastMessage('Chưa có ví local');
+      setIsWarning(true);
+    }
+  }, [secretLocal.wallets]);
+  console.log(isWarning);
   const {
     control,
     handleSubmit,
@@ -33,10 +49,15 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       email: '',
       password: '',
     },
-    resolver: yupResolver(schemaValidate),
+    // resolver: yupResolver(schemaValidate),
   });
 
   const onSubmit = async (body: {email: string; password: string}) => {
+    if (!secretLocal.wallets) {
+      setIsWarning(true);
+      return;
+    }
+
     dispatch(
       loginUser({
         email: body.email,
@@ -51,8 +72,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
 
   return (
     <AppWrapper>
+      <AppHeader title="Login" />
       <View style={styles.container}>
-        <AppHeader title="Login" />
         <Text style={styles.textBody2Medium}>Good to see you back!</Text>
         <KeyboardAvoidingView
           behavior="padding"
@@ -73,23 +94,43 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
             control={control}
           />
           <TouchableOpacity
-            style={{alignItems: 'flex-end'}}
+            style={{alignItems: 'flex-start'}}
             onPress={() => {
               navigation.navigate('ImportWalletScreen');
               // navigation.navigate('RecoveryPasswordScreen');
             }}>
             <Text style={styles.textCap1}>Forgot your password?</Text>
           </TouchableOpacity>
-          <AppButton
-            title="Login"
-            buttonStyle={{opacity: isValid ? 1 : 0.5}}
-            disable={!isValid}
-            onPress={() => {
-              handleSubmit(onSubmit)();
-            }}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <AppButton
+              title="Login"
+              buttonStyle={{opacity: isValid ? 1 : 0.5, flex: 1}}
+              disable={!isValid}
+              onPress={() => {
+                handleSubmit(onSubmit)();
+              }}
+            />
+            <TouchableOpacity
+              onPress={async () => {
+                handleSignIn();
+              }}
+              style={{paddingHorizontal: 16, justifyContent: 'center'}}>
+              <Image source={IconFingerprint} style={{width: 40, height: 40}} />
+            </TouchableOpacity>
+          </View>
         </KeyboardAvoidingView>
       </View>
+      <AppDialog
+        onPress={() => {
+          navigation.navigate('ImportWalletScreen');
+        }}
+        titleButton="Import Now"
+        action="WARNING"
+        isVisible={isWarning}
+        setIsVisible={setIsWarning}
+        title="WARNING"
+        desc="Wallet not found on this device. Please import your wallet to continue."
+      />
     </AppWrapper>
   );
 };

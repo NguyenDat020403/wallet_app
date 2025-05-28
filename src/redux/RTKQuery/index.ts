@@ -52,7 +52,6 @@ export const RTKQueryTransactionApi = createApi({
 });
 export const RTKQueryNotificationApi = createApi({
   reducerPath: 'RTKQueryNotificationApi',
-  // baseQuery: baseQueryWithReAuth(Config.API_URL_NOTIFICATION),
-  baseQuery: baseQueryWithReAuth('http://10.0.2.2:3333/notifications/'),
+  baseQuery: baseQueryWithReAuth(Config.API_URL_NOTIFICATION),
   endpoints: builder => ({}),
 });

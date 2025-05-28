@@ -1,15 +1,16 @@
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {Image} from '@rneui/themed';
 import React from 'react';
-import {View} from 'react-native';
+import {StyleProp, View, ViewStyle} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {parallaxLayout} from './function';
 
 type AppCarouselProps = {
   data: any;
+  style?: StyleProp<ViewStyle>;
 };
 
-const AppCarousel: React.FC<AppCarouselProps> = ({data}) => {
+const AppCarousel: React.FC<AppCarouselProps> = ({data, style}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const PAGE_WIDTH = safeAreaInsets.screenWidth;
 
@@ -19,12 +20,15 @@ const AppCarousel: React.FC<AppCarouselProps> = ({data}) => {
       pagingEnabled={true}
       autoPlay={true}
       autoPlayInterval={100}
-      style={{
-        marginHorizontal: -16,
-        width: safeAreaInsets.screenWidth,
-        height: 80,
-        justifyContent: 'center',
-      }}
+      style={[
+        {
+          marginHorizontal: -16,
+          width: safeAreaInsets.screenWidth,
+          height: 80,
+          justifyContent: 'center',
+        },
+        style,
+      ]}
       width={PAGE_WIDTH / 3}
       data={data}
       renderItem={({item}) => {

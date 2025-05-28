@@ -24,7 +24,8 @@ const TransactionHistoryItem: React.FC<TransactionHistoryItemProps> = ({
 
   const {secretLocal} = useAppSelector(state => state.authReducer);
   const checkNetwork = data.network.chain_id === '0' ? 1 : 0;
-  const address = secretLocal.wallets![checkNetwork].address;
+  const address =
+    secretLocal.wallets && secretLocal.wallets![checkNetwork].address;
   useEffect(() => {
     getTransactionHistory({
       address: address,

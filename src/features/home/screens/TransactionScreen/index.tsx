@@ -8,12 +8,9 @@ import {
   TransactionScreen1,
   TransactionScreen2,
   TransactionScreen3,
-  TransactionScreen4,
 } from './screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {TabView} from '@rneui/base';
-import {Animated} from 'react-native';
-import {TransactionHistory} from '../../redux/RTKQuery/types';
 
 interface TransactionScreenProps
   extends MainStackScreenProps<'TransactionScreen'> {}

@@ -4,6 +4,7 @@ import {persistReducer} from 'redux-persist';
 import {MainStackParamList} from '@/navigation/MainNavigation/types';
 import {AccessInfo, AuthInitialState, SecretLocal, User} from './types';
 import {
+  ImportWalletApiParams,
   LoginUserApiParams,
   SignUpUserApiParams,
 } from '../../services/api/types';
@@ -18,6 +19,7 @@ const initialState: AuthInitialState = {
   secretLocal: {},
   currentUser: {},
   currentWalletID: '',
+  biometricPublicKey: '',
 };
 
 export const authSlice = createSlice({
@@ -26,6 +28,7 @@ export const authSlice = createSlice({
   reducers: {
     loginUser: (_, _action: PayloadAction<LoginUserApiParams>) => {},
     signUpUser: (_, _action: PayloadAction<SignUpUserApiParams>) => {},
+    importWallet: (_, _action: PayloadAction<ImportWalletApiParams>) => {},
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
     },
@@ -59,7 +62,9 @@ export const authSlice = createSlice({
     setCurrentWalletIDLocal: (state, action: PayloadAction<string>) => {
       state.currentWalletID = action.payload;
     },
-
+    setBiometricPublicKey: (state, action: PayloadAction<string>) => {
+      state.biometricPublicKey = action.payload;
+    },
     logout: state => {
       return {
         ...initialState,
@@ -72,6 +77,8 @@ export const authSlice = createSlice({
 export const {
   loginUser,
   signUpUser,
+  importWallet,
+  setBiometricPublicKey,
   setIsFirstLaunch,
   setDeviceNotiToken,
   setIsAuthenticated,
@@ -96,6 +103,7 @@ const authPersistConfig = {
     'currentWalletAddress',
     'notificationToken',
     'currentWalletID',
+    'biometricPublicKey',
   ],
 };
 export default persistReducer(authPersistConfig, authSlice.reducer);

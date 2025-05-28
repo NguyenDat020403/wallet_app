@@ -6,61 +6,102 @@ import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {IconCrown} from '@/assets/icons';
-import LinearGradient from 'react-native-linear-gradient';
-import {MenuLine} from './components';
+import {SettingItem} from './components';
+import {
+  IconManageAddress,
+  IconManagePersonal,
+  IconSettingNetwork,
+} from '@/assets/icons';
+import {useAppSelector} from '@/redux/hooks';
 
 interface MenuScreenProps extends MainStackScreenProps<'MenuScreen'> {}
 
 const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+  const {currentUser} = useAppSelector(state => state.authReducer);
+  const ListManageAction = [
+    {
+      id: 0,
+      icon: IconSettingNetwork,
+      title: 'Networks',
+      onPress: () => {
+        navigation.navigate('NetworkScreen');
+      },
+    },
+    {
+      id: 1,
+      icon: IconManageAddress,
+      title: 'Addresses',
+    },
+    {
+      id: 2,
+      icon: IconManagePersonal,
+      title: 'Personal',
+    },
+  ];
   return (
     <AppWrapper>
+      <AppHeader title="Settings" />
       <View style={{paddingHorizontal: 16}}>
-        <AppHeader title="Settings" />
-        <View style={styles.info}>
-          <View style={styles.infoLeft}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={{
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            marginVertical: 16,
+            paddingVertical: 16,
+            paddingHorizontal: 16,
+            borderRadius: 12,
+            borderWidth: 0.5,
+            borderColor: '#804FB0',
+          }}>
+          <View style={{flexDirection: 'row', gap: 12}}>
             <Image
-              source={{
-                uri: 'https://photo.znews.vn/w660/Uploaded/neg_yslewlx/2023_01_09/avatar_2_reviews.jpg',
-              }}
-              style={styles.avatar}
+              source={
+                currentUser.avatar
+                  ? {uri: currentUser.avatar}
+                  : IconManagePersonal
+              }
+              style={{width: 32, height: 32}}
+              containerStyle={{alignSelf: 'center'}}
             />
-            <View
-              style={{
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-              }}>
-              <Text style={styles.textName}>Dat N</Text>
-              <Text style={styles.textEmail}>nguyendat243@gmail.com</Text>
+            <View>
+              <Text style={styles.textSemiBold}>{currentUser.username}</Text>
+              <Text style={styles.textRegular}>{currentUser.email}</Text>
             </View>
           </View>
-        </View>
-        <TouchableOpacity activeOpacity={0.8}>
-          <LinearGradient
-            colors={['#B453FF', '#9B1AFF', '#AE46FF']}
-            style={styles.banner}>
-            <View style={styles.backgroundCrown}>
-              <Image source={IconCrown} style={{width: 32, height: 32}} />
-            </View>
-            <View style={styles.textBanner}>
-              <Text style={styles.textBold}>Upgrade to PRO</Text>
-              <Text style={styles.textRegular}>
-                Enjoy all features & benefits
-              </Text>
-              <Text style={styles.textRegular}>without any restrictions</Text>
-            </View>
-            <Icon
-              type="feather"
-              name="chevron-right"
-              color={'#FFFFFF'}
-              containerStyle={{justifyContent: 'center'}}
-            />
-          </LinearGradient>
+          <View style={{alignSelf: 'center'}}>
+            <Icon type="feather" name="arrow-right" color={'#FFFFFF'} />
+          </View>
         </TouchableOpacity>
-        <MenuLine title="General" />
-        <MenuLine title="About" />
+
+        <Text style={[styles.textSemiBold, {paddingVertical: 16}]}>
+          Setting
+        </Text>
+        <Text style={[styles.textRegular, {paddingBottom: 12}]}>Manage</Text>
+        <View style={styles.setting}>
+          {ListManageAction.map(item => {
+            return (
+              <SettingItem
+                onPress={() => {
+                  item.onPress && item.onPress();
+                }}
+                key={item.id}
+                icon={item.icon}
+                title={item.title}
+              />
+            );
+          })}
+        </View>
+        <Text style={[styles.textRegular, {paddingBottom: 12}]}>App </Text>
+        <View style={styles.setting}>
+          {ListManageAction.map(item => {
+            return (
+              <SettingItem key={item.id} icon={item.icon} title={item.title} />
+            );
+          })}
+        </View>
       </View>
     </AppWrapper>
   );

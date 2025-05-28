@@ -1,9 +1,15 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {SagaIterator} from 'redux-saga';
-import {FullResponse, LoginResponse, SignUpResponse} from '../RTKQuery/types';
+import {
+  FullResponse,
+  ImportWalletResponse,
+  LoginResponse,
+  SignUpResponse,
+} from '../RTKQuery/types';
 import {authApi} from '../../services';
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {
+  importWallet,
   loginUser,
   setAccessInfo,
   setCurrentUserProfile,
@@ -14,10 +20,13 @@ import {
   setSecretLocal,
   signUpUser,
 } from '../slices';
-import {navigate} from '@/navigation/RootNavigation';
+import {navigate, replace} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
-import {SignUpUserApiParams} from '../../services/api/types';
+import {
+  ImportWalletApiParams,
+  SignUpUserApiParams,
+} from '../../services/api/types';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   showAppLoading();
@@ -38,7 +47,7 @@ function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
       yield put(setIsAuthenticated(true));
       yield put(setIsFirstLaunch(false));
       yield put(setCurrentWalletIDLocal(dataLogin?.wallet.wallet_id!));
-      navigate('HomeScreen');
+      navigate('AppTabScreen');
     } else {
       switch (apiError) {
         case 'EA01':
@@ -72,6 +81,7 @@ function* signUpUserSaga(
       email: action.payload.email,
       password: action.payload.password,
       username: action.payload.username,
+      biometricPublicKey: action.payload.biometricPublicKey,
     });
 
     if (message === 'success') {
@@ -91,8 +101,34 @@ function* signUpUserSaga(
     hideAppLoading();
   }
 }
+function* importWalletSaga(
+  action: PayloadAction<ImportWalletApiParams>,
+): SagaIterator<any> {
+  showAppLoading();
+  try {
+    const {message, data, status, error}: FullResponse<ImportWalletResponse> =
+      yield call(authApi.importWalletApi, {
+        password: action.payload.password,
+        mnemonic: action.payload.mnemonic,
+      });
 
+    if (error === '0' || data) {
+      yield put(setAccessInfo(data!.token));
+      yield put(setCurrentUserProfile(data!.user));
+      yield put(setIsAuthenticated(true));
+      yield put(setIsFirstLaunch(false));
+      yield put(setCurrentWalletIDLocal(data?.walletDefault.wallet.wallet_id!));
+      yield put(setSecretLocal(data?.walletDefault.walletSecret!));
+      navigate('HomeScreen');
+    }
+  } catch (e: any) {
+    showToastMessage(e.message);
+  } finally {
+    hideAppLoading();
+  }
+}
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
   yield takeLatest(signUpUser, signUpUserSaga);
+  yield takeLatest(importWallet, importWalletSaga);
 }

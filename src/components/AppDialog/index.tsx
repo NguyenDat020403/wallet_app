@@ -12,10 +12,13 @@ type AppDialogProps = {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
+  onPress: () => void;
+  onPressBackground?: () => void;
+  titleButton?: string;
+  action?: 'WARNING' | 'SUCCESS';
   titleStyle?: StyleProp<TextStyle>;
   buttonComponent?: React.ReactNode;
   style?: StyleProp<ViewStyle>;
-  onPress: () => void;
   desc?: string;
   descStyle?: StyleProp<TextStyle>;
 };
@@ -24,8 +27,11 @@ const AppDialog: React.FC<AppDialogProps> = ({
   isVisible,
   setIsVisible,
   title,
+  action = 'SUCCESS',
   titleStyle,
+  onPressBackground,
   buttonComponent,
+  titleButton,
   desc,
   descStyle,
   style,
@@ -33,6 +39,7 @@ const AppDialog: React.FC<AppDialogProps> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+  const icon = action === 'SUCCESS' ? IconSuccess : IconWarning;
   return (
     <ReactNativeModal
       deviceHeight={safeAreaInsets.screenHeight}
@@ -45,9 +52,11 @@ const AppDialog: React.FC<AppDialogProps> = ({
       coverScreen={true}
       onBackdropPress={() => {
         setIsVisible(false);
+        onPressBackground && onPressBackground();
       }}
       onBackButtonPress={() => {
         setIsVisible(false);
+        onPressBackground && onPressBackground();
       }}
       animationOut={'slideOutDown'}
       style={{
@@ -55,7 +64,7 @@ const AppDialog: React.FC<AppDialogProps> = ({
         margin: 0,
       }}>
       <View style={[styles.container, style]}>
-        <Image source={IconSuccess} style={{width: 200, height: 200}} />
+        <Image source={icon} style={{width: 200, height: 200}} />
         <Text style={[styles.textBody3Regular, titleStyle]}>
           {title && title}
         </Text>
@@ -66,8 +75,9 @@ const AppDialog: React.FC<AppDialogProps> = ({
           <AppButton
             onPress={() => {
               onPress && onPress();
+              setIsVisible(false);
             }}
-            title="View Wallet"
+            title={titleButton ? titleButton : 'Cancel'}
             buttonStyle={styles.buttonStyle}
           />
         )}

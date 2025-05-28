@@ -5,7 +5,7 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     width: insets.screenWidth - 32,
-    borderRadius: 4,
+    borderRadius: 12,
     backgroundColor: '#0F0F0F',
     alignItems: 'center',
     alignSelf: 'center',
