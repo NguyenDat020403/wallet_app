@@ -4,7 +4,7 @@ import Config from 'react-native-config';
 import {Platform} from 'react-native';
 import {store} from '@/redux';
 const access_token = store.getState().authReducer.accessInfo.access_token;
-
+console.log(access_token);
 const headers = {
   Accept: 'application/json',
   Authorization: `Bearer ${access_token}`,
@@ -27,9 +27,14 @@ const apiNotification = axios.create({
   baseURL: Config.API_URL_NOTIFICATION,
   headers,
 });
+const apiNetwork = axios.create({
+  baseURL: Config.API_URL_NETWORK,
+  headers,
+});
 
+setInterceptor(apiNetwork);
 setInterceptor(apiIdentity);
 setInterceptor(apiNotification);
 setInterceptor(apiTransaction);
 
-export {apiIdentity, apiNotification, apiTransaction};
+export {apiIdentity, apiNotification, apiTransaction, apiNetwork};

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {FlatList, ScrollView, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppButton, AppImage, AppWrapper} from '@/components';
@@ -12,6 +12,7 @@ import {NetworkItem} from './components';
 import AppTextInput from '@/components/AppTextInput';
 import {useForm} from 'react-hook-form';
 import {IconFind, IconSearch} from '@/assets/icons';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface NetworkScreenProps extends MainStackScreenProps<'NetworkScreen'> {}
 
@@ -34,9 +35,11 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
     },
     // resolver: yupResolver(schemaValidate),
   });
-  useEffect(() => {
-    getNetworkList({});
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getNetworkList({});
+    }, []),
+  );
   useEffect(() => {
     console.log(data);
   }, [isSuccess]);
@@ -81,7 +84,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
         title="Add new network"
         buttonStyle={{margin: 16}}
         onPress={() => {
-          navigation.navigate('AddNetworkScreen');
+          navigation.navigate('AddNetworkScreen', {});
         }}
       />
     </AppWrapper>

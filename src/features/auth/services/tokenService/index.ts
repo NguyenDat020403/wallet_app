@@ -1,5 +1,6 @@
 import {store} from '@/redux';
 import {logout} from '../../redux/slices';
+import {navigate} from '@/navigation/RootNavigation';
 
 class TokenService {
   getLocalRefreshToken() {
@@ -34,7 +35,7 @@ class TokenService {
   logout() {
     store.dispatch(logout());
     // store.dispatch(resetProfile());
-    // navigate('UserLoginScreen', {isExpired: true});
+    navigate('LoginScreen', {isGoBackEnable: false});
     // store.dispatch(setNumOfNotificationUnread(0));
   }
 }

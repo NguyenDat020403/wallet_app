@@ -1,6 +1,6 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {AppTabStackParamList} from '../BottomTabNavigator/types';
-import {Tokens} from '@/features/home/redux/RTKQuery/types';
+import {Network, Tokens} from '@/features/home/redux/RTKQuery/types';
 
 export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
@@ -12,7 +12,8 @@ export type MainStackParamList = {
   TransactionHistoryScreen: {token: Tokens; txHash: string};
   MenuScreen: undefined;
   NetworkScreen: undefined;
-  AddNetworkScreen: undefined;
+  AddNetworkScreen: {network?: Network; isEnableEdit?: boolean};
+  TokenScreen: undefined;
   //auth
   FirstScreen: undefined;
   ImportWalletScreen: undefined;
@@ -23,5 +24,5 @@ export type MainStackParamList = {
   ManualBackUpScreen: {listWordSecret: any[]};
   ConfirmManualBackUpScreen: {listWordSecret: any[]};
   RecoveryPhraseScreen: undefined;
-  LoginScreen: undefined;
+  LoginScreen: {isGoBackEnable?: boolean};
 };

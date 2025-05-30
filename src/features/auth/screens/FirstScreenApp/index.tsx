@@ -25,7 +25,7 @@ const FirstScreen: React.FC<FirstScreenProps> = ({navigation, route}) => {
         <AppButton
           title="Already have an account?"
           onPress={() => {
-            navigation.navigate('UserLoginScreen');
+            navigation.navigate('LoginScreen', {isGoBackEnable: true});
           }}
         />
         <AppButton

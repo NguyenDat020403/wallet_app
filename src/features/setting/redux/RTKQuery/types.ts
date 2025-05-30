@@ -15,3 +15,12 @@ export interface NetworkResponse {
   creator_id: any;
   isEVM: boolean;
 }
+export interface CreateNetworkRequest {
+  network_name: string;
+  rpc_url: string;
+  symbol: string;
+  block_explorer_url: string;
+  chain_id: string;
+  wallet_network_address: string;
+  is_testnet?: boolean;
+}

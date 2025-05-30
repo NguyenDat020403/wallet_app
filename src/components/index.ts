@@ -6,3 +6,4 @@ export {default as AppLoading} from './AppLoading';
 export {default as AppHeader} from './AppHeader';
 export {default as AppBottomSheetModal} from './AppBottomSheetModal';
 export {default as AppImage} from './AppImage';
+export {default as AppTextInput} from './AppTextInput';

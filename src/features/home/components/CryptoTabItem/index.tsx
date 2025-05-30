@@ -9,6 +9,7 @@ import {IconDown} from '@/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {navigate} from '@/navigation/RootNavigation';
 import {Network, Tokens} from './types';
+import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 
 type CryptoTabItemProps = {
   data?: Tokens[];
@@ -86,6 +87,7 @@ const CoinItem: React.FC<CoinItemProps> = ({
   index,
   isHomeList,
 }) => {
+  const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
   return (
     <TouchableOpacity
@@ -110,10 +112,22 @@ const CoinItem: React.FC<CoinItemProps> = ({
           style={styles.coinIcon}
           containerStyle={{alignSelf: 'center', borderRadius: 150}}
         />
-        <View>
-          <Text style={styles.textBody3Regular}>{data.token.token_name}</Text>
+        <View
+          style={{
+            width: safeAreaInsets.screenWidth - 32 - 18 - 150,
+          }}>
+          <Text style={styles.textBody3Regular} numberOfLines={1}>
+            {data.token.token_name}
+          </Text>
           <View style={{flexDirection: 'row', gap: 12}}>
-            <Text style={[styles.textCap1, {color: '#7B849B'}]}>
+            <Text
+              style={[
+                styles.textCap1,
+                {
+                  color: '#7B849B',
+                },
+              ]}
+              numberOfLines={1}>
               {data.token.price_feed_id || 'loading...'}
             </Text>
             <Text
@@ -133,7 +147,9 @@ const CoinItem: React.FC<CoinItemProps> = ({
         </View>
       </View>
       <View style={{alignItems: 'flex-end'}}>
-        <Text style={styles.textBody3Regular}>{data.network?.symbol}</Text>
+        <Text style={styles.textBody3Regular}>
+          {data.network?.network_name}
+        </Text>
         <Text style={[styles.textCap1, {color: '#7B849B'}]}>
           {data.balance}
         </Text>

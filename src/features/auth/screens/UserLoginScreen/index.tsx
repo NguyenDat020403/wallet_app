@@ -18,12 +18,14 @@ import {AppDialog} from '@/components';
 import {Image} from '@rneui/base';
 import {IconFingerprint} from '@/assets/icons';
 import {handleSignIn} from './function';
+import {goBack} from '@/navigation/RootNavigation';
 
 interface LoginScreenProps extends MainStackScreenProps<'LoginScreen'> {}
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
+  const isGoBackEnable = route.params ? true : false;
   const {secretLocal, currentUser, biometricPublicKey} = useAppSelector(
     state => state.authReducer,
   );
@@ -65,14 +67,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       }),
     );
   };
-
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
-
+  console.log(isGoBackEnable);
   return (
     <AppWrapper>
-      <AppHeader title="Login" />
+      <AppHeader
+        title="Login"
+        onGoBack={() => {
+          if (!isGoBackEnable) {
+            navigation.navigate('FirstScreen');
+          } else {
+            goBack();
+          }
+        }}
+      />
       <View style={styles.container}>
         <Text style={styles.textBody2Medium}>Good to see you back!</Text>
         <KeyboardAvoidingView

@@ -1,6 +1,7 @@
 import {FullResponse} from '@/redux/RTKQuery/types';
 import {RTKQueryNetworkApi} from '@/redux/RTKQuery';
-import {NetworkResponse} from './types';
+import {CreateNetworkRequest, NetworkResponse} from './types';
+import {showToastMessage} from '@/functions';
 
 const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
   endpoints: builder => ({
@@ -12,8 +13,24 @@ const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
       transformResponse: (response: FullResponse<NetworkResponse[]>) =>
         response.data,
     }),
+    createNetwork: builder.mutation({
+      query: (body: CreateNetworkRequest) => ({
+        url: '/create',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<NetworkResponse>) => {
+        if (response.data) {
+          showToastMessage(response.message);
+          console.log('loi');
+        } else {
+          return response.data;
+        }
+      },
+    }),
   }),
   overrideExisting: true,
 });
 
-export const {useGetNetworkListMutation} = networkRTKQueryApi;
+export const {useGetNetworkListMutation, useCreateNetworkMutation} =
+  networkRTKQueryApi;

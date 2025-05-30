@@ -1,3 +1,4 @@
+import {replace} from '@/navigation/RootNavigation';
 import tokenService from '@/features/auth/services/tokenService';
 import {
   BaseQueryFn,
@@ -24,6 +25,9 @@ const baseQueryWithReAuth =
       },
     });
     let result = await baseQuery(args, api, extraOptions);
+    if (result.error && result?.error?.status === 401) {
+      tokenService.logout();
+    }
     return result;
   };
 

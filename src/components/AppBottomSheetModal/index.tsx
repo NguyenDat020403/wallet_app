@@ -98,7 +98,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
         }
       }}
       handleStyle={{
-        backgroundColor: '#222222',
+        backgroundColor: '#333333',
         borderTopLeftRadius: 14,
         borderTopRightRadius: 14,
       }}
@@ -112,7 +112,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
           {
             paddingHorizontal: 16,
             paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0,
-            backgroundColor: '#222222',
+            backgroundColor: '#1A1A1A',
           },
           !autoSize && {flex: 1},
         ]}>
