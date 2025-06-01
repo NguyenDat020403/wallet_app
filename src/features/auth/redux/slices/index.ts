@@ -7,6 +7,7 @@ import {
   ImportWalletApiParams,
   LoginUserApiParams,
   SignUpUserApiParams,
+  UploadAvatarApiParams,
 } from '../../services/api/types';
 
 const initialState: AuthInitialState = {
@@ -29,6 +30,7 @@ export const authSlice = createSlice({
     loginUser: (_, _action: PayloadAction<LoginUserApiParams>) => {},
     signUpUser: (_, _action: PayloadAction<SignUpUserApiParams>) => {},
     importWallet: (_, _action: PayloadAction<ImportWalletApiParams>) => {},
+    uploadAvatar: (_, _action: PayloadAction<UploadAvatarApiParams>) => {},
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
     },
@@ -78,6 +80,7 @@ export const {
   loginUser,
   signUpUser,
   importWallet,
+  uploadAvatar,
   setBiometricPublicKey,
   setIsFirstLaunch,
   setDeviceNotiToken,

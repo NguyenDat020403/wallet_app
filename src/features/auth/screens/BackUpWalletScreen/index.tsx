@@ -37,17 +37,20 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
         <View style={styles.card}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Image
-              source={currentUser.avatar ? currentUser.avatar : ImageAvatar}
-              style={{width: 40, height: 40}}
+              source={
+                currentUser.avatar ? {uri: currentUser.avatar} : ImageAvatar
+              }
+              style={{width: 40, height: 40, borderRadius: 150}}
             />
             <Text style={styles.textBody2Regular}>{currentUser.username}</Text>
           </View>
           <View>
-            <Text numberOfLines={1} style={styles.textBody2Regular}>
-              {/* {currentWalletAddress} */}
+            <Text style={styles.textBody2SemiBold}>0 $</Text>
+            <Text numberOfLines={1} style={styles.textCap1}>
+              {secretLocal.wallets ? secretLocal.wallets[0].address : 'no data'}
             </Text>
-            <Text style={styles.textBody2SemiBold}>
-              {/* {dataWallet?.data.wallet_balance} $ */}0 $
+            <Text numberOfLines={1} style={styles.textCap1}>
+              {secretLocal.wallets && secretLocal.wallets[1].address}
             </Text>
           </View>
         </View>

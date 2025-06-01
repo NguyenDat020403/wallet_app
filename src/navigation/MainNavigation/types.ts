@@ -14,6 +14,7 @@ export type MainStackParamList = {
   NetworkScreen: undefined;
   AddNetworkScreen: {network?: Network; isEnableEdit?: boolean};
   TokenScreen: undefined;
+  CoinMarketScreen: {token: Tokens};
   //auth
   FirstScreen: undefined;
   ImportWalletScreen: undefined;
@@ -25,4 +26,6 @@ export type MainStackParamList = {
   ConfirmManualBackUpScreen: {listWordSecret: any[]};
   RecoveryPhraseScreen: undefined;
   LoginScreen: {isGoBackEnable?: boolean};
+  //forum
+  PostScreen: undefined;
 };

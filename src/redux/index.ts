@@ -7,6 +7,8 @@ import {
   RTKQueryIdentityApi,
   RTKQueryNetworkApi,
   RTKQueryNotificationApi,
+  RTKQueryPostApi,
+  RTKQueryTokenApi,
   RTKQueryTransactionApi,
   RTKQueryWalletApi,
 } from './RTKQuery';
@@ -24,6 +26,8 @@ export const store = configureStore({
       .concat(RTKQueryWalletApi.middleware)
       .concat(RTKQueryTransactionApi.middleware)
       .concat(RTKQueryNetworkApi.middleware)
+      .concat(RTKQueryTokenApi.middleware)
+      .concat(RTKQueryPostApi.middleware)
       .concat(RTKQueryNotificationApi.middleware)
       .concat(createDebugger()),
 });

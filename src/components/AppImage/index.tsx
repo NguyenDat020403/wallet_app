@@ -24,14 +24,26 @@ const AppImage: React.FC<AppImageProps> = ({
 }) => {
   const styles = useStyles();
 
+  let defaultSource;
+  if (type === 'AVATAR') {
+    defaultSource = ImageError;
+  } else {
+    defaultSource = ImageAvatar;
+  }
   return (
     <View style={[style, {overflow: 'hidden'}]}>
-      <FastImage {...props} style={styles.image} />
+      <FastImage
+        {...props}
+        style={[styles.image, type === 'AVATAR' && {borderRadius: 150}]}
+      />
       {haveDefault && (
         <FastImage
           resizeMode="stretch"
           source={ImageError}
-          style={[styles.imageDefault]}
+          style={[
+            styles.imageDefault,
+            type === 'AVATAR' && {borderRadius: 150},
+          ]}
         />
       )}
     </View>

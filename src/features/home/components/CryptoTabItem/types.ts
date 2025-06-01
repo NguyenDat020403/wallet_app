@@ -1,3 +1,5 @@
+import {MarketData} from '../../redux/RTKQuery/types';
+
 export const fakeCoins = [
   {
     coinName: 'Bitcoin',
@@ -94,6 +96,7 @@ export interface Tokens {
   };
   network: Network;
   balance: string;
+  market_data?: MarketData;
 }
 export interface Network {
   network_id: string;

@@ -11,7 +11,7 @@ import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
 import {Image} from '@rneui/themed';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import AppHeader from '@/components/AppHeader';
 import {
   IconArrowDown,
@@ -33,18 +33,19 @@ import {CryptoTabItem} from '../../components';
 import {requestUserPermission} from '@/functions/notification/functions';
 import {StyleProp} from 'react-native';
 import {hideAppLoading} from '@/features/common/functions';
+import {logout} from '@/features/auth/redux/slices';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+  const dispatch = useAppDispatch();
   const [registerNotiToken] = useRegisterTokenNotificationMutation();
 
   const {currentUser, currentWalletID, secretLocal} = useAppSelector(
     state => state.authReducer,
   );
-  console.log(secretLocal);
   const [getWalletDetail, {data, isSuccess, isLoading}] =
     useGetWalletMutation();
   const [tabIndex, setTabIndex] = useState(0);
@@ -71,7 +72,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     handleCheckPermission();
     getWalletDetail({wallet_id: currentWalletID});
   }, []);
-
+  console.log(currentUser.data);
   return (
     <AppWrapper>
       <AppHeader
@@ -88,6 +89,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <View style={{flexDirection: 'row', gap: 16}}>
             <TouchableOpacity
               onPress={() => {
+                dispatch(logout());
                 navigation.navigate('LoginScreen');
               }}>
               <Image source={IconCopy} style={styles.iconHeader} />
@@ -100,7 +102,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       />
       <View style={styles.container}>
         <TouchableOpacity activeOpacity={0.8} style={styles.userInfo}>
-          <Image source={ImageAvatar} style={styles.icon} />
+          <Image
+            source={
+              currentUser.avatar ? {uri: currentUser.avatar} : ImageAvatar
+            }
+            style={styles.icon}
+          />
           <Text style={styles.textBody3Regular}>{currentUser.username}</Text>
           <Image source={IconArrowDown} style={styles.icon} />
         </TouchableOpacity>

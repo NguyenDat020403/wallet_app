@@ -34,6 +34,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     marginBottom: 12,
   },
   icon: {
+    borderRadius: 150,
     width: 32,
     height: 32,
   },

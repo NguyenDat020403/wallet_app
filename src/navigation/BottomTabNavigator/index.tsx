@@ -8,8 +8,8 @@ import {ScreenComponent} from '../types';
 import {
   AppTabStackParamList,
   HistoryTabStackParamList,
-  ProfileTabStackParamList,
-  SearchTabStackParamList,
+  HomeTabStackParamList,
+  PostTabStackParamList,
 } from './types';
 import {generateTabBarItemOptions} from './functions';
 import {
@@ -22,25 +22,24 @@ import {
 } from '@/assets/icons';
 import {HomeScreen, SendScreen, StoryScreen} from '@/features/home/screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-
+import {PostScreen} from '@/features/forum/screens';
 const Tab = createBottomTabNavigator<AppTabStackParamList>();
 const StackHistory = createNativeStackNavigator<HistoryTabStackParamList>();
-const StackSearch = createNativeStackNavigator<SearchTabStackParamList>();
-const StackProfile = createNativeStackNavigator<ProfileTabStackParamList>();
+const StackHome = createNativeStackNavigator<HomeTabStackParamList>();
+const StackPost = createNativeStackNavigator<PostTabStackParamList>();
 
 const profileTabRoute = {
-  HomeScreen,
-  SendScreen,
+  PostScreen,
 };
 
-function ProfileStack() {
+function PostStack() {
   return (
-    <StackProfile.Navigator>
+    <StackPost.Navigator>
       {Object.entries(profileTabRoute).map(([name, component]) => {
         return (
-          <StackProfile.Screen
+          <StackPost.Screen
             key={name}
-            name={name as keyof ProfileTabStackParamList}
+            name={name as keyof PostTabStackParamList}
             component={component as ScreenComponent}
             options={{
               headerShown: false,
@@ -48,22 +47,22 @@ function ProfileStack() {
           />
         );
       })}
-    </StackProfile.Navigator>
+    </StackPost.Navigator>
   );
 }
 
-const searchTabRoute = {
+const homeTabRoute = {
   HomeScreen,
 };
 
-function SearchStack() {
+function HomeStack() {
   return (
-    <StackSearch.Navigator>
-      {Object.entries(searchTabRoute).map(([name, component]) => {
+    <StackHome.Navigator>
+      {Object.entries(homeTabRoute).map(([name, component]) => {
         return (
-          <StackSearch.Screen
+          <StackHome.Screen
             key={name}
-            name={name as keyof SearchTabStackParamList}
+            name={name as keyof HomeTabStackParamList}
             component={component as ScreenComponent}
             options={{
               headerShown: false,
@@ -71,7 +70,7 @@ function SearchStack() {
           />
         );
       })}
-    </StackSearch.Navigator>
+    </StackHome.Navigator>
   );
 }
 
@@ -103,7 +102,7 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="ProfileTab"
+      initialRouteName="HomeTab"
       screenOptions={({route}) => {
         return {
           lazy: true,
@@ -119,24 +118,24 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
         };
       }}>
       <Tab.Screen
-        name={'HistoryTab'}
-        component={HistoryStack}
+        name={'PostTab'}
+        component={PostStack}
         options={generateTabBarItemOptions({
           icon: IconHistory,
           activeIcon: IconHistoryActive,
         })}
       />
       <Tab.Screen
-        name={'ProfileTab'}
-        component={ProfileStack}
+        name={'HomeTab'}
+        component={HomeStack}
         options={generateTabBarItemOptions({
           icon: IconWallet,
           activeIcon: IconWalletActive,
         })}
       />
       <Tab.Screen
-        name={'SearchTab'}
-        component={SearchStack}
+        name={'HistoryTab'}
+        component={HistoryStack}
         options={generateTabBarItemOptions({
           icon: IconSearch,
           activeIcon: IconSearchActive,

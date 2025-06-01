@@ -29,7 +29,7 @@ export interface WalletSecret {
 export interface UserResponse {
   user_id?: string;
   username?: string;
-  avatar?: any;
+  avatar?: string;
   bio?: any;
   email?: string;
   notiToken?: string;

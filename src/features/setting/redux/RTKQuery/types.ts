@@ -1,4 +1,13 @@
-export interface NetworkResponse {
+export interface GetListNetworkResponse {
+  wallet_network_id: string;
+  wallet_id: string;
+  network_id: string;
+  address: string;
+  created_at: string;
+  updated_at: string;
+  networks: Network;
+}
+export interface Network {
   network_id: string;
   network_name: string;
   symbol: string;
@@ -23,4 +32,9 @@ export interface CreateNetworkRequest {
   chain_id: string;
   wallet_network_address: string;
   is_testnet?: boolean;
+}
+export interface CreateTokenRequest {
+  contract_address: string;
+  wallet_id: string;
+  network_id: string;
 }

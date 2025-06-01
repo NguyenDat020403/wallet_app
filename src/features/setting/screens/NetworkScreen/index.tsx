@@ -21,7 +21,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
   const styles = useStyles(safeAreaInsets);
   const [getNetworkList, {data, isSuccess, isLoading}] =
     useGetNetworkListMutation();
-  const {currentUser} = useAppSelector(state => state.authReducer);
+  const {currentWalletID} = useAppSelector(state => state.authReducer);
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
   });
   useFocusEffect(
     useCallback(() => {
-      getNetworkList({});
+      getNetworkList({wallet_id: currentWalletID});
     }, []),
   );
   useEffect(() => {
@@ -73,7 +73,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
             style={{paddingVertical: 16, flex: 1}}
             data={data}
             renderItem={({item}) => {
-              return <NetworkItem data={item} />;
+              return <NetworkItem data={item.networks} />;
             }}
           />
         ) : (

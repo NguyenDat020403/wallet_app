@@ -19,6 +19,7 @@ import {
   setIsFirstLaunch,
   setSecretLocal,
   signUpUser,
+  uploadAvatar,
 } from '../slices';
 import {navigate, replace} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
@@ -26,6 +27,8 @@ import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {
   ImportWalletApiParams,
   SignUpUserApiParams,
+  UploadAvatarApiParams,
+  UploadMediaResponse,
 } from '../../services/api/types';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
@@ -127,8 +130,29 @@ function* importWalletSaga(
     hideAppLoading();
   }
 }
+function* uploadAvatarSaga(
+  action: PayloadAction<UploadAvatarApiParams>,
+): SagaIterator<any> {
+  showAppLoading();
+  console.log(action.payload);
+  try {
+    const {message, data, status, error}: FullResponse<UploadMediaResponse> =
+      yield call(authApi.UploadAvatarApiParams, action.payload.params);
+
+    // if (error === '0') {
+    console.log('data updated avatar', data);
+    yield put(setCurrentUserProfile(data.data));
+    action.payload.callback && action.payload.callback();
+    // }
+  } catch (e: any) {
+    showToastMessage(e.message);
+  } finally {
+    hideAppLoading();
+  }
+}
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
   yield takeLatest(signUpUser, signUpUserSaga);
   yield takeLatest(importWallet, importWalletSaga);
+  yield takeLatest(uploadAvatar, uploadAvatarSaga);
 }

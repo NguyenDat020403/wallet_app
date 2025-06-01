@@ -1,16 +1,17 @@
 import {FullResponse} from '@/redux/RTKQuery/types';
 import {RTKQueryNetworkApi} from '@/redux/RTKQuery';
-import {CreateNetworkRequest, NetworkResponse} from './types';
+import {CreateNetworkRequest, GetListNetworkResponse, Network} from './types';
 import {showToastMessage} from '@/functions';
 
 const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
   endpoints: builder => ({
     getNetworkList: builder.mutation({
-      query: () => ({
-        url: '/getNetworkList',
+      query: (params: {wallet_id: string}) => ({
+        url: '/getNetworkList' + `/${params.wallet_id}`,
         method: 'GET',
+        params,
       }),
-      transformResponse: (response: FullResponse<NetworkResponse[]>) =>
+      transformResponse: (response: FullResponse<GetListNetworkResponse[]>) =>
         response.data,
     }),
     createNetwork: builder.mutation({
@@ -19,7 +20,7 @@ const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
         method: 'POST',
         body: body,
       }),
-      transformResponse: (response: FullResponse<NetworkResponse>) => {
+      transformResponse: (response: FullResponse<Network>) => {
         if (response.data) {
           showToastMessage(response.message);
           console.log('loi');

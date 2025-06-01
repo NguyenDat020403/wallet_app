@@ -2,6 +2,7 @@ import {FullResponse} from '@/redux/RTKQuery/types';
 import {
   RTKQueryNetworkApi,
   RTKQueryNotificationApi,
+  RTKQueryTokenApi,
   RTKQueryTransactionApi,
   RTKQueryWalletApi,
 } from '@/redux/RTKQuery';
@@ -13,6 +14,8 @@ import {
   GasEstimatesResponse,
   getCurrentTransactionRequest,
   getTransactionsHistoryRequest,
+  SendAddressHistoryRequest,
+  TokenMarketDataResponse,
   TransactionHistory,
   TransactionHistoryByDate,
   WalletResponse,
@@ -57,7 +60,20 @@ const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
-
+const tokenRTKQueryApi = RTKQueryTokenApi.injectEndpoints({
+  endpoints: builder => ({
+    getTokenMarketData: builder.mutation({
+      query: (body: {symbol: string; name: string}) => ({
+        url: '/market',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<TokenMarketDataResponse>) =>
+        response.data,
+    }),
+  }),
+  overrideExisting: true,
+});
 const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
   endpoints: builder => ({
     getEstimateGas: builder.mutation({
@@ -110,7 +126,7 @@ const transactionRTKQueryApi = RTKQueryTransactionApi.injectEndpoints({
     }),
 
     getSendTransactionToAddressHistory: builder.mutation({
-      query: (body: {address: string}) => ({
+      query: (body: SendAddressHistoryRequest) => ({
         url: '/getSendTransactionToAddressHistory',
         method: 'POST',
         body: body,
@@ -135,6 +151,7 @@ const notificationRTKQueryApi = RTKQueryNotificationApi.injectEndpoints({
   overrideExisting: true,
 });
 export const {useRegisterTokenNotificationMutation} = notificationRTKQueryApi;
+export const {useGetTokenMarketDataMutation} = tokenRTKQueryApi;
 export const {useGetWalletMutation, useGetUserWalletsMutation} =
   walletRTKQueryApi;
 export const {

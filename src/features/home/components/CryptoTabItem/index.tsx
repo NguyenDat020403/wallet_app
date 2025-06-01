@@ -128,30 +128,32 @@ const CoinItem: React.FC<CoinItemProps> = ({
                 },
               ]}
               numberOfLines={1}>
-              {data.token.price_feed_id || 'loading...'}
+              {data.market_data?.price?.toFixed(2) + '$' || 'no data'}
             </Text>
             <Text
               style={[
                 styles.textCap1,
                 {
                   color:
-                    Number(data.token.percent_change_24h) > 0 &&
-                    data.token.percent_change_24h !== undefined
-                      ? '#20BCA4'
+                    Number(data.market_data?.percent_change_24h) > 0
+                      ? '#FFF'
                       : '#BC3C20',
                 },
               ]}>
-              {data.token.percent_change_24h}%
+              {data.market_data?.percent_change_24h}%
             </Text>
           </View>
         </View>
       </View>
       <View style={{alignItems: 'flex-end'}}>
         <Text style={styles.textBody3Regular}>
-          {data.network?.network_name}
+          {Number(data.balance) === 0 ? 0 : Number(data.balance).toFixed(5)}
         </Text>
         <Text style={[styles.textCap1, {color: '#7B849B'}]}>
-          {data.balance}
+          {(
+            data.market_data?.price &&
+            Number(data.balance) * data.market_data?.price
+          )?.toFixed(2)}
         </Text>
       </View>
     </TouchableOpacity>

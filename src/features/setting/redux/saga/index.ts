@@ -6,9 +6,13 @@ import {goBack, navigate} from '@/navigation/RootNavigation';
 import {showToastMessage} from '@/functions';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {FullResponse} from '@/redux/RTKQuery/types';
-import {CreateNetworkRequest, NetworkResponse} from '../RTKQuery/types';
+import {
+  CreateNetworkRequest,
+  CreateTokenRequest,
+  NetworkResponse,
+} from '../RTKQuery/types';
 import {settingApi} from '../../services';
-import {createNetwork} from '../slices';
+import {createNetwork, createToken} from '../slices';
 
 function* createNetworkSaga(
   action: PayloadAction<CreateNetworkRequest>,
@@ -17,7 +21,7 @@ function* createNetworkSaga(
   try {
     const {message, data, status, error}: FullResponse<NetworkResponse> =
       yield call(settingApi.createNetwork, action.payload);
-    if (status === '200' || error === '0') {
+    if (status === '200' && error === '0') {
       showToastMessage(message);
       goBack();
     } else {
@@ -29,6 +33,29 @@ function* createNetworkSaga(
     hideAppLoading();
   }
 }
+function* createTokenSaga(
+  action: PayloadAction<CreateTokenRequest>,
+): SagaIterator<any> {
+  showAppLoading();
+  try {
+    const {message, data, status, error}: FullResponse<string> = yield call(
+      settingApi.createToken,
+      action.payload,
+    );
+    if (status === '200' && error === '0') {
+      showToastMessage(message);
+      goBack();
+    } else {
+      showToastMessage(message);
+      hideAppLoading();
+    }
+  } catch (e: any) {
+    showToastMessage(e);
+  } finally {
+    hideAppLoading();
+  }
+}
 export default function* settingSaga() {
   yield takeLatest(createNetwork, createNetworkSaga);
+  yield takeLatest(createToken, createTokenSaga);
 }

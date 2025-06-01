@@ -11,7 +11,7 @@ import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {useGetNetworkListMutation} from '../../redux/RTKQuery';
 import AppTextInput from '@/components/AppTextInput';
 import {useForm} from 'react-hook-form';
@@ -22,18 +22,24 @@ import {Icon, Image} from '@rneui/base';
 import {schemaValidate} from './schemaValidate';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {goBack} from '@/navigation/RootNavigation';
+import {createToken} from '../../redux/slices';
 
 interface TokenScreenProps extends MainStackScreenProps<'TokenScreen'> {}
 
 const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+
+  const dispatch = useAppDispatch();
+
   const [getNetworkList, {data, isSuccess, isLoading}] =
     useGetNetworkListMutation();
-  const {currentUser} = useAppSelector(state => state.authReducer);
+  const {currentWalletID} = useAppSelector(state => state.authReducer);
 
   const [isVisible, setIsVisible] = useState(false);
-  const [selectedNetwork, setSelectedNetwork] = useState(data && data[0]);
+  const [selectedNetwork, setSelectedNetwork] = useState(
+    data && data[0].networks,
+  );
 
   const {
     control,
@@ -53,22 +59,29 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
     resolver: yupResolver(schemaValidate),
   });
 
-  const onSubmit = (body: {
+  const onSubmit = async (body: {
     contract_address: string;
     symbol: string;
     decimal: string;
   }) => {
-    //create Token
+    const isEVM = selectedNetwork?.chain_id !== '0' ? 1 : 0;
+    dispatch(
+      createToken({
+        contract_address: body.contract_address,
+        wallet_id: currentWalletID,
+        network_id: selectedNetwork?.network_id!,
+      }),
+    );
   };
 
   useFocusEffect(
     useCallback(() => {
-      getNetworkList({});
+      getNetworkList({wallet_id: currentWalletID});
     }, []),
   );
   useEffect(() => {
     if (data) {
-      setSelectedNetwork(data[0]);
+      setSelectedNetwork(data[0].networks);
     }
   }, [data]);
   return (
@@ -142,7 +155,7 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
               <TouchableOpacity
                 onPress={() => {
                   setIsVisible(false);
-                  setSelectedNetwork(item);
+                  setSelectedNetwork(item.networks);
                 }}
                 style={{
                   flexDirection: 'row',
@@ -150,10 +163,12 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
                   alignItems: 'center',
                 }}>
                 <AppImage
-                  source={{uri: item.thumbnail}}
+                  source={{uri: item.networks.thumbnail}}
                   style={{width: 40, height: 40, borderRadius: 150}}
                 />
-                <Text style={styles.textRegular}>{item.network_name}</Text>
+                <Text style={styles.textRegular}>
+                  {item.networks.network_name}
+                </Text>
               </TouchableOpacity>
             );
           }}
@@ -164,7 +179,6 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
         buttonStyle={{margin: 16}}
         onPress={() => {
           handleSubmit(onSubmit)();
-          goBack();
           //   navigation.navigate('AddNetworkScreen', {});
         }}
       />

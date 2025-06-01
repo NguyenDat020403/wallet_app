@@ -24,6 +24,7 @@ import {ImageWallet} from '@/assets/images';
 import {TouchableOpacity} from 'react-native';
 import {IconFingerprint} from '@/assets/icons';
 import {generateBiometricKeyForSignup, resetBiometricKeys} from './function';
+import {launchImageLibrary} from 'react-native-image-picker';
 interface CreateScreen1Props {
   tabIndex: (newTabIndex: number) => void;
 }

@@ -1,3 +1,5 @@
+import {UserResponse} from '../../redux/RTKQuery/types';
+
 export interface AccessInfoResponse {
   access_token?: string;
   refresh_token?: string;
@@ -29,4 +31,9 @@ export interface ImportWalletApiParams {
 
 export interface RegisterNotiTokenApi {
   FCMToken: string;
+}
+export interface UploadMediaResponse extends UserResponse {}
+export interface UploadAvatarApiParams {
+  params: FormData;
+  callback?: () => void;
 }

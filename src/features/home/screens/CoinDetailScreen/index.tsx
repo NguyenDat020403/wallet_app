@@ -22,6 +22,7 @@ import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import WalletScreen from './walletDemo';
 import TransactionHistoryItem from '../../components/TransactionHistoryItem';
 import {RefreshControl} from 'react-native';
+import {useGetTokenMarketDataMutation} from '../../redux/RTKQuery';
 
 interface CoinDetailScreenProps
   extends MainStackScreenProps<'CoinDetailScreen'> {}
@@ -31,22 +32,22 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
   route,
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
-  const styles = useStyles();
+  const styles = useStyles(safeAreaInsets);
   const data = route.params.token;
   const coinName = data.token.token_name;
-  const optionChart = [
-    {id: '1', title: '1H'},
-    {id: '2', title: '1D'},
-    {id: '3', title: '1W'},
-    {id: '4', title: '1M'},
-    {id: '5', title: '1D'},
-    {id: '6', title: 'All'},
-  ];
-  const lineData = fakeMarketPriceResponse.values.map((item, index) => ({
-    value: item.y,
-    label: new Date(item.x * 1000).toLocaleDateString(),
-  }));
-  const [isSelected, setIsSelected] = useState(0);
+  // const optionChart = [
+  //   {id: '1', title: '1H'},
+  //   {id: '2', title: '1D'},
+  //   {id: '3', title: '1W'},
+  //   {id: '4', title: '1M'},
+  //   {id: '5', title: '1D'},
+  //   {id: '6', title: 'All'},
+  // ];
+  // const lineData = fakeMarketPriceResponse.values.map((item, index) => ({
+  //   value: item.y,
+  //   label: new Date(item.x * 1000).toLocaleDateString(),
+  // }));
+  // const [isSelected, setIsSelected] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -74,11 +75,18 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
         <View style={styles.infoCoin}>
           <View style={{gap: 6}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>Balance</Text>
-            <Text style={styles.textBody3Regular}>2.32 ETH</Text>
+            <Text style={styles.textBody3Regular}>
+              {Number(data.balance).toFixed(5)}
+            </Text>
           </View>
           <View style={{alignItems: 'flex-end', gap: 6}}>
             <Text style={[styles.textCap1, {opacity: 0.6}]}>Value</Text>
-            <Text style={styles.textBody3Regular}>$6,911.70</Text>
+            <Text style={styles.textBody3Regular}>
+              $
+              {(Number(data.market_data?.price) * Number(data.balance)).toFixed(
+                2,
+              )}
+            </Text>
           </View>
         </View>
         <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
@@ -95,123 +103,21 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
           />
           <ActionItem icon={IconReceive} title="receive" />
         </View>
-        {/* <View style={{paddingVertical: 16, gap: 6}}>
-          <Text style={[styles.textCap1, {opacity: 0.6}]}>Price</Text>
-          <Text style={styles.textBody3Regular}>$1,555.68</Text>
-          <View style={{flexDirection: 'row', gap: 8}}>
-            <Text style={[styles.textCap1, {opacity: 0.6}]}>+$5.16</Text>
-            <Text style={[styles.textCap1, {opacity: 0.6}]}>(+1.23%)</Text>
-          </View>
-        </View> */}
-        {/* <View style={{marginHorizontal: -48}}>
-          <LineChart
-            data={lineData.map((item, index) => ({
-              value: item.value,
-              label: item.label,
-            }))}
-            hideDataPoints
-            hideRules={true}
-            hideAxesAndRules={true}
-            initialSpacing={0} // Đưa điểm đầu tiên sát mép trái
-            endSpacing={0} // Đưa điểm cuối sát mép phải
-            overflowTop={0} // Không chừa khoảng trống phía trên
-            overflowBottom={0} // Không chừa khoảng trống phía dưới
-            color="#FFFFFF"
-            spacing={20}
-            width={safeAreaInsets.screenWidth}
-            scrollToEnd={true}
-            thickness={1}
-            curved
-            isAnimated
-            disableScroll={false}
-            pointerConfig={{
-              activatePointersInstantlyOnTouch: true,
-              showPointerStrip: true,
-              hidePointers: true,
-              // eslint-disable-next-line react/no-unstable-nested-components
-              pointerLabelComponent: (items: any) => (
-                <View style={{}}>
-                  <Text style={[styles.textCap1, {width: 100}]}>
-                    {items[0].label}
-                  </Text>
-                  <Text style={[styles.textCap1, {width: 100}]}>
-                    {items[0].value}
-                  </Text>
-                </View>
-              ), // Hiển thị nhãn pointer
-            }}
-          />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            gap: 8,
-            marginBottom: 16,
-          }}>
-          {optionChart.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={
-                  isSelected === index
-                    ? styles.button
-                    : {
-                        borderWidth: 1,
-                        borderColor: '#272727',
-                        padding: 8,
-                        alignSelf: 'flex-start',
-                      }
-                }
-                onPress={() => {
-                  setIsSelected(index);
-                }}>
-                <Text
-                  style={
-                    isSelected === index
-                      ? styles.textBody1Regular
-                      : [styles.textBody1Regular, {color: '#7B849B'}]
-                  }>
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-        <View style={{gap: 6, paddingVertical: 16}}>
-          <Text style={[styles.textCap1, {opacity: 0.6}]}>Stats</Text>
 
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.textCap1}>24h volume</Text>
-            <Text style={styles.textCap1}>$3.37b</Text>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.textCap1}>Market cap.</Text>
-            <Text style={styles.textCap1}>$186.82b</Text>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.textCap1}>Total supply</Text>
-            <Text style={styles.textCap1}>120,221.729</Text>
-          </View>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.textCap1}>Circulating supply</Text>
-            <Text style={styles.textCap1}>120,221.729</Text>
-          </View>
-          <View style={{flexDirection: 'row', gap: 8}}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={[styles.textCap1, {opacity: 0.6}]}>Twitter</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={[styles.textCap1, {opacity: 0.6}]}>Website</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Text style={[styles.textCap1, {opacity: 0.6}]}>Reddit</Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
         <Text style={styles.textBody2SemiBold}>History</Text>
         <TransactionHistoryItem data={data} />
       </ScrollView>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('CoinMarketScreen', {token: data});
+        }}
+        activeOpacity={0.7}
+        style={styles.bottomContainer}>
+        <Text style={styles.textBody1RegularBlack}>Current Price ($):</Text>
+        <Text style={styles.textBody1RegularBlack}>
+          {data.market_data?.price?.toFixed(2)}$
+        </Text>
+      </TouchableOpacity>
     </AppWrapper>
   );
 };

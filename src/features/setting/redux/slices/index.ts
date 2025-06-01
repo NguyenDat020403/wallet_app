@@ -2,7 +2,7 @@ import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistReducer} from 'redux-persist';
 import {SettingInitialState} from './types';
-import {CreateNetworkRequest} from '../RTKQuery/types';
+import {CreateNetworkRequest, CreateTokenRequest} from '../RTKQuery/types';
 
 const initialState: SettingInitialState = {};
 
@@ -11,10 +11,11 @@ export const settingSlice = createSlice({
   initialState,
   reducers: {
     createNetwork: (_, _action: PayloadAction<CreateNetworkRequest>) => {},
+    createToken: (_, _action: PayloadAction<CreateTokenRequest>) => {},
   },
 });
 
-export const {createNetwork} = settingSlice.actions;
+export const {createNetwork, createToken} = settingSlice.actions;
 
 const settingPersistConfig = {
   key: 'setting',

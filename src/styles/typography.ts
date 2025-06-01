@@ -77,17 +77,17 @@ const typography = StyleSheet.create({
   },
   body2Bold: {
     fontFamily: 'ibm_semibold',
-    fontSize: 13,
+    fontSize: 16,
     lineHeight: 17,
     color: '#202020',
   },
   body2SemiBold: {
     fontFamily: 'ibm_semibold',
-    fontSize: 20,
+    fontSize: 16,
     color: '#FFFFFF',
   },
   body2Medium: {
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: 'ibm_medium',
     color: '#FFFFFF',
   },
@@ -103,7 +103,7 @@ const typography = StyleSheet.create({
     color: '#F3F3F3',
   },
   body3: {
-    fontSize: 12,
+    fontSize: 18,
     fontFamily: 'ibm_regular',
   },
   body3Regular: {
@@ -118,7 +118,7 @@ const typography = StyleSheet.create({
   },
   body3Bold: {
     fontFamily: 'ibm_bold',
-    fontSize: 17,
+    fontSize: 18,
     lineHeight: 21,
     color: '#FFFFFF',
   },

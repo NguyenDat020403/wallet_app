@@ -48,6 +48,11 @@ export const RTKQueryNetworkApi = createApi({
   baseQuery: baseQueryWithReAuth(Config.API_URL_NETWORK),
   endpoints: builder => ({}),
 });
+export const RTKQueryTokenApi = createApi({
+  reducerPath: 'RTKQueryTokenApi',
+  baseQuery: baseQueryWithReAuth(Config.API_URL_TOKEN),
+  endpoints: builder => ({}),
+});
 
 export const RTKQueryTransactionApi = createApi({
   reducerPath: 'RTKQueryTransactionApi',
@@ -57,5 +62,11 @@ export const RTKQueryTransactionApi = createApi({
 export const RTKQueryNotificationApi = createApi({
   reducerPath: 'RTKQueryNotificationApi',
   baseQuery: baseQueryWithReAuth(Config.API_URL_NOTIFICATION),
+  endpoints: builder => ({}),
+});
+
+export const RTKQueryPostApi = createApi({
+  reducerPath: 'RTKQueryPostApi',
+  baseQuery: baseQueryWithReAuth(Config.API_URL_POST),
   endpoints: builder => ({}),
 });

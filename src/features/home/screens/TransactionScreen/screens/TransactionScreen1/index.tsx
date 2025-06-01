@@ -45,7 +45,11 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
       token.network.chain_id === '0'
         ? secretLocal.wallets![1].address
         : secretLocal.wallets![0].address;
-    getListHistoryAddress({address: address});
+    getListHistoryAddress({
+      address: address,
+      chain_id: token.network.chain_id,
+      decimals: token.token.decimals.toString(),
+    });
   }, []);
   const {
     control,

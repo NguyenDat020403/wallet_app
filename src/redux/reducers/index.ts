@@ -7,6 +7,8 @@ import {
   RTKQueryIdentityApi,
   RTKQueryNetworkApi,
   RTKQueryNotificationApi,
+  RTKQueryPostApi,
+  RTKQueryTokenApi,
   RTKQueryTransactionApi,
   RTKQueryWalletApi,
 } from '../RTKQuery';
@@ -19,6 +21,8 @@ const rootReducer = combineReducers({
   [RTKQueryIdentityApi.reducerPath]: RTKQueryIdentityApi.reducer,
   [RTKQueryWalletApi.reducerPath]: RTKQueryWalletApi.reducer,
   [RTKQueryNetworkApi.reducerPath]: RTKQueryNetworkApi.reducer,
+  [RTKQueryTokenApi.reducerPath]: RTKQueryTokenApi.reducer,
+  [RTKQueryPostApi.reducerPath]: RTKQueryPostApi.reducer,
   [RTKQueryTransactionApi.reducerPath]: RTKQueryTransactionApi.reducer,
   [RTKQueryNotificationApi.reducerPath]: RTKQueryNotificationApi.reducer,
 });

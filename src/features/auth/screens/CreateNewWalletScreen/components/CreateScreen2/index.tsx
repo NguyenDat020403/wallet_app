@@ -15,6 +15,9 @@ import {
   IconImage,
 } from '@/assets/icons';
 import {IconCamera} from '@/features/auth/assets/icons';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {useAppDispatch} from '@/redux/hooks';
+import {uploadAvatar} from '@/features/auth/redux/slices';
 
 interface CreateScreen2Props {
   tabIndex: (newTabIndex: number) => void;
@@ -23,9 +26,32 @@ interface CreateScreen2Props {
 const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
+  const dispatch = useAppDispatch();
+
   const [isVisible, setIsVisible] = useState(false);
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState<{
+    uri: string;
+    fileName: string;
+    type: string;
+  }>();
   const URL = '123123';
+  const handleContinue = () => {
+    const formData = new FormData();
+    const a: any = {
+      uri: avatar!.uri,
+      name: avatar!.fileName,
+      type: avatar!.type,
+    };
+    formData.append('file', a);
+    dispatch(
+      uploadAvatar({
+        params: formData,
+        callback: () => {
+          tabIndex(2);
+        },
+      }),
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -51,15 +77,16 @@ const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
             containerStyle={{
               alignSelf: 'center',
               position: 'absolute',
-              top: -50,
+              top: -16,
             }}
           />
         )}
         <Image
-          source={avatar ? avatar : ImageAddAvatar}
+          source={avatar ? {uri: avatar.uri} : ImageAddAvatar}
           style={{
-            width: safeAreaInsets.screenWidth - 128,
-            height: safeAreaInsets.screenWidth - 128,
+            width: safeAreaInsets.screenWidth - 64,
+            height: safeAreaInsets.screenWidth - 64,
+            borderRadius: 300,
           }}
           containerStyle={{alignSelf: 'center'}}
         />
@@ -76,7 +103,7 @@ const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
         title="Continue"
         disable={!URL}
         onPress={() => {
-          tabIndex(2);
+          handleContinue();
         }}
       />
       <BottomSelectedModal
@@ -90,12 +117,6 @@ const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
 
 export default CreateScreen2;
 
-const ListOption = [
-  {icon: IconCamera, title: 'Take Photo'},
-  {icon: IconImage, title: 'Choose image'},
-  {icon: IconEmoji, title: 'Use emoji'},
-];
-
 type BottomSelectedModalProps = {
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -108,6 +129,31 @@ const BottomSelectedModal: React.FC<BottomSelectedModalProps> = ({
   setImage,
 }) => {
   const styles = useStyles();
+  const ListOption = [
+    {
+      icon: IconCamera,
+      title: 'Take Photo',
+      onPress: () => {
+        //open camera
+      },
+    },
+    {
+      icon: IconImage,
+      title: 'Choose image',
+      onPress: async () => {
+        const result = await launchImageLibrary({
+          mediaType: 'photo',
+          includeBase64: false,
+        });
+        const asset = result.assets?.[0];
+        if (asset) {
+          setImage(asset);
+        }
+      },
+    },
+    {icon: IconEmoji, title: 'Use emoji'},
+  ];
+
   return (
     <ReactNativeModal
       coverScreen={false}
@@ -133,7 +179,8 @@ const BottomSelectedModal: React.FC<BottomSelectedModalProps> = ({
           return (
             <TouchableOpacity
               onPress={() => {
-                setImage(ImageAvatar);
+                item.onPress && item.onPress();
+                // setImage(ImageAvatar);
                 setIsVisible(false);
               }}
               activeOpacity={0.8}

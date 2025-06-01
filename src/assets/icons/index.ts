@@ -33,3 +33,4 @@ export {default as IconManagePersonal} from './IconManagePersonal.png';
 export {default as IconFind} from './IconFind.png';
 export {default as IconWarning} from './IconWarning.png';
 export {default as IconFingerprint} from './IconFingerprint.png';
+export {default as IconPicture} from './IconPicture.png';

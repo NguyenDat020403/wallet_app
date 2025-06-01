@@ -4,3 +4,4 @@ export {default as StoryScreen} from './StoryScreen';
 export {default as CoinDetailScreen} from './CoinDetailScreen';
 export {default as TransactionScreen} from './TransactionScreen';
 export {default as TransactionHistoryScreen} from './TransactionHistoryScreen';
+export {default as CoinMarketScreen} from './CoinMarketScreen';
