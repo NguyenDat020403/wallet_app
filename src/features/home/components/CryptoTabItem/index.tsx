@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {FlatList, RefreshControl, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
-import {AppListLoading, AppWrapper} from '@/components';
+import {AppImage, AppListLoading, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {Image} from '@rneui/base';
-import {IconDown} from '@/assets/icons';
+import {IconDown, IconWarning} from '@/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {navigate} from '@/navigation/RootNavigation';
 import {Network, Tokens} from './types';
@@ -43,15 +43,8 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
             <AppListLoading isLoading={isLoading} />
           ) : !data ? (
             <View style={styles.noTokenContainer}>
-              <Image source={IconDown} style={{width: 150, height: 150}} />
+              <Image source={IconWarning} style={{width: 150, height: 150}} />
               <Text style={styles.textBody3Regular}>No tokens found</Text>
-              <Text
-                style={[
-                  styles.textBody2Regular,
-                  {opacity: 0.6, textAlign: 'center'},
-                ]}>
-                Deposit tokens to your address or buy Ethereum to get started
-              </Text>
             </View>
           ) : (
             <></>
@@ -107,17 +100,16 @@ const CoinItem: React.FC<CoinItemProps> = ({
         paddingHorizontal: 16,
       }}>
       <View style={styles.leftCoinItem}>
-        <Image
+        <AppImage
           source={{uri: data.token.thumbnail}}
           style={styles.coinIcon}
-          containerStyle={{alignSelf: 'center', borderRadius: 150}}
         />
         <View
           style={{
             width: safeAreaInsets.screenWidth - 32 - 18 - 150,
           }}>
           <Text style={styles.textBody3Regular} numberOfLines={1}>
-            {data.token.token_name}
+            {data.token.symbol}
           </Text>
           <View style={{flexDirection: 'row', gap: 12}}>
             <Text

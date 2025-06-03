@@ -55,7 +55,7 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
           </View>
         </View>
       </View>
-      <View style={{marginBottom: 16, paddingHorizontal: 16}}>
+      <View style={{paddingHorizontal: 16, marginBottom: 16, gap: 8}}>
         <Text
           style={[styles.textCap1, {textAlign: 'center', marginBottom: 16}]}>
           “Backing up” means saving your wallet’s{' '}
@@ -71,10 +71,11 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
           }}
         />
         <AppButton
-          textStyle={{color: '#FFFFFF'}}
-          buttonStyle={styles.button}
+          isOpposite
           title="Do it Later"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('AppTabScreen');
+          }}
         />
       </View>
     </AppWrapper>

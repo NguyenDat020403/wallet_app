@@ -70,10 +70,11 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
         contract_address: body.contract_address,
         wallet_id: currentWalletID,
         network_id: selectedNetwork?.network_id!,
+        symbol: body.symbol,
+        decimal: Number(body.decimal),
       }),
     );
   };
-
   useFocusEffect(
     useCallback(() => {
       getNetworkList({wallet_id: currentWalletID});

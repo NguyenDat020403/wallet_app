@@ -4,9 +4,9 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    padding: 16,
     justifyContent: 'space-between',
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
   },
   textBody3Regular: {
     ...typography.body3Regular,

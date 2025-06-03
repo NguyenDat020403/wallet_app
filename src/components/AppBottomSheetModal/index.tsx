@@ -28,7 +28,7 @@ type AppBottomSheetModalProps = PropsWithChildren<{
   footerComponent?: React.FC<BottomSheetFooterProps>;
   isTopInset?: boolean;
   isBottomInset?: boolean;
-  animatedPosition?: SharedValue<number>;
+  // animatedPosition?: SharedValue<number>;
 }>;
 
 export type AppBottomSheetModalRef = {
@@ -48,7 +48,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
     autoSize,
     footerComponent,
     isBottomInset = false,
-    animatedPosition,
+    // animatedPosition,
   },
   ref,
 ) => {
@@ -88,7 +88,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
       footerComponent={footerComponent}
       enableDynamicSizing={autoSize}
       containerStyle={{zIndex: 10}}
-      animatedPosition={animatedPosition}
+      // animatedPosition={animatedPosition}
       keyboardBehavior="extend"
       onChange={value => {
         // indexRef.current = value;
@@ -98,21 +98,21 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
         }
       }}
       handleStyle={{
-        backgroundColor: '#333333',
+        backgroundColor: '#FFFFF3',
         borderTopLeftRadius: 14,
         borderTopRightRadius: 14,
       }}
       // topInset={safeAreaInsets.top}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={{
-        backgroundColor: '#FFF',
+        backgroundColor: '#333',
       }}>
       <BottomSheetView
         style={[
           {
             paddingHorizontal: 16,
             paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0,
-            backgroundColor: '#1A1A1A',
+            backgroundColor: '#FFF',
           },
           !autoSize && {flex: 1},
         ]}>

@@ -5,7 +5,7 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     padding: 16,
   },
   warning: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     paddingVertical: 16,
     borderWidth: 0.5,
     borderRadius: 12,
-    borderColor: '#333333',
+    borderColor: '#0000003',
   },
   icon: {
     width: 12,

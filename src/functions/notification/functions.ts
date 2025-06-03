@@ -67,3 +67,28 @@ export const requestUserPermission = async () => {
     console.log('Notification permission not granted');
   }
 };
+export const requestCameraPermission = async () => {
+  if (Platform.OS === 'android') {
+    await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+  }
+
+  const authStatus = await messaging().requestPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  if (enabled) {
+    console.log('Camera permission granted:', authStatus);
+    const token = await messaging().getToken();
+    console.log('Camera Token:', token);
+    return token;
+    // if (token) {
+    //   try {
+    //     store.dispatch(setDeviceNotiToken(token));
+    //     return token;
+    //   } catch (err) {}
+    // }
+  } else {
+    console.log('Camera permission not granted');
+  }
+};

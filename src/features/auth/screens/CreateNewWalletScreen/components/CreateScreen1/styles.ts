@@ -5,7 +5,7 @@ const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
     position: 'relative',
-    paddingHorizontal: 16,
+    padding: 16,
     justifyContent: 'space-between',
   },
   textBody3Regular: {

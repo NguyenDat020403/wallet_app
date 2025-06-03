@@ -72,7 +72,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
             </View>
           </View>
           <View style={{alignSelf: 'center'}}>
-            <Icon type="feather" name="arrow-right" color={'#FFFFFF'} />
+            <Icon type="feather" name="chevron-right" color={'#FFFFFF'} />
           </View>
         </TouchableOpacity>
 

@@ -141,7 +141,7 @@ function* uploadAvatarSaga(
 
     // if (error === '0') {
     console.log('data updated avatar', data);
-    yield put(setCurrentUserProfile(data.data));
+    yield put(setCurrentUserProfile(data));
     action.payload.callback && action.payload.callback();
     // }
   } catch (e: any) {

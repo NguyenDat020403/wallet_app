@@ -21,11 +21,13 @@ import {
   IconSend,
   IconSetting,
   IconSwap,
+  IconWalletItem,
 } from '@/assets/icons';
 import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {TabView} from '@rneui/base';
 import {
+  useGetUserWalletsMutation,
   useGetWalletMutation,
   useRegisterTokenNotificationMutation,
 } from '../../redux/RTKQuery';
@@ -34,6 +36,9 @@ import {requestUserPermission} from '@/functions/notification/functions';
 import {StyleProp} from 'react-native';
 import {hideAppLoading} from '@/features/common/functions';
 import {logout} from '@/features/auth/redux/slices';
+import {setUserWallets} from '../../redux/slices';
+import {UserWallet} from '../../redux/slices/types';
+import {AppBottomSheetModal, AppImage} from '@/components';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -41,15 +46,23 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const dispatch = useAppDispatch();
-  const [registerNotiToken] = useRegisterTokenNotificationMutation();
-
   const {currentUser, currentWalletID, secretLocal} = useAppSelector(
     state => state.authReducer,
   );
-  const [getWalletDetail, {data, isSuccess, isLoading}] =
-    useGetWalletMutation();
+  const {userWallet} = useAppSelector(state => state.homeReducer);
+  const currentUserWallet = userWallet.find(
+    w => w.wallet_id === currentWalletID,
+  );
+  const [registerNotiToken] = useRegisterTokenNotificationMutation();
+  const [getUserWallets, {data: userWallets, isSuccess}] =
+    useGetUserWalletsMutation();
+  const [getWalletDetail, {data, isLoading}] = useGetWalletMutation();
+  const [currentWaleltInfo, setCurrentWalletInfo] = useState<
+    UserWallet | undefined
+  >(currentUserWallet && currentUserWallet);
   const [tabIndex, setTabIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -67,12 +80,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       registerNotiToken({FCMToken: token});
     }
   };
-  hideAppLoading();
+
   useEffect(() => {
     handleCheckPermission();
+    getUserWallets({});
     getWalletDetail({wallet_id: currentWalletID});
   }, []);
-  console.log(currentUser.data);
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(userWallets);
+
+      dispatch(setUserWallets(userWallets));
+
+      setCurrentWalletInfo(
+        userWallets.find(w => w.wallet_id === currentWalletID),
+      );
+    }
+  }, [userWallets, isSuccess]);
   return (
     <AppWrapper>
       <AppHeader
@@ -92,23 +117,41 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 dispatch(logout());
                 navigation.navigate('LoginScreen');
               }}>
-              <Image source={IconCopy} style={styles.iconHeader} />
+              <AppImage
+                source={IconCopy}
+                style={[styles.iconHeader, {padding: 4}]}
+                haveDefault={false}
+              />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Image source={IconQR} style={styles.iconHeader} />
+              <AppImage
+                source={IconQR}
+                resizeMode="stretch"
+                style={styles.iconHeader}
+                haveDefault={false}
+              />
             </TouchableOpacity>
           </View>
         }
       />
       <View style={styles.container}>
-        <TouchableOpacity activeOpacity={0.8} style={styles.userInfo}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsVisible(true);
+          }}
+          activeOpacity={0.8}
+          style={styles.userInfo}>
           <Image
             source={
-              currentUser.avatar ? {uri: currentUser.avatar} : ImageAvatar
+              currentUser && currentUser.avatar
+                ? {uri: currentUser.avatar}
+                : ImageAvatar
             }
             style={styles.icon}
           />
-          <Text style={styles.textBody3Regular}>{currentUser.username}</Text>
+          <Text style={styles.textBody3Regular}>
+            {currentWaleltInfo?.wallet_name}
+          </Text>
           <Image source={IconArrowDown} style={styles.icon} />
         </TouchableOpacity>
         <Text
@@ -119,8 +162,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           {data?.wallet.wallet_balance || 0} $
         </Text>
         <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
-          <ActionItem icon={IconBuy} title="buy" />
-          <ActionItem icon={IconSwap} title="swap" />
           <ActionItem
             icon={IconSend}
             title="send"
@@ -130,45 +171,38 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           />
           <ActionItem icon={IconReceive} title="receive" />
         </View>
-        <View style={styles.tabBar}>
-          {['Crypto', 'Collectibles'].map((tab, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => handleTabIndex(index)}
-              style={tabIndex === index ? styles.underline : null}>
-              <Text
-                style={[
-                  styles.textCap1,
-                  {opacity: tabIndex === index ? 1 : 0.6, lineHeight: 24},
-                ]}>
-                {tab}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-        <TabView value={tabIndex} onChange={setTabIndex}>
-          <TabView.Item style={{flex: 1}}>
-            <CryptoTabItem
-              isHomeList
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              isLoading={isLoading}
-              data={data?.tokens}
-            />
-          </TabView.Item>
-          <TabView.Item style={{flex: 1}}>
-            <Text style={styles.textCap1}>2</Text>
-          </TabView.Item>
-        </TabView>
+        <CryptoTabItem
+          isHomeList
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          isLoading={isLoading}
+          data={data?.tokens}
+        />
         <TouchableOpacity
           style={styles.addTokenComponent}
           onPress={() => {
             navigation.navigate('TokenScreen');
           }}>
           <Image source={IconBuy} style={{width: 20, height: 20}} />
-          <Text style={styles.textBody1Regular}>Add Token</Text>
+          <Text style={[styles.textBody1Regular, {color: '#FFF'}]}>
+            Add Token
+          </Text>
         </TouchableOpacity>
       </View>
+      <AppBottomSheetModal isVisible={isVisible} setIsVisible={setIsVisible}>
+        {userWallet &&
+          userWallet.map(item => {
+            return (
+              <View>
+                <AppImage
+                  source={IconWalletItem}
+                  style={{width: 32, height: 32}}
+                  haveDefault={false}
+                />
+              </View>
+            );
+          })}
+      </AppBottomSheetModal>
     </AppWrapper>
   );
 };

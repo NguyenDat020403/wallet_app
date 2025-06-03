@@ -7,24 +7,24 @@ import {
 import {ScreenComponent} from '../types';
 import {
   AppTabStackParamList,
-  HistoryTabStackParamList,
+  ChatTabStackParamList,
   HomeTabStackParamList,
   PostTabStackParamList,
 } from './types';
 import {generateTabBarItemOptions} from './functions';
 import {
-  IconHistory,
-  IconHistoryActive,
-  IconSearch,
-  IconSearchActive,
-  IconWallet,
-  IconWalletActive,
+  IconChat,
+  IconChatActive,
+  IconFeed,
+  IconFeedActive,
+  IconHome,
+  IconHomeActive,
 } from '@/assets/icons';
-import {HomeScreen, SendScreen, StoryScreen} from '@/features/home/screens';
+import {HomeScreen} from '@/features/home/screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {PostScreen} from '@/features/forum/screens';
 const Tab = createBottomTabNavigator<AppTabStackParamList>();
-const StackHistory = createNativeStackNavigator<HistoryTabStackParamList>();
+const StackChat = createNativeStackNavigator<ChatTabStackParamList>();
 const StackHome = createNativeStackNavigator<HomeTabStackParamList>();
 const StackPost = createNativeStackNavigator<PostTabStackParamList>();
 
@@ -74,18 +74,18 @@ function HomeStack() {
   );
 }
 
-const historyTabRoute = {
-  HomeScreen,
+const chatTabRoute = {
+  PostScreen,
 };
 
-function HistoryStack() {
+function ChatStack() {
   return (
-    <StackHistory.Navigator>
-      {Object.entries(historyTabRoute).map(([name, component]) => {
+    <StackChat.Navigator>
+      {Object.entries(chatTabRoute).map(([name, component]) => {
         return (
-          <StackHistory.Screen
+          <StackChat.Screen
             key={name}
-            name={name as keyof HistoryTabStackParamList}
+            name={name as keyof ChatTabStackParamList}
             component={component as ScreenComponent}
             options={{
               headerShown: false,
@@ -93,7 +93,7 @@ function HistoryStack() {
           />
         );
       })}
-    </StackHistory.Navigator>
+    </StackChat.Navigator>
   );
 }
 
@@ -111,7 +111,7 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
           tabBarStyle: {
             height: safeAreaInsets.bottom + 60,
             paddingTop: 8,
-            backgroundColor: '#0F0F0F',
+            backgroundColor: '#FFFFFF',
             position: 'absolute',
           },
           tabBarShowLabel: false,
@@ -121,24 +121,24 @@ export const AppTab: React.FC<NativeStackScreenProps<any>> = () => {
         name={'PostTab'}
         component={PostStack}
         options={generateTabBarItemOptions({
-          icon: IconHistory,
-          activeIcon: IconHistoryActive,
+          icon: IconFeed,
+          activeIcon: IconFeedActive,
         })}
       />
       <Tab.Screen
         name={'HomeTab'}
         component={HomeStack}
         options={generateTabBarItemOptions({
-          icon: IconWallet,
-          activeIcon: IconWalletActive,
+          icon: IconHome,
+          activeIcon: IconHomeActive,
         })}
       />
       <Tab.Screen
-        name={'HistoryTab'}
-        component={HistoryStack}
+        name={'ChatTab'}
+        component={ChatStack}
         options={generateTabBarItemOptions({
-          icon: IconSearch,
-          activeIcon: IconSearchActive,
+          icon: IconChat,
+          activeIcon: IconChatActive,
         })}
       />
     </Tab.Navigator>

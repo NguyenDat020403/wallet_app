@@ -4,8 +4,8 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
-    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
+    padding: 16,
   },
   textBody3Regular: {
     ...typography.body3Regular,
@@ -31,9 +31,9 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textBoxWord: {
     ...typography.body1Regular,
-    borderColor: '#FFF',
+    borderColor: '#000',
     borderRadius: 8,
-    borderWidth: 1,
+    borderWidth: 0.5,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
@@ -44,7 +44,7 @@ const useStyles = makeStyles(({colors}) => ({
     gap: 6,
     flexWrap: 'wrap',
     borderWidth: 0.5,
-    borderColor: '#FFF',
+    borderColor: '#000',
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,

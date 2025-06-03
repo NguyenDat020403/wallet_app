@@ -44,7 +44,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
               style={[
                 styles.tabBar,
                 {
-                  backgroundColor: tabIndex === index ? '#FFF' : '#333333',
+                  backgroundColor: tabIndex === index ? '#000' : '#00000003',
                 },
               ]}
             />

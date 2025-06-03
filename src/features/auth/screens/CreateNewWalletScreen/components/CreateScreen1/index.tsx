@@ -115,19 +115,21 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
           />
           <View
             style={{
-              flexDirection: 'row',
               alignItems: 'center',
               paddingVertical: 16,
             }}>
-            <Text style={[styles.textCap1, {color: '#B3B3B3'}]}>
-              Sign your finger-print for more save
-            </Text>
             <TouchableOpacity
               onPress={async () => {
                 await generateBiometricKeyForSignup();
               }}
-              style={{paddingHorizontal: 16, justifyContent: 'center'}}>
-              <Image source={IconFingerprint} style={{width: 40, height: 40}} />
+              style={{
+                padding: 8,
+                elevation: 10,
+                justifyContent: 'center',
+                backgroundColor: '#000',
+                borderRadius: 12,
+              }}>
+              <Image source={IconFingerprint} style={{width: 32, height: 32}} />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -136,7 +138,7 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={60}>
         <AppButton
           buttonStyle={{
-            opacity: isValid ? 1 : 0.6,
+            opacity: isValid ? 1 : 0.8,
             margin: 16,
           }}
           title="Continue"

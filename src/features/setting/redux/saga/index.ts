@@ -9,7 +9,7 @@ import {FullResponse} from '@/redux/RTKQuery/types';
 import {
   CreateNetworkRequest,
   CreateTokenRequest,
-  NetworkResponse,
+  Network,
 } from '../RTKQuery/types';
 import {settingApi} from '../../services';
 import {createNetwork, createToken} from '../slices';
@@ -19,8 +19,10 @@ function* createNetworkSaga(
 ): SagaIterator<any> {
   showAppLoading();
   try {
-    const {message, data, status, error}: FullResponse<NetworkResponse> =
-      yield call(settingApi.createNetwork, action.payload);
+    const {message, data, status, error}: FullResponse<Network> = yield call(
+      settingApi.createNetwork,
+      action.payload,
+    );
     if (status === '200' && error === '0') {
       showToastMessage(message);
       goBack();

@@ -14,7 +14,7 @@ import {
   useGetEstimateGasMutation,
 } from '@/features/home/redux/RTKQuery';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
-import {AppBottomSheetModal, AppButton} from '@/components';
+import {AppBottomSheetModal, AppButton, AppImage} from '@/components';
 import {
   IconFast,
   IconLightSpeed,
@@ -22,11 +22,11 @@ import {
   IconSlow,
   IconSuperFast,
 } from '@/assets/icons';
-import {Image} from '@rneui/base';
 import {goBack} from '@/navigation/RootNavigation';
 import {getCurrentTransaction} from '@/features/home/redux/slices';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {showToastMessage} from '@/functions';
+import {Icon} from '@rneui/base';
 
 type TransactionScreen3 = {
   amount: string;
@@ -120,7 +120,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
         setSelectedFee({fee: data.economyFee || 0, index: 0});
       } else {
         setSelectedFee({
-          fee: parseFloat(data.medium?.totalCost || '0'),
+          fee: Number(data.medium?.totalCost || '0'),
           index: 0,
         });
       }
@@ -169,17 +169,26 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
       <View style={styles.divider} />
       <View style={{flexGrow: 1}}>
         <View style={{gap: 8, marginBottom: 16}}>
-          <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>
-            {token.token.token_name} fee
-          </Text>
+          <Text style={[styles.textBody1Regular, {color: '#B3B3B3'}]}>Fee</Text>
           {isPickTheRange ? (
             <TouchableOpacity
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
               onPress={() => {
                 setIsVisible(true);
               }}>
-              <Text style={styles.textBody1Regular}>
-                {selectedFee.fee} {' ' + token.token.symbol} | Choose others"
+              <Text style={styles.textBody1Regular} numberOfLines={1}>
+                {selectedFee.fee} | {token.token.symbol}
               </Text>
+              <Icon
+                type="feather"
+                name="chevron-right"
+                color={'#000'}
+                iconStyle={{fontSize: 16}}
+              />
             </TouchableOpacity>
           ) : (
             <></>
@@ -222,22 +231,20 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
           }}
         />
       </View>
-      <AppBottomSheetModal
-        autoSize
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        isBottomInset>
+      <AppBottomSheetModal isVisible={isVisible} setIsVisible={setIsVisible}>
         <FeeList
           data={data}
           isEVM={token.network.chain_id !== '0'}
           setSelectedFee={setSelectedFee}
           indexCurrent={selectedFee.index}
-        />
-        <AppButton
-          title="Confirm"
-          onPress={() => {
-            setIsVisible(false);
-          }}
+          footerComponent={
+            <AppButton
+              title="Confirm"
+              onPress={() => {
+                setIsVisible(false);
+              }}
+            />
+          }
         />
       </AppBottomSheetModal>
     </View>
@@ -251,6 +258,7 @@ type FeeListProps = {
   data?: GasEstimatesResponse;
   indexCurrent?: number;
   setSelectedFee: React.Dispatch<SetStateAction<{fee: number; index: number}>>;
+  footerComponent?: React.ReactNode;
 };
 
 const FeeList: React.FC<FeeListProps> = ({
@@ -258,9 +266,9 @@ const FeeList: React.FC<FeeListProps> = ({
   setSelectedFee,
   isEVM,
   indexCurrent,
+  footerComponent,
 }) => {
   const styles = useStyles();
-
   const [isSelected, setIsSelected] = useState(indexCurrent || 1);
 
   const ListFeeBTC = [
@@ -292,7 +300,7 @@ const FeeList: React.FC<FeeListProps> = ({
       key: 5,
       title: 'Fastest',
       value: data?.fastestFee,
-      icon: IconLightSpeed,
+      icon: IconSuperFast,
     },
   ];
   const ListFeeEVM = [
@@ -315,41 +323,44 @@ const FeeList: React.FC<FeeListProps> = ({
       icon: IconSuperFast,
     },
   ];
-  const List = isEVM ? ListFeeEVM : ListFeeBTC;
   return (
-    <View style={{gap: 12, flex: 1, marginBottom: 16}}>
-      {List.map(item => {
+    <View style={{gap: 12, flex: 1, marginBottom: 16, backgroundColor: 'red'}}>
+      {(isEVM ? ListFeeEVM : ListFeeBTC).map(item => {
+        console.log(item);
         return (
           <TouchableOpacity
             activeOpacity={0.7}
             onPress={() => {
               setIsSelected(item.key);
-              setSelectedFee({fee: item.value!, index: item.key});
+              setSelectedFee({fee: Number(item.value), index: item.key});
             }}
             key={item.key}
             style={[
               styles.itemFee,
               {
-                borderColor: isSelected === item.key ? '#FFF' : '#0F0F0F',
+                borderColor: isSelected === item.key ? '#000' : '#00000030',
               },
             ]}>
-            <Image
-              source={item.icon}
-              style={{width: 40, height: 40}}
-              resizeMode="contain"
-            />
+            <View
+              style={{backgroundColor: '#000', padding: 12, borderRadius: 150}}>
+              <AppImage
+                source={item.icon}
+                style={{width: 28, height: 28}}
+                resizeMode="contain"
+                haveDefault={false}
+              />
+            </View>
             <View
               style={{
                 justifyContent: 'center',
               }}>
-              <Text style={styles.textBody3Regular}>{item?.title}</Text>
-              <Text style={styles.textBody1Regular}>
-                {item?.value || '...'}
-              </Text>
+              <Text style={styles.textBody2Medium}>{item?.title}</Text>
+              <Text style={styles.textCap1}>{item?.value || '...'}</Text>
             </View>
           </TouchableOpacity>
         );
       })}
+      {footerComponent && footerComponent}
       {/* Option 
       <View style={styles.itemFee}>
         <Image source={IconOptionFee} style={{width: 40, height: 40}} />

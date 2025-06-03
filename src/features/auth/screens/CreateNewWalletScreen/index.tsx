@@ -24,12 +24,28 @@ const CreateNewWalletScreen: React.FC<CreateNewWalletScreenProps> = ({}) => {
       <View style={styles.container}>
         <AppHeader
           title="Create New Account"
-          titleStyle={{color: '#FFFFFF'}}
           style={{
             paddingHorizontal: 16,
-            zIndex: 1,
           }}
         />
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 8,
+            justifyContent: 'center',
+          }}>
+          {[0, 1, 2, 3].map(index => (
+            <View
+              key={index}
+              style={[
+                styles.tabBar,
+                {
+                  backgroundColor: tabIndex === index ? '#000' : '#B3B3B3',
+                },
+              ]}
+            />
+          ))}
+        </View>
         <TabView value={tabIndex} onChange={setTabIndex}>
           {/* Tab 1 */}
           <TabView.Item style={{flex: 1}}>

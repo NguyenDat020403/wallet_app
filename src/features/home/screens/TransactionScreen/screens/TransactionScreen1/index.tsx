@@ -11,7 +11,7 @@ import AppTextInput from '@/components/AppTextInput';
 import {useForm} from 'react-hook-form';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {IconCopy} from '@/features/auth/assets/icons';
-import {IconDelete, IconInfoCircle, IconTrash} from '@/assets/icons';
+import {IconClose, IconDelete, IconInfoCircle, IconTrash} from '@/assets/icons';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {WalletAddress} from '@/assets/images';
 import {Image} from '@rneui/base';
@@ -89,9 +89,9 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
       <View style={styles.container}>
         <Text style={styles.textHeading2}>Receiving Address</Text>
         <AppTextInput
+          style={{height: 50}}
           isShowError={false}
           hitSlop={100}
-          style={{backgroundColor: 'transparent', marginHorizontal: -16}}
           type="INPUT"
           key={'address'}
           name={'address'}
@@ -104,7 +104,7 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
           onPress={fetchCopiedText}
           style={styles.boxPaste}>
           <Image
-            source={!isPressPaste ? IconCopy : IconTrash}
+            source={!isPressPaste ? IconCopy : IconClose}
             style={{width: 20, height: 20}}
           />
           <Text style={styles.textBody1Regular}>

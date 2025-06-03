@@ -1,6 +1,8 @@
 import {MainStackParamList} from '@/navigation/MainNavigation/types';
-import {TransactionHistory} from '../RTKQuery/types';
-export type HomeInitialState = {};
+import {TransactionHistory, WalletResponse} from '../RTKQuery/types';
+export type HomeInitialState = {
+  userWallet: UserWallet[];
+};
 
 export interface getTransactionsHistoryRequest {}
 export interface getCurrentTransactionRequest {
@@ -10,3 +12,5 @@ export interface getCurrentTransactionRequest {
   token_id: string;
   callBack: (data: TransactionHistory) => void;
 }
+
+export type UserWallet = WalletResponse;

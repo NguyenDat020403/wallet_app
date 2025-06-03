@@ -7,7 +7,10 @@ import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {IconCamera, IconNotification} from '@/features/auth/assets/icons';
 import {navigate} from '@/navigation/RootNavigation';
 import {OptionItem} from '@/features/auth/components';
-import {requestUserPermission} from '@/functions/notification/functions';
+import {
+  requestCameraPermission,
+  requestUserPermission,
+} from '@/functions/notification/functions';
 import {showToastMessage} from '@/functions';
 
 interface CreateScreen3Props {
@@ -31,7 +34,10 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
           isForCheck
           title="Camera"
           icon={IconCamera}
-          desc="Enabled"
+          onPress={async () => {
+            await requestCameraPermission();
+          }}
+          desc="Press here to enable"
           textBelow="Scan QR codes to scan wallet address and connect to apps."
         />
         <OptionItem
@@ -41,7 +47,7 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
           }}
           title="Notifications"
           icon={IconNotification}
-          desc="Enabled"
+          desc="Press here to enable"
           textBelow="Get notified of new wallet activity and other important events."
         />
         <Text
@@ -53,9 +59,6 @@ const CreateScreen3: React.FC<CreateScreen3Props> = ({tabIndex}) => {
         </Text>
       </View>
       <AppButton
-        buttonStyle={{
-          marginBottom: 16,
-        }}
         title="Continue"
         onPress={() => {
           navigate('BackUpWalletScreen');

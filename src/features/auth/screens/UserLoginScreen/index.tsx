@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {KeyboardAvoidingView, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -12,7 +12,6 @@ import {schemaValidate} from './schemaValidate';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {loginUser} from '../../redux/slices';
-import {requestUserPermission} from '@/functions/notification/functions';
 import {showToastMessage} from '@/functions';
 import {AppDialog} from '@/components';
 import {Image} from '@rneui/base';
@@ -26,9 +25,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const dispatch = useAppDispatch();
   const isGoBackEnable = route.params ? true : false;
-  const {secretLocal, currentUser, biometricPublicKey} = useAppSelector(
-    state => state.authReducer,
-  );
+  const {secretLocal} = useAppSelector(state => state.authReducer);
   const [isWarning, setIsWarning] = useState(false);
   useEffect(() => {
     console.log('wallets', secretLocal.wallets);
@@ -37,7 +34,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       setIsWarning(true);
     }
   }, [secretLocal.wallets]);
-  console.log(isWarning);
   const {
     control,
     handleSubmit,
@@ -59,7 +55,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       setIsWarning(true);
       return;
     }
-
     dispatch(
       loginUser({
         email: body.email,
@@ -67,7 +62,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       }),
     );
   };
-  console.log(isGoBackEnable);
+
   return (
     <AppWrapper>
       <AppHeader
@@ -104,14 +99,18 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
             style={{alignItems: 'flex-start'}}
             onPress={() => {
               navigation.navigate('ImportWalletScreen');
-              // navigation.navigate('RecoveryPasswordScreen');
             }}>
             <Text style={styles.textCap1}>Forgot your password?</Text>
           </TouchableOpacity>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', gap: 4}}>
             <AppButton
               title="Login"
-              buttonStyle={{opacity: isValid ? 1 : 0.5, flex: 1}}
+              buttonStyle={{
+                flex: 1,
+                borderRadius: 0,
+                borderTopLeftRadius: 12,
+                borderBottomLeftRadius: 12,
+              }}
               disable={!isValid}
               onPress={() => {
                 handleSubmit(onSubmit)();
@@ -121,8 +120,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
               onPress={async () => {
                 handleSignIn();
               }}
-              style={{paddingHorizontal: 16, justifyContent: 'center'}}>
-              <Image source={IconFingerprint} style={{width: 40, height: 40}} />
+              style={{
+                paddingHorizontal: 16,
+                justifyContent: 'center',
+                backgroundColor: '#000',
+                borderTopRightRadius: 12,
+                borderBottomRightRadius: 12,
+              }}>
+              <Image source={IconFingerprint} style={{width: 32, height: 32}} />
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>

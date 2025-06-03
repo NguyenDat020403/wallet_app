@@ -6,11 +6,11 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     width: insets.screenWidth - 32,
     borderRadius: 12,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFF',
     alignItems: 'center',
     alignSelf: 'center',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: '#000',
   },
   iconWarning: {
     backgroundColor: '#FFFFFF',
@@ -34,7 +34,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   buttonStyle: {
     width: '90%',
     marginVertical: 16,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#000',
   },
 }));
 

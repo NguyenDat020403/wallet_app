@@ -37,15 +37,19 @@ const useStyles = makeStyles(({colors}) => ({
   noDataView: {
     height: 40,
     width: 80,
-    backgroundColor: '#333333',
+    backgroundColor: '#00000009',
     borderRadius: 8,
   },
   actionItem: {
-    backgroundColor: 'transparent',
-    borderWidth: 0.5,
-    borderColor: '#FFF',
+    backgroundColor: '#000',
     width: 28,
     height: 28,
+  },
+  noDataFoundContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+    paddingTop: 32,
   },
 }));
 

@@ -37,4 +37,6 @@ export interface CreateTokenRequest {
   contract_address: string;
   wallet_id: string;
   network_id: string;
+  symbol: string;
+  decimal: number;
 }

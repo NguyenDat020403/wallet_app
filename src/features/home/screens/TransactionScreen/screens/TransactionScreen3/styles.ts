@@ -3,7 +3,7 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
-  container: {flex: 1, backgroundColor: '#0F0F0F', paddingHorizontal: 16},
+  container: {flex: 1, backgroundColor: '#FFFFFF', paddingHorizontal: 16},
   textBody3Regular: {...typography.body3Regular},
   textBody2Regular: {...typography.body2Regular, opacity: 0.6},
   textBody2Medium: {...typography.body2Medium},
@@ -18,9 +18,10 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     height: 1,
     marginHorizontal: -16,
     width: insets.screenWidth,
-    backgroundColor: '#333333',
+    backgroundColor: '#0000003',
   },
   itemFee: {
+    height: 80,
     flexDirection: 'row',
     borderRadius: 12,
     borderWidth: 1,

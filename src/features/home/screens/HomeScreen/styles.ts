@@ -3,7 +3,7 @@ import {AppEdgeInsets} from '@/hooks/types';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
-  container: {flex: 1, backgroundColor: '#0F0F0F', position: 'relative'},
+  container: {flex: 1, backgroundColor: '#FFFFFF', position: 'relative'},
   textBody3Regular: {
     ...typography.body3Regular,
   },
@@ -35,19 +35,19 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   },
   icon: {
     borderRadius: 150,
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
   },
   backgroundIcon: {
-    padding: 8,
+    padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#804FB0',
+    backgroundColor: '#000',
     borderRadius: 150,
   },
   iconHeader: {
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
   },
   underline: {
     borderBottomWidth: 1,
@@ -63,7 +63,8 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     position: 'absolute',
     bottom: 80,
     gap: 8,
-    backgroundColor: '#804FB0',
+    elevation: 5,
+    backgroundColor: '#000000',
     flexDirection: 'row',
     alignSelf: 'center',
     paddingHorizontal: 12,

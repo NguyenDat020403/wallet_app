@@ -52,7 +52,9 @@ const OptionItem: React.FC<OptionItemProps> = ({
         )}
       </TouchableOpacity>
       {textBelow && (
-        <Text style={[styles.textCap1, {opacity: 0.6}]}>{textBelow}</Text>
+        <Text style={[styles.textCap1, {opacity: 0.6, paddingTop: 6}]}>
+          {textBelow}
+        </Text>
       )}
     </View>
   );

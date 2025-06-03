@@ -90,8 +90,6 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
           </View>
         </View>
         <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
-          <ActionItem icon={IconBuy} title="buy" />
-          <ActionItem icon={IconSwap} title="swap" />
           <ActionItem
             icon={IconSend}
             title="send"

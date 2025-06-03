@@ -2,9 +2,10 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
-  container: {flex: 1, backgroundColor: '#0F0F0F'},
+  container: {flex: 1, backgroundColor: '#FFFFFF', paddingVertical: 24},
   noTokenContainer: {
     justifyContent: 'center',
+    alignItems: 'center',
     gap: 16,
     paddingTop: 32,
   },
@@ -34,6 +35,7 @@ const useStyles = makeStyles(({colors}) => ({
   coinIcon: {
     width: 24,
     height: 24,
+    borderRadius: 150,
   },
   leftCoinItem: {
     flexDirection: 'row',

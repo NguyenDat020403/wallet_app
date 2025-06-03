@@ -30,7 +30,7 @@ const FirstScreen: React.FC<FirstScreenProps> = ({navigation, route}) => {
         />
         <AppButton
           buttonStyle={styles.button}
-          textStyle={{color: '#FFFFFF'}}
+          textStyle={{color: '#000'}}
           title="Create a New Account"
           onPress={() => {
             navigation.navigate('CreateNewWalletScreen');

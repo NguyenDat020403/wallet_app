@@ -5,8 +5,7 @@ const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: '#0F0F0F',
-    justifyContent: 'space-between',
+    backgroundColor: '#FFFFFF',
   },
   bottomModal: {
     backgroundColor: '#222222',

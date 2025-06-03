@@ -4,17 +4,18 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
   },
   card: {
     marginTop: 16,
     justifyContent: 'space-between',
     padding: 24,
-    backgroundColor: '#201927',
-    borderWidth: 1,
-    borderColor: '#804FB0',
-    borderRadius: 4,
+    backgroundColor: '#FFFFFF',
+    elevation: 5,
+    borderWidth: 0.5,
+    borderColor: '#000',
+    borderRadius: 8,
     height: 200,
   },
   textBody3Regular: {
@@ -31,12 +32,6 @@ const useStyles = makeStyles(({colors}) => ({
   },
   textCap1: {
     ...typography.caption1,
-  },
-  button: {
-    marginTop: 8,
-    borderWidth: 1,
-    borderColor: '#FFFFFF',
-    backgroundColor: '#0F0F0F',
   },
 }));
 

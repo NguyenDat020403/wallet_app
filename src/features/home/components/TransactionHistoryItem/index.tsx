@@ -3,12 +3,13 @@ import React, {useEffect} from 'react';
 import useStyles from './styles';
 import {dataHistoryTransaction} from './types';
 import {ActionItem} from '../../screens/HomeScreen';
-import {IconReceive, IconSend} from '@/assets/icons';
+import {IconReceive, IconSend, IconWarning} from '@/assets/icons';
 import {useAppSelector} from '@/redux/hooks';
 import {useGetTransactionsHistoryMutation} from '../../redux/RTKQuery';
 import {Tokens} from '../CryptoTabItem/types';
 import {navigate} from '@/navigation/RootNavigation';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
+import {Image} from '@rneui/base';
 
 type TransactionHistoryItemProps = {
   data: Tokens;
@@ -34,69 +35,82 @@ const TransactionHistoryItem: React.FC<TransactionHistoryItemProps> = ({
     });
   }, []);
   useEffect(() => {
-    console.log('dataTransaction');
+    if (dataTransaction) {
+      console.log(Object.keys(dataTransaction).length);
+    }
   }, [isSuccess]);
 
   return (
     <View>
       {!isLoading ? (
-        dataTransaction &&
-        Object.keys(dataTransaction).map(item => {
-          return (
-            <View
-              style={{
-                paddingVertical: 8,
-                width: safeAreaInsets.screenWidth - 32,
-              }}>
-              <Text style={styles.textCap1}>{item}</Text>
-              {dataTransaction[item].map(tx => {
-                const icon = tx.action_transaction ? IconReceive : IconSend;
-                const action = tx.action_transaction ? 'Receive' : 'Send';
-                return (
-                  <TouchableOpacity
-                    style={styles.container}
-                    onPress={() => {
-                      navigate('TransactionHistoryScreen', {
-                        token: data,
-                        txHash: tx.transaction_hash,
-                      });
-                      console.log('txHash: ', tx.transaction_hash);
-                    }}>
-                    <ActionItem
-                      icon={icon}
-                      style={styles.actionItem}
-                      iconStyle={{
-                        width: 16,
-                        height: 16,
-                      }}
-                    />
-                    <View style={styles.content}>
-                      <View style={styles.leftColumn}>
-                        <Text style={styles.textRegular}>{action}</Text>
-                        <Text style={styles.textRegular} numberOfLines={1}>
-                          {tx.from_address}
-                        </Text>
+        dataTransaction && Object.keys(dataTransaction).length > 0 ? (
+          Object.keys(dataTransaction).map(item => {
+            return (
+              <View
+                style={{
+                  paddingVertical: 8,
+                  width: safeAreaInsets.screenWidth - 32,
+                }}>
+                <Text style={styles.textCap1}>{item}</Text>
+                {dataTransaction[item].map(tx => {
+                  const icon = tx.action_transaction ? IconReceive : IconSend;
+                  const action = tx.action_transaction ? 'Receive' : 'Send';
+                  return (
+                    <TouchableOpacity
+                      style={styles.container}
+                      onPress={() => {
+                        navigate('TransactionHistoryScreen', {
+                          token: data,
+                          txHash: tx.transaction_hash,
+                        });
+                        console.log('txHash: ', tx.transaction_hash);
+                      }}>
+                      <ActionItem
+                        icon={icon}
+                        style={styles.actionItem}
+                        iconStyle={{
+                          width: 16,
+                          height: 16,
+                        }}
+                      />
+                      <View style={styles.content}>
+                        <View style={styles.leftColumn}>
+                          <Text style={styles.textRegular}>{action}</Text>
+                          <Text style={styles.textRegular} numberOfLines={1}>
+                            {tx.from_address}
+                          </Text>
+                        </View>
+                        <View style={styles.rightColumn}>
+                          <Text
+                            style={[
+                              styles.textRegular,
+                              {
+                                color: tx.action_transaction
+                                  ? '#000'
+                                  : '#ff2828',
+                              },
+                            ]}>
+                            {tx.action_transaction ? '+' : '-'}
+                            {tx.value}
+                          </Text>
+                          <Text
+                            style={[styles.textRegular, {color: '#B0B0B0'}]}>
+                            {data.token.symbol}
+                          </Text>
+                        </View>
                       </View>
-                      <View style={styles.rightColumn}>
-                        <Text
-                          style={[
-                            styles.textRegular,
-                            {color: tx.action_transaction ? '#FFF' : '#ff2828'},
-                          ]}>
-                          {tx.action_transaction ? '+' : '-'}
-                          {tx.value}
-                        </Text>
-                        <Text style={[styles.textRegular, {color: '#B0B0B0'}]}>
-                          {data.token.token_name}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          );
-        })
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            );
+          })
+        ) : (
+          <View style={styles.noDataFoundContainer}>
+            <Image source={IconWarning} style={{width: 150, height: 150}} />
+            <Text style={styles.textRegular}>Not found any transaction</Text>
+          </View>
+        )
       ) : (
         <>
           {[0, 1, 2, 3].map(item => {

@@ -5,7 +5,7 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
     paddingTop: 16,
   },
@@ -23,7 +23,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     gap: 6,
     flexWrap: 'wrap',
     borderWidth: 0.5,
-    borderColor: '#FFF',
+    borderColor: '#000',
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 8,
@@ -31,10 +31,10 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   },
   divider: {
     marginVertical: 16,
-    height: 2,
+    height: 1,
     marginHorizontal: -16,
     width: insets.screenWidth,
-    backgroundColor: '#333333',
+    backgroundColor: '#0000003',
   },
 }));
 

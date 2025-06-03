@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import * as forumScreen from '@features/forum/screens';
-export type HistoryTabStackParamList = {
+export type ChatTabStackParamList = {
   HomeScreen: undefined;
 };
 export type PostTabStackParamList = {
@@ -12,6 +12,6 @@ export type HomeTabStackParamList = {
 
 export type AppTabStackParamList = {
   PostTab: StackScreenProps<PostTabStackParamList>;
-  HistoryTab: StackScreenProps<HistoryTabStackParamList>;
+  ChatTab: StackScreenProps<ChatTabStackParamList>;
   HomeTab: StackScreenProps<HomeTabStackParamList>;
 };

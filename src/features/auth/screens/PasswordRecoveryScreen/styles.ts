@@ -4,7 +4,7 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
   },
   textBody1Regular: {

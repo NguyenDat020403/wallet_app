@@ -3,6 +3,7 @@ import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
   container: {
+    elevation: 10,
     marginVertical: spacing.marginSM,
   },
   titleWrap: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles(({colors}) => ({
     backgroundColor: '#777E9052',
     borderRadius: 8,
     height: 40,
-    paddingHorizontal: 10,
+    paddingHorizontal: 12,
   },
   inputError: {
     backgroundColor: `${colors.error}29`,

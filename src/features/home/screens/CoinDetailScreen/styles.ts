@@ -6,7 +6,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     flex: 1,
     position: 'relative',
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
   },
   infoCoin: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     height: 24,
   },
   button: {
-    backgroundColor: '#333333',
+    backgroundColor: '#0000003',
     borderRadius: 4,
     padding: 8,
     alignSelf: 'flex-start',

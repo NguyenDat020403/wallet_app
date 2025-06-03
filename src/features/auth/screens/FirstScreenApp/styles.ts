@@ -14,8 +14,8 @@ const useStyles = makeStyles(({colors}) => ({
   button: {
     marginTop: 8,
     borderWidth: 1,
-    borderColor: '#FFFFFF',
-    backgroundColor: '#0F0F0F',
+    borderColor: '#000',
+    backgroundColor: '#FFFFFF',
   },
   textAppName: {
     ...typography.body3Regular,
@@ -24,19 +24,6 @@ const useStyles = makeStyles(({colors}) => ({
   textAppInsight: {
     ...typography.body2Regular,
     textAlign: 'center',
-  },
-  buttonStart: {
-    backgroundColor: '#004CFF',
-    borderRadius: 16,
-    paddingVertical: 16,
-    marginHorizontal: 16,
-  },
-  textButton: {
-    fontFamily: 'nunito_light',
-    fontSize: 22,
-    lineHeight: 31,
-    alignSelf: 'center',
-    color: '#F3F3F3',
   },
   registerContainer: {
     marginBottom: 30,

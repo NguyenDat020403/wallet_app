@@ -128,7 +128,7 @@ const InputType = <T extends {}>({
           {...props}
           placeholder={placeholder}
           placeholderTextColor={
-            placeholderTextColor ? placeholderTextColor : '#B0B0B0'
+            placeholderTextColor ? placeholderTextColor : '#5f5f5f'
           }
           style={styles.inputText}
           onChangeText={onChange}

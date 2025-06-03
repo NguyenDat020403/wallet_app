@@ -3,6 +3,7 @@ import {StyleProp, TextProps, TextStyle, ViewStyle} from 'react-native';
 import {Text} from '@rneui/themed';
 import useStyles from './styles';
 import {TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 
 type AppButtonProps = {
   isOpposite?: boolean;
@@ -30,10 +31,16 @@ const AppButton: React.FC<AppButtonProps> = ({
       style={[
         styles.button,
         buttonStyle,
-        isOpposite && {backgroundColor: '#333'},
+        isOpposite && {
+          borderColor: '#000',
+          borderWidth: 1,
+          backgroundColor: '#FFF',
+          paddingVertical: 16,
+          borderRadius: 12,
+        },
       ]}>
       <Text
-        style={[styles.textButton, textStyle, isOpposite && {color: '#FFF'}]}>
+        style={[styles.textButton, textStyle, isOpposite && {color: '#000'}]}>
         {title && title}
       </Text>
     </TouchableOpacity>

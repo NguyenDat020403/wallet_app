@@ -5,7 +5,7 @@ import {makeStyles} from '@rneui/themed';
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {
     flex: 1,
-    backgroundColor: '#0F0F0F',
+    backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
     marginTop: 80,
   },

@@ -34,3 +34,12 @@ export {default as IconFind} from './IconFind.png';
 export {default as IconWarning} from './IconWarning.png';
 export {default as IconFingerprint} from './IconFingerprint.png';
 export {default as IconPicture} from './IconPicture.png';
+export {default as IconWalletItem} from './IconWalletItem.png';
+
+//Navigation
+export {default as IconChat} from './IconChat.png';
+export {default as IconChatActive} from './IconChatActive.png';
+export {default as IconFeed} from './IconFeed.png';
+export {default as IconFeedActive} from './IconFeedActive.png';
+export {default as IconHome} from './IconHome.png';
+export {default as IconHomeActive} from './IconHomeActive.png';

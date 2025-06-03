@@ -3,8 +3,9 @@ import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
   container: {
-    backgroundColor: '#323232',
-    borderRadius: 4,
+    backgroundColor: '#FFF',
+    borderRadius: 8,
+    elevation: 5,
     flexDirection: 'row',
     padding: 12,
     alignItems: 'center',

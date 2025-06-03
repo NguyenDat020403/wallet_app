@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {TextInput, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import useStyles from './styles';
@@ -30,68 +30,87 @@ const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const [avatar, setAvatar] = useState<{
-    uri: string;
-    fileName: string;
-    type: string;
+    uri: string | undefined;
+    fileName: string | undefined;
+    type: string | undefined;
   }>();
   const URL = '123123';
-  const handleContinue = () => {
-    const formData = new FormData();
-    const a: any = {
-      uri: avatar!.uri,
-      name: avatar!.fileName,
-      type: avatar!.type,
-    };
-    formData.append('file', a);
-    dispatch(
-      uploadAvatar({
-        params: formData,
-        callback: () => {
-          tabIndex(2);
-        },
-      }),
-    );
+  console.log(avatar);
+  const handlePickImage = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      includeBase64: false,
+    });
+    const asset = result.assets?.[0];
+    if (asset) {
+      setAvatar({
+        uri: asset.uri || '',
+        fileName: asset.fileName || '',
+        type: asset.type || '',
+      });
+    }
   };
-
+  const handleContinue = () => {
+    if (avatar) {
+      const formData = new FormData();
+      const a: any = {
+        uri: avatar!.uri,
+        name: avatar!.fileName,
+        type: avatar!.type,
+      };
+      formData.append('file', a);
+      dispatch(
+        uploadAvatar({
+          params: formData,
+          callback: () => {
+            tabIndex(2);
+          },
+        }),
+      );
+    } else {
+      tabIndex(2);
+    }
+  };
+  useEffect(() => {
+    console.log(avatar?.uri);
+  }, [avatar]);
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.textBody3Regular}>Set a Display Image</Text>
-        <Text style={[styles.textBody3Regular, {opacity: 0.6}]}>
-          Let’s choose an avatar for your wallet. This is visible only to you.
-        </Text>
-      </View>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{position: 'relative'}}
-        onPress={() => {
-          setIsVisible(true);
-        }}>
-        {avatar && (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{position: 'relative'}}
+          onPress={() => {
+            handlePickImage();
+          }}>
+          {avatar && (
+            <Image
+              source={{uri: avatar.uri}}
+              style={{
+                width: safeAreaInsets.screenWidth - 64,
+                height: safeAreaInsets.screenWidth - 64,
+                borderRadius: 300,
+              }}
+              containerStyle={{
+                position: 'absolute',
+                zIndex: -1,
+                alignSelf: 'center',
+                top: 16,
+                left: 16,
+              }}
+            />
+          )}
           <Image
-            source={IconBackgroundAvatar}
+            source={avatar ? IconBackgroundAvatar : ImageAddAvatar}
             style={{
-              width: safeAreaInsets.screenWidth - 28,
-              height: safeAreaInsets.screenWidth - 28,
-            }}
-            containerStyle={{
-              alignSelf: 'center',
-              position: 'absolute',
-              top: -16,
+              width: safeAreaInsets.screenWidth - 32,
+              height: safeAreaInsets.screenWidth - 32,
+              zIndex: -1,
             }}
           />
-        )}
-        <Image
-          source={avatar ? {uri: avatar.uri} : ImageAddAvatar}
-          style={{
-            width: safeAreaInsets.screenWidth - 64,
-            height: safeAreaInsets.screenWidth - 64,
-            borderRadius: 300,
-          }}
-          containerStyle={{alignSelf: 'center'}}
-        />
-      </TouchableOpacity>
-
+        </TouchableOpacity>
+        <Text style={styles.textBody3Regular}>Set your avatar</Text>
+      </View>
       <Text style={[styles.textCap1, {opacity: 0.6}]}>
         You can always change your image later.
       </Text>
@@ -101,96 +120,12 @@ const CreateScreen2: React.FC<CreateScreen2Props> = ({tabIndex}) => {
           opacity: URL ? 1 : 0.6,
         }}
         title="Continue"
-        disable={!URL}
         onPress={() => {
           handleContinue();
         }}
-      />
-      <BottomSelectedModal
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        setImage={setAvatar}
       />
     </View>
   );
 };
 
 export default CreateScreen2;
-
-type BottomSelectedModalProps = {
-  isVisible: boolean;
-  setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  setImage: React.Dispatch<React.SetStateAction<any>>;
-};
-
-const BottomSelectedModal: React.FC<BottomSelectedModalProps> = ({
-  isVisible,
-  setIsVisible,
-  setImage,
-}) => {
-  const styles = useStyles();
-  const ListOption = [
-    {
-      icon: IconCamera,
-      title: 'Take Photo',
-      onPress: () => {
-        //open camera
-      },
-    },
-    {
-      icon: IconImage,
-      title: 'Choose image',
-      onPress: async () => {
-        const result = await launchImageLibrary({
-          mediaType: 'photo',
-          includeBase64: false,
-        });
-        const asset = result.assets?.[0];
-        if (asset) {
-          setImage(asset);
-        }
-      },
-    },
-    {icon: IconEmoji, title: 'Use emoji'},
-  ];
-
-  return (
-    <ReactNativeModal
-      coverScreen={false}
-      style={{justifyContent: 'flex-end', margin: 0}}
-      isVisible={isVisible}
-      onBackdropPress={() => {
-        setIsVisible(false);
-      }}>
-      <View style={styles.bottomModal}>
-        <View style={styles.headerBottomModal}>
-          <Text style={styles.textBody3Regular}>Select Icon</Text>
-          <TouchableOpacity
-            hitSlop={20}
-            activeOpacity={0.8}
-            style={styles.closeButton}
-            onPress={() => {
-              setIsVisible(false);
-            }}>
-            <Image source={IconClose} style={styles.iconClose} />
-          </TouchableOpacity>
-        </View>
-        {ListOption.map(item => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                item.onPress && item.onPress();
-                // setImage(ImageAvatar);
-                setIsVisible(false);
-              }}
-              activeOpacity={0.8}
-              style={styles.itemBottomModal}>
-              <Image source={item.icon} style={{width: 24, height: 24}} />
-              <Text style={styles.textBody1Medium}>{item.title}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    </ReactNativeModal>
-  );
-};

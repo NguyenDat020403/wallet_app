@@ -2,7 +2,7 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
-  container: {flex: 1, backgroundColor: '#0F0F0F'},
+  container: {flex: 1, backgroundColor: '#FFFFFF'},
   textBody3Regular: {...typography.body3Regular},
   textBody2Regular: {...typography.body2Regular, opacity: 0.6},
   textBody2Medium: {...typography.body2Medium},

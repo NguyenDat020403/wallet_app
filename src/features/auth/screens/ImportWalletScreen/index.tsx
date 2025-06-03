@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {View} from 'react-native';
 import {Image} from '@rneui/base';
-import {IconDelete, IconQR} from '@/assets/icons';
+import {IconClose, IconQR} from '@/assets/icons';
 import AppTextInput from '@/components/AppTextInput';
 import {useForm, useWatch} from 'react-hook-form';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -83,8 +83,8 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
           onPress={fetchCopiedText}
           style={styles.boxPaste}>
           <Image
-            source={!isPressPaste ? IconCopy : IconDelete}
-            style={{width: 24, height: 24}}
+            source={!isPressPaste ? IconCopy : IconClose}
+            style={{width: 20, height: 20}}
           />
           <Text style={styles.textBody1Regular}>
             {!isPressPaste ? 'Paste' : 'Clear'}

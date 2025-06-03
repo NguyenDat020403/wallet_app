@@ -53,7 +53,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
                 goBack();
               }
             }}>
-            <Icon type="feather" name="arrow-left" color={'#FFFFFF'} />
+            <Icon type="feather" name="chevron-left" color={'#000'} />
           </TouchableOpacity>
         )}
       </View>
