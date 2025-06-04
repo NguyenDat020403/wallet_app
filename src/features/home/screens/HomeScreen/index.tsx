@@ -21,6 +21,8 @@ import {
   IconSend,
   IconSetting,
   IconSwap,
+  IconWallet,
+  IconWalletActive,
   IconWalletItem,
 } from '@/assets/icons';
 import {IconCopy} from '@/features/auth/assets/icons';
@@ -38,7 +40,7 @@ import {hideAppLoading} from '@/features/common/functions';
 import {logout} from '@/features/auth/redux/slices';
 import {setUserWallets} from '../../redux/slices';
 import {UserWallet} from '../../redux/slices/types';
-import {AppBottomSheetModal, AppImage} from '@/components';
+import {AppBottomSheetModal, AppButton, AppImage} from '@/components';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -89,7 +91,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log(userWallets);
+      console.log('userWallets:', userWallets, currentUserWallet);
 
       dispatch(setUserWallets(userWallets));
 
@@ -119,7 +121,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               }}>
               <AppImage
                 source={IconCopy}
-                style={[styles.iconHeader, {padding: 4}]}
+                style={[styles.iconHeader]}
                 haveDefault={false}
               />
             </TouchableOpacity>
@@ -142,11 +144,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           activeOpacity={0.8}
           style={styles.userInfo}>
           <Image
-            source={
-              currentUser && currentUser.avatar
-                ? {uri: currentUser.avatar}
-                : ImageAvatar
-            }
+            source={{uri: currentUserWallet && currentUserWallet?.thumbnail}}
             style={styles.icon}
           />
           <Text style={styles.textBody3Regular}>
@@ -189,19 +187,33 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
-      <AppBottomSheetModal isVisible={isVisible} setIsVisible={setIsVisible}>
-        {userWallet &&
-          userWallet.map(item => {
-            return (
-              <View>
-                <AppImage
-                  source={IconWalletItem}
-                  style={{width: 32, height: 32}}
-                  haveDefault={false}
-                />
-              </View>
-            );
-          })}
+      <AppBottomSheetModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        snapPoints={['100%']}>
+        <View style={{justifyContent: 'space-between', flex: 1}}>
+          <View>
+            {userWallet &&
+              userWallet.map((item, index) => {
+                return (
+                  <View style={{flexDirection: 'row', gap: 12}}>
+                    <AppImage
+                      source={IconWalletActive}
+                      style={{width: 32, height: 32}}
+                      haveDefault={false}
+                    />
+                    <Text style={styles.textBody2Medium}>
+                      Wallet {index + 1}
+                    </Text>
+                  </View>
+                );
+              })}
+          </View>
+          <AppButton
+            title="Add Wallet"
+            buttonStyle={{marginBottom: safeAreaInsets.bottom + 16}}
+          />
+        </View>
       </AppBottomSheetModal>
     </AppWrapper>
   );

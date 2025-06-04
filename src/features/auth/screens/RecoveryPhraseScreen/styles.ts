@@ -32,7 +32,7 @@ const useStyles = makeStyles(({colors}) => ({
   boxSecret: {
     borderWidth: 1,
     borderRadius: 4,
-    borderColor: '#FFFFFF',
+    borderColor: '#000',
     gap: 24,
     padding: 16,
   },
@@ -45,8 +45,9 @@ const useStyles = makeStyles(({colors}) => ({
     right: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#323232',
+    backgroundColor: '#FFF',
     borderRadius: 4,
+    borderWidth: 1,
     padding: 12,
   },
 }));

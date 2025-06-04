@@ -5,6 +5,7 @@ export interface WalletResponse {
   wallet_balance: string;
   wallet_address: string;
   wallet_phrase: any;
+  thumbnail: string;
 }
 export interface DetailWalletResponse {
   tokens: Tokens[];

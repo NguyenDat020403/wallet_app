@@ -26,7 +26,7 @@ import {goBack} from '@/navigation/RootNavigation';
 import {getCurrentTransaction} from '@/features/home/redux/slices';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {showToastMessage} from '@/functions';
-import {Icon} from '@rneui/base';
+import {Icon, ScreenHeight} from '@rneui/base';
 
 type TransactionScreen3 = {
   amount: string;
@@ -268,6 +268,7 @@ const FeeList: React.FC<FeeListProps> = ({
   indexCurrent,
   footerComponent,
 }) => {
+  const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
   const [isSelected, setIsSelected] = useState(indexCurrent || 1);
 
@@ -324,7 +325,13 @@ const FeeList: React.FC<FeeListProps> = ({
     },
   ];
   return (
-    <View style={{gap: 12, flex: 1, marginBottom: 16, backgroundColor: 'red'}}>
+    <View
+      style={{
+        gap: 12,
+        height: (ScreenHeight * 80) / 100 - safeAreaInsets.bottom - 16,
+        marginBottom: 16,
+        position: 'relative',
+      }}>
       {(isEVM ? ListFeeEVM : ListFeeBTC).map(item => {
         console.log(item);
         return (
@@ -342,7 +349,11 @@ const FeeList: React.FC<FeeListProps> = ({
               },
             ]}>
             <View
-              style={{backgroundColor: '#000', padding: 12, borderRadius: 150}}>
+              style={{
+                backgroundColor: '#000',
+                padding: 12,
+                borderRadius: 150,
+              }}>
               <AppImage
                 source={item.icon}
                 style={{width: 28, height: 28}}
@@ -360,7 +371,17 @@ const FeeList: React.FC<FeeListProps> = ({
           </TouchableOpacity>
         );
       })}
-      {footerComponent && footerComponent}
+      <View
+        style={{
+          height: 60,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+        }}>
+        {footerComponent && footerComponent}
+      </View>
+
       {/* Option 
       <View style={styles.itemFee}>
         <Image source={IconOptionFee} style={{width: 40, height: 40}} />

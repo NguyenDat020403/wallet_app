@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, ScrollView, View} from 'react-native';
 import {Text} from '@rneui/themed';
 import {AppButton, AppImage, AppWrapper} from '@/components';
@@ -10,7 +10,7 @@ import {useAppSelector} from '@/redux/hooks';
 import {useGetNetworkListMutation} from '../../redux/RTKQuery';
 import {NetworkItem} from './components';
 import AppTextInput from '@/components/AppTextInput';
-import {useForm} from 'react-hook-form';
+import {useForm, useWatch} from 'react-hook-form';
 import {IconFind, IconSearch} from '@/assets/icons';
 import {useFocusEffect} from '@react-navigation/native';
 
@@ -22,6 +22,9 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
   const [getNetworkList, {data, isSuccess, isLoading}] =
     useGetNetworkListMutation();
   const {currentWalletID} = useAppSelector(state => state.authReducer);
+
+  const [filteredData, setFilteredData] = useState(data);
+
   const {
     control,
     handleSubmit,
@@ -35,6 +38,8 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
     },
     // resolver: yupResolver(schemaValidate),
   });
+  const networkValue = useWatch({control, name: 'network'});
+
   useFocusEffect(
     useCallback(() => {
       getNetworkList({wallet_id: currentWalletID});
@@ -43,6 +48,20 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
   useEffect(() => {
     console.log(data);
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (!networkValue || networkValue.trim() === '') {
+      setFilteredData(data);
+      return;
+    }
+
+    const keyword = networkValue.toLowerCase();
+    const filtered = data?.filter(item =>
+      item.networks.network_name.toLowerCase().includes(keyword),
+    );
+    setFilteredData(filtered);
+  }, [networkValue, data]);
+
   return (
     <AppWrapper>
       <AppHeader title="Manage Networks" />
@@ -71,7 +90,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
         {data ? (
           <FlatList
             style={{paddingVertical: 16, flex: 1}}
-            data={data}
+            data={filteredData}
             renderItem={({item}) => {
               return <NetworkItem data={item.networks} />;
             }}

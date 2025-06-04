@@ -43,3 +43,10 @@ export {default as IconFeed} from './IconFeed.png';
 export {default as IconFeedActive} from './IconFeedActive.png';
 export {default as IconHome} from './IconHome.png';
 export {default as IconHomeActive} from './IconHomeActive.png';
+
+//Setting
+export {default as IconUser} from './IconUser.png';
+export {default as IconLogout} from './IconLogout.png';
+export {default as IconTermOfService} from './IconTermOfService.png';
+export {default as IconPrivacyPolicy} from './IconPrivacyPolicy.png';
+export {default as IconGetHelp} from './IconGetHelp.png';

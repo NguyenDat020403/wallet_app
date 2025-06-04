@@ -120,7 +120,9 @@ const CoinItem: React.FC<CoinItemProps> = ({
                 },
               ]}
               numberOfLines={1}>
-              {data.market_data?.price?.toFixed(2) + '$' || 'no data'}
+              {data.market_data?.price !== undefined
+                ? (data.market_data?.price).toFixed(2) + '$'
+                : 0}
             </Text>
             <Text
               style={[
@@ -132,7 +134,10 @@ const CoinItem: React.FC<CoinItemProps> = ({
                       : '#BC3C20',
                 },
               ]}>
-              {data.market_data?.percent_change_24h}%
+              {data.market_data?.percent_change_24h
+                ? data.market_data?.percent_change_24h
+                : 0}
+              %
             </Text>
           </View>
         </View>

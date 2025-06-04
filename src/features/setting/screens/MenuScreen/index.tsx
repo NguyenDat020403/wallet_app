@@ -8,11 +8,17 @@ import AppHeader from '@/components/AppHeader';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {SettingItem} from './components';
 import {
+  IconGetHelp,
+  IconLogout,
   IconManageAddress,
   IconManagePersonal,
+  IconPrivacyPolicy,
   IconSettingNetwork,
+  IconTermOfService,
+  IconUser,
 } from '@/assets/icons';
 import {useAppSelector} from '@/redux/hooks';
+import {ImageAvatar} from '@/features/auth/assets/images';
 
 interface MenuScreenProps extends MainStackScreenProps<'MenuScreen'> {}
 
@@ -20,7 +26,7 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const {currentUser} = useAppSelector(state => state.authReducer);
-  const ListManageAction = [
+  const ListWalletAction = [
     {
       id: 0,
       icon: IconSettingNetwork,
@@ -34,10 +40,39 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
       icon: IconManageAddress,
       title: 'Addresses',
     },
+  ];
+  const ListUserAction = [
+    {
+      id: 0,
+      icon: IconUser,
+      title: 'Profile',
+      onPress: () => {},
+    },
+    {
+      id: 1,
+      icon: IconLogout,
+      title: 'Log out',
+      onPress: () => {},
+    },
+  ];
+  const ListAppInfoAction = [
+    {
+      id: 0,
+      icon: IconPrivacyPolicy,
+      title: 'Privacy Policy',
+      onPress: () => {},
+    },
+    {
+      id: 1,
+      icon: IconTermOfService,
+      title: 'Terms of Service',
+      onPress: () => {},
+    },
     {
       id: 2,
-      icon: IconManagePersonal,
-      title: 'Personal',
+      icon: IconGetHelp,
+      title: 'Get Help',
+      onPress: () => {},
     },
   ];
   return (
@@ -51,37 +86,48 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
             flexDirection: 'row',
             marginVertical: 16,
             paddingVertical: 16,
+            elevation: 4,
+            backgroundColor: '#FFF',
             paddingHorizontal: 16,
             borderRadius: 12,
-            borderWidth: 0.5,
-            borderColor: '#804FB0',
           }}>
           <View style={{flexDirection: 'row', gap: 12}}>
             <Image
               source={
-                currentUser.avatar
-                  ? {uri: currentUser.avatar}
-                  : IconManagePersonal
+                currentUser.avatar ? {uri: currentUser.avatar} : ImageAvatar
               }
               style={{width: 32, height: 32}}
               containerStyle={{alignSelf: 'center'}}
             />
             <View>
               <Text style={styles.textSemiBold}>{currentUser.username}</Text>
-              <Text style={styles.textRegular}>{currentUser.email}</Text>
+              <Text style={styles.textCap}>
+                {currentUser.email ? currentUser.email : 'Email not added yet'}
+              </Text>
             </View>
           </View>
           <View style={{alignSelf: 'center'}}>
-            <Icon type="feather" name="chevron-right" color={'#FFFFFF'} />
+            <Icon
+              type="feather"
+              name="chevron-right"
+              color={'#000'}
+              iconStyle={{fontSize: 16}}
+            />
           </View>
         </TouchableOpacity>
 
         <Text style={[styles.textSemiBold, {paddingVertical: 16}]}>
           Setting
         </Text>
-        <Text style={[styles.textRegular, {paddingBottom: 12}]}>Manage</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <Text style={[styles.textRegular]}>Manage</Text>
+          <View style={styles.divider} />
+        </View>
         <View style={styles.setting}>
-          {ListManageAction.map(item => {
+          {ListWalletAction.map(item => {
             return (
               <SettingItem
                 onPress={() => {
@@ -94,11 +140,45 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
             );
           })}
         </View>
-        <Text style={[styles.textRegular, {paddingBottom: 12}]}>App </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <Text style={[styles.textRegular]}>Account</Text>
+          <View style={styles.divider} />
+        </View>
         <View style={styles.setting}>
-          {ListManageAction.map(item => {
+          {ListUserAction.map(item => {
             return (
-              <SettingItem key={item.id} icon={item.icon} title={item.title} />
+              <SettingItem
+                onPress={() => {
+                  item.onPress && item.onPress();
+                }}
+                key={item.id}
+                icon={item.icon}
+                title={item.title}
+              />
+            );
+          })}
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <Text style={[styles.textRegular]}>App Information</Text>
+          <View style={styles.divider} />
+        </View>
+        <View style={styles.setting}>
+          {ListAppInfoAction.map(item => {
+            return (
+              <SettingItem
+                onPress={() => {
+                  item.onPress && item.onPress();
+                }}
+                key={item.id}
+                icon={item.icon}
+                title={item.title}
+              />
             );
           })}
         </View>

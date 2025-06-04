@@ -23,10 +23,22 @@ const SettingItem: React.FC<SettingItemProps> = ({
       activeOpacity={0.8}
       onPress={onPress}
       style={{
-        width: 60,
+        alignItems: 'center',
       }}>
-      <View style={[{justifyContent: 'center', alignItems: 'center'}]}>
-        <Image source={icon} style={{width: 28, height: 28}} />
+      <View
+        style={[
+          {
+            elevation: 2,
+            height: 48,
+            width: 48,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 12,
+            backgroundColor: '#000',
+            padding: 8,
+          },
+        ]}>
+        <Image source={icon} style={{width: 24, height: 24}} />
       </View>
       {title && (
         <Text style={styles.textCap1} numberOfLines={1}>

@@ -116,7 +116,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
           },
           !autoSize && {flex: 1},
         ]}>
-        <View>{children}</View>
+        <View style={{flex: 1}}>{children}</View>
       </BottomSheetView>
     </BottomSheetModal>
   );
