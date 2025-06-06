@@ -25,6 +25,7 @@ const AddNetworkScreen: React.FC<AddNetworkScreenProps> = ({
   const {secretLocal, accessInfo, currentWalletID} = useAppSelector(
     state => state.authReducer,
   );
+  const walletSecret = secretLocal.find(w => w.wallet_id === currentWalletID);
   const [isTestnet, setIsTestnet] = useState(
     isEnableEdit ? isEnableEdit : false,
   );
@@ -66,8 +67,8 @@ const AddNetworkScreen: React.FC<AddNetworkScreenProps> = ({
         block_explorer_url: body.explorer_url,
         wallet_network_address:
           body.chain_id === '1'
-            ? secretLocal.wallets![1].address
-            : secretLocal.wallets![0].address,
+            ? walletSecret!.wallets![1].address
+            : walletSecret!.wallets![0].address,
         is_testnet: isTestnet,
       }),
     );

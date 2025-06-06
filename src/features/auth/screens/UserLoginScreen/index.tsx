@@ -28,12 +28,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   const {secretLocal} = useAppSelector(state => state.authReducer);
   const [isWarning, setIsWarning] = useState(false);
   useEffect(() => {
-    console.log('wallets', secretLocal.wallets);
-    if (!secretLocal.wallets) {
+    if (secretLocal.length === 0) {
       showToastMessage('Chưa có ví local');
       setIsWarning(true);
     }
-  }, [secretLocal.wallets]);
+  }, [secretLocal]);
   const {
     control,
     handleSubmit,
@@ -51,7 +50,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
   });
 
   const onSubmit = async (body: {email: string; password: string}) => {
-    if (!secretLocal.wallets) {
+    if (!secretLocal[0].wallets) {
       setIsWarning(true);
       return;
     }
@@ -95,13 +94,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
             type="PASSWORD"
             control={control}
           />
-          <TouchableOpacity
-            style={{alignItems: 'flex-start'}}
-            onPress={() => {
-              navigation.navigate('ImportWalletScreen');
-            }}>
-            <Text style={styles.textCap1}>Forgot your password?</Text>
-          </TouchableOpacity>
           <View style={{flexDirection: 'row', gap: 4}}>
             <AppButton
               title="Login"
@@ -134,14 +126,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
       </View>
       <AppDialog
         onPress={() => {
-          navigation.navigate('ImportWalletScreen');
+          setIsWarning(false);
         }}
         titleButton="Import Now"
         action="WARNING"
         isVisible={isWarning}
         setIsVisible={setIsWarning}
         title="WARNING"
-        desc="Wallet not found on this device. Please import your wallet to continue."
+        desc="Wallet not found on this device. Please create new account!"
       />
     </AppWrapper>
   );

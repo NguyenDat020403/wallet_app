@@ -15,6 +15,7 @@ export interface WalletResponse {
 }
 
 export interface WalletSecretResponse {
+  wallet_id: string;
   mnemonic?: string;
   wallets?: WalletSecret[];
 }
@@ -51,7 +52,7 @@ export interface SignUpResponse {
   user: UserResponse;
   walletDefault: WalletDefaultResponse;
 }
-export interface ImportWalletResponse extends SignUpResponse {}
+export interface ImportWalletResponse extends WalletDefaultResponse {}
 
 export interface LoginRequest {
   email: string;

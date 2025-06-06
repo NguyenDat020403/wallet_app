@@ -4,14 +4,7 @@ import {Text} from '@rneui/themed';
 import useStyles from './styles';
 import {AppButton, AppWrapper} from '@/components';
 import {useForm} from 'react-hook-form';
-import {
-  setAccessInfo,
-  setCurrentUserProfile,
-  setCurrentWalletIDLocal,
-  setIsAuthenticated,
-  setSecretLocal,
-  signUpUser,
-} from '@/features/auth/redux/slices';
+import {signUpUser} from '@/features/auth/redux/slices';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import AppTextInput from '@/components/AppTextInput';
 import {schemaValidate} from './schemaValidate';

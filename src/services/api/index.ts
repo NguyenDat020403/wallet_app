@@ -44,6 +44,7 @@ const apiUpload = axios.create({
 });
 
 setInterceptor(apiToken);
+setInterceptor(apiWallet);
 setInterceptor(apiUpload);
 setInterceptor(apiNetwork);
 setInterceptor(apiIdentity);
@@ -57,4 +58,5 @@ export {
   apiNetwork,
   apiToken,
   apiUpload,
+  apiWallet,
 };

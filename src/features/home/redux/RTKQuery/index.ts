@@ -14,6 +14,7 @@ import {
   GasEstimatesResponse,
   getCurrentTransactionRequest,
   getTransactionsHistoryRequest,
+  ListWalletToken,
   SendAddressHistoryRequest,
   TokenMarketDataResponse,
   TransactionHistory,
@@ -40,6 +41,24 @@ const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
         method: 'GET',
       }),
       transformResponse: (response: FullResponse<WalletResponse[]>) =>
+        response.data,
+    }),
+    updateWalletName: builder.mutation({
+      query: (body: {wallet_id: string; wallet_name: string}) => ({
+        url: '/update',
+        method: 'PATCH',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<WalletResponse>) =>
+        response.data,
+    }),
+    deleteWalletName: builder.mutation({
+      query: (body: {wallet_id: string}) => ({
+        url: '/delete',
+        method: 'DELETE',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<WalletResponse>) =>
         response.data,
     }),
   }),
@@ -69,6 +88,15 @@ const tokenRTKQueryApi = RTKQueryTokenApi.injectEndpoints({
         body: body,
       }),
       transformResponse: (response: FullResponse<TokenMarketDataResponse>) =>
+        response.data,
+    }),
+    getWalletListToken: builder.mutation({
+      query: (body: {wallet_id: string}) => ({
+        url: '/listWalletToken',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<ListWalletToken[]>) =>
         response.data,
     }),
   }),
@@ -151,9 +179,14 @@ const notificationRTKQueryApi = RTKQueryNotificationApi.injectEndpoints({
   overrideExisting: true,
 });
 export const {useRegisterTokenNotificationMutation} = notificationRTKQueryApi;
-export const {useGetTokenMarketDataMutation} = tokenRTKQueryApi;
-export const {useGetWalletMutation, useGetUserWalletsMutation} =
-  walletRTKQueryApi;
+export const {useGetTokenMarketDataMutation, useGetWalletListTokenMutation} =
+  tokenRTKQueryApi;
+export const {
+  useGetWalletMutation,
+  useGetUserWalletsMutation,
+  useUpdateWalletNameMutation,
+  useDeleteWalletNameMutation,
+} = walletRTKQueryApi;
 export const {
   useGetEstimateGasMutation,
   useCreateTransactionBTCMutation,

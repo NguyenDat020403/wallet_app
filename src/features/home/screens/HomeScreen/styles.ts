@@ -24,8 +24,8 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textBody1Regular: {
     ...typography.body1Regular,
   },
-  textHeading1: {
-    ...typography.heading1,
+  textHero: {
+    ...typography.hero,
   },
   userInfo: {
     flexDirection: 'row',

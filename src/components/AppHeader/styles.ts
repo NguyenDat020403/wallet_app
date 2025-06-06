@@ -18,7 +18,7 @@ const useStyles = makeStyles(({colors}) => ({
     ...typography.body1Medium,
   },
   midSide: {
-    flex: 4,
+    flex: 3,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: spacing.marginSM,

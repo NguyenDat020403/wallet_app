@@ -36,15 +36,18 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
-  const {secretLocal} = useAppSelector(state => state.authReducer);
+  const {secretLocal, currentWalletID} = useAppSelector(
+    state => state.authReducer,
+  );
   const [getListHistoryAddress, {data, isLoading}] =
     useGetSendTransactionToAddressHistoryMutation();
+  const walletSecret = secretLocal.find(w => w.wallet_id === currentWalletID);
 
   useEffect(() => {
     const address =
       token.network.chain_id === '0'
-        ? secretLocal.wallets![1].address
-        : secretLocal.wallets![0].address;
+        ? walletSecret!.wallets![1].address
+        : walletSecret!.wallets![0].address;
     getListHistoryAddress({
       address: address,
       chain_id: token.network.chain_id,

@@ -15,8 +15,10 @@ import {IconClose, IconQR} from '@/assets/icons';
 import AppTextInput from '@/components/AppTextInput';
 import {useForm, useWatch} from 'react-hook-form';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {IconCopy} from '../../assets/icons';
+import {IconCopy} from '../../../auth/assets/icons';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
+import {useAppDispatch} from '@/redux/hooks';
+import {importWallet} from '../../redux/slices';
 
 interface ImportWalletScreenProps
   extends MainStackScreenProps<'ImportWalletScreen'> {}
@@ -27,6 +29,7 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
+  const dispatch = useAppDispatch();
   const [copiedText, setCopiedText] = useState('');
   const [isPressPaste, setIsPressPaste] = useState(false);
   const {control, handleSubmit, setValue} = useForm();
@@ -50,6 +53,14 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
         {index + 1}. {item}
       </Text>
     ));
+  };
+
+  const handleImportWallet = () => {
+    dispatch(
+      importWallet({
+        mnemonic: words,
+      }),
+    );
   };
 
   return (
@@ -109,9 +120,7 @@ const ImportWalletScreen: React.FC<ImportWalletScreenProps> = ({
         <AppButton
           buttonStyle={{marginHorizontal: 16, marginBottom: 16}}
           title="Confirm"
-          onPress={() => {
-            navigation.navigate('PasswordRecoveryScreen', {mnemonic: words});
-          }}
+          onPress={handleImportWallet}
         />
       </KeyboardAvoidingView>
     </AppWrapper>

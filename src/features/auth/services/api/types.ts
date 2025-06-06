@@ -24,10 +24,6 @@ export interface SignUpUserApiParams {
   biometricPublicKey?: string;
   callback?: () => void;
 }
-export interface ImportWalletApiParams {
-  password: string;
-  mnemonic: string;
-}
 
 export interface RegisterNotiTokenApi {
   FCMToken: string;

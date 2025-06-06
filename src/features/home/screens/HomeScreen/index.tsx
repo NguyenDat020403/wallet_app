@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   ViewStyle,
   ImageStyle,
+  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -16,6 +17,7 @@ import AppHeader from '@/components/AppHeader';
 import {
   IconArrowDown,
   IconBuy,
+  IconClose,
   IconQR,
   IconReceive,
   IconSend,
@@ -27,7 +29,7 @@ import {
 } from '@/assets/icons';
 import {IconCopy} from '@/features/auth/assets/icons';
 import {ImageAvatar} from '@/features/auth/assets/images';
-import {TabView} from '@rneui/base';
+import {Icon, TabView} from '@rneui/base';
 import {
   useGetUserWalletsMutation,
   useGetWalletMutation,
@@ -36,11 +38,13 @@ import {
 import {CryptoTabItem} from '../../components';
 import {requestUserPermission} from '@/functions/notification/functions';
 import {StyleProp} from 'react-native';
-import {hideAppLoading} from '@/features/common/functions';
-import {logout} from '@/features/auth/redux/slices';
+import {logout, setCurrentWalletIDLocal} from '@/features/auth/redux/slices';
 import {setUserWallets} from '../../redux/slices';
 import {UserWallet} from '../../redux/slices/types';
 import {AppBottomSheetModal, AppButton, AppImage} from '@/components';
+import Animated from 'react-native-reanimated';
+import {testList} from './types';
+import {FlatList} from 'react-native-gesture-handler';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
 
@@ -59,12 +63,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [getUserWallets, {data: userWallets, isSuccess}] =
     useGetUserWalletsMutation();
   const [getWalletDetail, {data, isLoading}] = useGetWalletMutation();
-  const [currentWaleltInfo, setCurrentWalletInfo] = useState<
+  const [currentWalletInfo, setCurrentWalletInfo] = useState<
     UserWallet | undefined
   >(currentUserWallet && currentUserWallet);
   const [tabIndex, setTabIndex] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [walletBalance, setWalletBalance] = useState(0);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -90,11 +95,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    console.log('currentWalletThay doi');
+  }, [currentWalletID]);
+
+  useEffect(() => {
+    getWalletDetail({wallet_id: currentWalletInfo?.wallet_id});
+  }, [currentWalletInfo]);
+
+  useEffect(() => {
     if (isSuccess) {
       console.log('userWallets:', userWallets, currentUserWallet);
 
       dispatch(setUserWallets(userWallets));
-
+      setWalletBalance(
+        userWallets.reduce(
+          (sum, item) => sum + parseFloat(item.wallet_balance),
+          0,
+        ),
+      );
       setCurrentWalletInfo(
         userWallets.find(w => w.wallet_id === currentWalletID),
       );
@@ -144,11 +162,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           activeOpacity={0.8}
           style={styles.userInfo}>
           <Image
-            source={{uri: currentUserWallet && currentUserWallet?.thumbnail}}
+            source={{uri: currentWalletInfo && currentWalletInfo?.thumbnail}}
             style={styles.icon}
           />
           <Text style={styles.textBody3Regular}>
-            {currentWaleltInfo?.wallet_name}
+            {currentWalletInfo?.wallet_name}
           </Text>
           <Image source={IconArrowDown} style={styles.icon} />
         </TouchableOpacity>
@@ -157,7 +175,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             styles.textHeading1,
             {textAlign: 'center', marginBottom: 16},
           ]}>
-          {data?.wallet.wallet_balance || 0} $
+          {data?.wallet.wallet_balance
+            ? Number(data?.wallet.wallet_balance).toFixed(3)
+            : 0}{' '}
+          $
         </Text>
         <View style={{flexDirection: 'row', gap: 32, alignSelf: 'center'}}>
           <ActionItem
@@ -191,29 +212,102 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         snapPoints={['100%']}>
-        <View style={{justifyContent: 'space-between', flex: 1}}>
-          <View>
-            {userWallet &&
-              userWallet.map((item, index) => {
-                return (
+        <AppHeader
+          leftComponent={
+            <TouchableOpacity
+              onPress={() => {
+                setIsVisible(false);
+              }}>
+              <AppImage
+                source={IconClose}
+                style={{width: 24, height: 24}}
+                haveDefault={false}
+              />
+            </TouchableOpacity>
+          }
+          rightComponent={
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('WalletScreen');
+                setIsVisible(false);
+              }}>
+              <Text style={styles.textBody1Regular}>Options</Text>
+            </TouchableOpacity>
+          }
+        />
+
+        <Animated.View style={{padding: 16}}>
+          <FlatList
+            data={userWallet}
+            showsVerticalScrollIndicator={false}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 16,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
                   <View style={{flexDirection: 'row', gap: 12}}>
                     <AppImage
-                      source={IconWalletActive}
+                      source={{uri: item.thumbnail}}
                       style={{width: 32, height: 32}}
                       haveDefault={false}
                     />
                     <Text style={styles.textBody2Medium}>
-                      Wallet {index + 1}
+                      {item.wallet_name}
                     </Text>
                   </View>
-                );
-              })}
-          </View>
+                  <View style={{flexDirection: 'row', gap: 12}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setCurrentWalletInfo(item);
+                        dispatch(setCurrentWalletIDLocal(item.wallet_id));
+                        setIsVisible(false);
+                      }}>
+                      <Icon
+                        type="feather"
+                        name="arrow-up-circle"
+                        color={'#000'}
+                        iconStyle={{fontSize: 16}}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate('WalletScreen', {
+                          wallet: item,
+                        });
+                        setIsVisible(false);
+                      }}>
+                      <Icon
+                        type="feather"
+                        name="more-horizontal"
+                        color={'#000'}
+                        iconStyle={{fontSize: 16}}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            bottom: safeAreaInsets.bottom + 16,
+            left: 16,
+            right: 16,
+          }}>
           <AppButton
             title="Add Wallet"
-            buttonStyle={{marginBottom: safeAreaInsets.bottom + 16}}
+            onPress={() => {
+              navigation.navigate('AddWalletScreen');
+              setIsVisible(false);
+            }}
           />
-        </View>
+        </Animated.View>
       </AppBottomSheetModal>
     </AppWrapper>
   );

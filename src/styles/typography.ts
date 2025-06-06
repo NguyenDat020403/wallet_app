@@ -2,8 +2,9 @@ import {StyleSheet} from 'react-native';
 
 const typography = StyleSheet.create({
   hero: {
-    fontFamily: 'nunito_regular',
-    fontSize: 96,
+    fontFamily: 'nunito_bold',
+    color: '#000000',
+    fontSize: 54,
   },
   heading1: {
     fontSize: 32,

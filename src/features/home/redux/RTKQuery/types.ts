@@ -12,19 +12,20 @@ export interface DetailWalletResponse {
   wallet: WalletResponse;
 }
 export interface Tokens {
-  token: {
-    token_id: string;
-    token_name: string;
-    symbol: string;
-    decimals: number;
-    thumbnail: any;
-    price_feed_id: any;
-    percent_change_24h: any;
-  };
+  token: Token;
   network: Network;
   contract_address?: string;
   balance: string;
   market_data?: MarketData;
+}
+export interface Token {
+  token_id: string;
+  token_name: string;
+  symbol: string;
+  decimals: number;
+  thumbnail: any;
+  price_feed_id: any;
+  percent_change_24h: any;
 }
 export interface Network {
   network_id: string;
@@ -64,7 +65,6 @@ export interface GasEstimatesResponse extends BTCFee {
   baseFeeTrend?: 'up' | 'down' | 'stable';
   version?: string;
 }
-
 export interface GasOption {
   suggestedMaxPriorityFeePerGas?: string;
   suggestedMaxFeePerGas?: string;
@@ -102,7 +102,7 @@ export interface getCurrentTransactionRequest
   tx: string;
   token_id: string;
 }
-export interface TransactionHistory {
+export class TransactionHistory {
   transaction_hash: string;
   time_transaction: string;
   action_transaction: string;
@@ -117,6 +117,7 @@ export interface TransactionHistory {
   nonce?: number;
   value?: string;
 }
+
 export interface TransactionHistoryByDate {
   [date: string]: TransactionHistory[];
 }
@@ -172,4 +173,11 @@ export interface MarketData {
   price: number;
   volume_24h: number;
   volume_24h_change_24h: number;
+}
+export interface ListWalletToken {
+  wallet_network_id: string;
+  wallet_id: string;
+  network_id: string;
+  address: string;
+  networks: Network;
 }

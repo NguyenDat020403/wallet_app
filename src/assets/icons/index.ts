@@ -50,3 +50,7 @@ export {default as IconLogout} from './IconLogout.png';
 export {default as IconTermOfService} from './IconTermOfService.png';
 export {default as IconPrivacyPolicy} from './IconPrivacyPolicy.png';
 export {default as IconGetHelp} from './IconGetHelp.png';
+
+//wallet
+export {default as IconImportWallet} from './IconImportWallet.png';
+export {default as IconAddWallet} from './IconAddWallet.png';

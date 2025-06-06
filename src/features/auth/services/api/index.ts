@@ -1,6 +1,10 @@
-import {apiIdentity, apiNotification, apiUpload} from '@/services/api';
 import {
-  ImportWalletApiParams,
+  apiIdentity,
+  apiNotification,
+  apiUpload,
+  apiWallet,
+} from '@/services/api';
+import {
   LoginUserApiParams,
   RegisterNotiTokenApi,
   SignUpUserApiParams,
@@ -16,12 +20,6 @@ export const loginUserApi = async (params: LoginUserApiParams) => {
 };
 export const signupUserApi = async (params: SignUpUserApiParams) => {
   return await apiIdentity.post(AUTH_API.SIGNUP, params).then(res => res.data);
-};
-//wallet
-export const importWalletApi = async (params: ImportWalletApiParams) => {
-  return await apiIdentity
-    .post(AUTH_API.IMPORT_WALLET, params)
-    .then(res => res.data);
 };
 ///Notification
 export const registerNotiTokenApi = async (body: RegisterNotiTokenApi) => {

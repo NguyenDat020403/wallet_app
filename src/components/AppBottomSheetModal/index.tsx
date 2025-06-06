@@ -28,9 +28,8 @@ type AppBottomSheetModalProps = PropsWithChildren<{
   footerComponent?: React.FC<BottomSheetFooterProps>;
   isTopInset?: boolean;
   isBottomInset?: boolean;
-  // animatedPosition?: SharedValue<number>;
+  animatedPosition?: SharedValue<number>;
 }>;
-
 export type AppBottomSheetModalRef = {
   present: () => void;
   dismiss: () => void;
@@ -41,20 +40,20 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
 > = (
   {
     children,
-    snapPoints = ['80%'],
+    snapPoints = ['70%'],
     onChange,
     isVisible,
     setIsVisible,
     autoSize,
     footerComponent,
     isBottomInset = false,
-    // animatedPosition,
+    animatedPosition,
   },
   ref,
 ) => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-  // useImperativeHandle(ref, () => bottomSheetModalRef.current!);
+  useImperativeHandle(ref, () => bottomSheetModalRef.current!);
 
   useEffect(() => {
     if (isVisible) {
@@ -67,7 +66,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
   // variables
   const sheetSnapPoint = useMemo(() => snapPoints, [snapPoints]);
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
-  // const indexRef = useRef<number>(-1);
+  const indexRef = useRef<number>(-1);
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
@@ -81,6 +80,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
     ),
     [],
   );
+
   return (
     <BottomSheetModal
       ref={bottomSheetModalRef}
@@ -88,38 +88,31 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
       footerComponent={footerComponent}
       enableDynamicSizing={autoSize}
       containerStyle={{zIndex: 10}}
-      // animatedPosition={animatedPosition}
-      keyboardBehavior="extend"
+      animatedPosition={animatedPosition}
+      keyboardBehavior="interactive"
+      keyboardBlurBehavior="restore"
+      android_keyboardInputMode="adjustPan"
       onChange={value => {
-        // indexRef.current = value;
+        indexRef.current = value;
         onChange && onChange(value);
         if (value === -1) {
           setIsVisible && setIsVisible(false);
         }
       }}
-      handleStyle={{
-        backgroundColor: '#FFFFF3',
-        borderTopLeftRadius: 14,
-        borderTopRightRadius: 14,
-      }}
-      // topInset={safeAreaInsets.top}
+      topInset={safeAreaInsets.top}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={{
-        backgroundColor: '#333',
+        backgroundColor: '#000',
       }}>
       <BottomSheetView
         style={[
-          {
-            paddingHorizontal: 16,
-            paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0,
-            backgroundColor: '#FFF',
-          },
+          {paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0},
           !autoSize && {flex: 1},
         ]}>
-        <View style={{flex: 1}}>{children}</View>
+        <View style={[!autoSize && {flex: 1}]}>{children}</View>
       </BottomSheetView>
     </BottomSheetModal>
   );
 };
 
-export default AppBottomSheetModal;
+export default React.forwardRef(AppBottomSheetModal);

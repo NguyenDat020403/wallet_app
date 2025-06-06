@@ -1,4 +1,4 @@
-import {apiTransaction} from '@/services/api';
+import {apiTransaction, apiWallet} from '@/services/api';
 import {HOME_API} from '../../constants';
 import {
   createTransactionBTCRequest,
@@ -7,6 +7,7 @@ import {
 } from '../../redux/RTKQuery/types';
 import {FullResponse} from '@/redux/RTKQuery/types';
 import {getCurrentTransactionRequest} from './types';
+import {ImportWalletApiParams} from '../../redux/slices/types';
 
 //auth
 export const sendTransactionBTC = async (
@@ -30,10 +31,14 @@ export const getCurrentTransaction = async (
     .post(HOME_API.GET_CURRENT_TRANSACTION, params)
     .then(res => res.data);
 };
-// export const getCurrentTransaction: (
-//   params: getCurrentTransactionRequest,
-// ) => Promise<FullResponse<TransactionHistory>> = async params => {
-//   return await apiTransaction
-//     .post(HOME_API.GET_CURRENT_TRANSACTION, params)
-//     .then(res => res.data);
-// };
+
+//wallet
+export const createWallet = async () => {
+  return await apiWallet.post(HOME_API.CREATE_WALLET).then(res => res.data);
+};
+
+export const importWalletApi = async (params: ImportWalletApiParams) => {
+  return await apiWallet
+    .post(HOME_API.IMPORT_WALLET, params)
+    .then(res => res.data);
+};

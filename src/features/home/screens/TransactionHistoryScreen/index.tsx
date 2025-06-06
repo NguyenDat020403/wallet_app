@@ -24,11 +24,14 @@ const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const dispatch = useAppDispatch();
-  const {secretLocal} = useAppSelector(state => state.authReducer);
+  const {secretLocal, currentWalletID} = useAppSelector(
+    state => state.authReducer,
+  );
+  const walletSecret = secretLocal.find(w => w.wallet_id === currentWalletID);
   const token = route.params.token;
   const txHash = route.params.txHash;
   const checkNetwork = token.network.chain_id === '0' ? 1 : 0;
-  const address = secretLocal.wallets![checkNetwork].address;
+  const address = walletSecret!.wallets![checkNetwork].address;
 
   const [data, setData] = useState<TransactionHistory>();
   useEffect(() => {
@@ -65,7 +68,11 @@ const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
     {
       id: 3,
       title: 'Action',
-      value: data ? data.action_transaction : 'no data',
+      value: data
+        ? Number(data.action_transaction)
+          ? 'receive'
+          : 'send'
+        : 'no data',
     },
     {
       id: 4,

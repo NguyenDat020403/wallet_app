@@ -21,8 +21,8 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
     state => state.authReducer,
   );
   useEffect(() => {
-    console.log(secretLocal);
-  }, [secretLocal]);
+    console.log(secretLocal[0]);
+  }, [secretLocal[0]]);
   return (
     <AppWrapper>
       <AppHeader leftComponent={<></>} />
@@ -47,10 +47,12 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
           <View>
             <Text style={styles.textBody2SemiBold}>0 $</Text>
             <Text numberOfLines={1} style={styles.textCap1}>
-              {secretLocal.wallets ? secretLocal.wallets[0].address : 'no data'}
+              {secretLocal[0].wallets
+                ? secretLocal[0].wallets[0].address
+                : 'no data'}
             </Text>
             <Text numberOfLines={1} style={styles.textCap1}>
-              {secretLocal.wallets && secretLocal.wallets[1].address}
+              {secretLocal[0].wallets && secretLocal[0].wallets[1].address}
             </Text>
           </View>
         </View>

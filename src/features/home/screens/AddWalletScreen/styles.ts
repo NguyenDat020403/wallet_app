@@ -23,8 +23,11 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textBody1Regular: {
     ...typography.body1Regular,
   },
-  textHeading1: {
-    ...typography.heading1,
+  textHeading2: {
+    ...typography.heading2,
+  },
+  textHero: {
+    ...typography.hero,
   },
   inputStyle: {
     marginVertical: 8,

@@ -5,6 +5,7 @@ import {MainStackParamList} from '@/navigation/MainNavigation/types';
 import {AccessInfo, AuthInitialState, SecretLocal, User} from './types';
 import {
   ImportWalletApiParams,
+  ImportWalletParams,
   LoginUserApiParams,
   SignUpUserApiParams,
   UploadAvatarApiParams,
@@ -17,7 +18,7 @@ const initialState: AuthInitialState = {
   isAuthenticated: false,
   isShowRequireLogin: false,
   screenNameBeforeAuth: 'AppTabScreen',
-  secretLocal: {},
+  secretLocal: [],
   currentUser: {},
   currentWalletID: '',
   biometricPublicKey: '',
@@ -29,7 +30,6 @@ export const authSlice = createSlice({
   reducers: {
     loginUser: (_, _action: PayloadAction<LoginUserApiParams>) => {},
     signUpUser: (_, _action: PayloadAction<SignUpUserApiParams>) => {},
-    importWallet: (_, _action: PayloadAction<ImportWalletApiParams>) => {},
     uploadAvatar: (_, _action: PayloadAction<UploadAvatarApiParams>) => {},
     setAccessInfo: (state, action: PayloadAction<AccessInfo>) => {
       state.accessInfo = action.payload;
@@ -56,7 +56,7 @@ export const authSlice = createSlice({
       state.isShowRequireLogin = action.payload;
     },
     setSecretLocal: (state, action: PayloadAction<SecretLocal>) => {
-      state.secretLocal = action.payload;
+      state.secretLocal.push(action.payload);
     },
     setCurrentUserProfile: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;

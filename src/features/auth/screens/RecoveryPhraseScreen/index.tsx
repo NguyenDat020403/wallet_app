@@ -43,7 +43,7 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   const styles = useStyles();
   const dispatch = useAppDispatch();
   const {secretLocal} = useAppSelector(state => state.authReducer);
-  const words = secretLocal.mnemonic.split(' ');
+  const words = secretLocal && secretLocal[0].mnemonic.split(' ');
   const [showBlur, setShowBlur] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -138,7 +138,7 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
         <QRCodeModal
           isVisible={isVisible}
           setIsVisible={setIsVisible}
-          data={secretLocal.mnemonic}
+          data={secretLocal[0].mnemonic || ''}
         />
       </View>
     </AppWrapper>

@@ -8,7 +8,7 @@ export type AuthInitialState = {
   isAuthenticated: boolean;
   isShowRequireLogin: boolean;
   screenNameBeforeAuth: keyof MainStackParamList;
-  secretLocal: SecretLocal;
+  secretLocal: SecretLocal[];
   currentUser: User;
   currentWalletID: string;
   biometricPublicKey: string;

@@ -7,5 +7,4 @@ export {default as IcloudBackUpScreen} from './IcloudBackUpScreen';
 export {default as ManualBackUpScreen} from './ManualBackUpScreen';
 export {default as ConfirmManualBackUpScreen} from './ConfirmManualBackUpScreen';
 export {default as UserLoginScreen} from './UserLoginScreen';
-export {default as ImportWalletScreen} from './ImportWalletScreen';
 export {default as PasswordRecoveryScreen} from './PasswordRecoveryScreen';

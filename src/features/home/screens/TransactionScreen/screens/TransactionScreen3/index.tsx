@@ -22,8 +22,12 @@ import {
   IconSlow,
   IconSuperFast,
 } from '@/assets/icons';
-import {goBack} from '@/navigation/RootNavigation';
-import {getCurrentTransaction} from '@/features/home/redux/slices';
+import {goBack, navigate, replace} from '@/navigation/RootNavigation';
+import {
+  getCurrentTransaction,
+  setCurrentTransactionHash,
+  setDetailCurrentTransaction,
+} from '@/features/home/redux/slices';
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {showToastMessage} from '@/functions';
 import {Icon, ScreenHeight} from '@rneui/base';
@@ -42,7 +46,10 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const dispatch = useAppDispatch();
-  const {secretLocal} = useAppSelector(state => state.authReducer);
+  const {secretLocal, currentWalletID} = useAppSelector(
+    state => state.authReducer,
+  );
+  const walletSecret = secretLocal.find(w => w.wallet_id === currentWalletID);
   const walletIndex = token.network.chain_id === '0' ? 1 : 0;
   const [getGas, {data, isSuccess}] = useGetEstimateGasMutation();
   const [
@@ -70,11 +77,15 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
   const [isPickTheRange, setIsPickTheRange] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
+  const from_address =
+    token.network.chain_id === '0'
+      ? walletSecret!.wallets![1].address
+      : walletSecret!.wallets![0].address;
   const handleCreateTransaction = () => {
-    if (secretLocal.wallets !== null && token.network.chain_id === '0') {
+    if (walletSecret!.wallets !== null && token.network.chain_id === '0') {
       createTransactionBTC({
-        privateKeyWIF: secretLocal.wallets![1].wif || 'undefined',
-        sendAddress: secretLocal.wallets![1].address,
+        privateKeyWIF: walletSecret!.wallets![1].wif || 'undefined',
+        sendAddress: walletSecret!.wallets![1].address,
         receiverAddress: address,
         amount: Math.round(parseFloat(amount) * 1e8),
         feeSelected: Number(selectedFee.fee) * 1e8,
@@ -83,8 +94,8 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
       const feeLevels = [data?.low, data?.medium, data?.high];
       const fee = feeLevels[selectedFee.index];
       createTransactionEVM({
-        privateKey: secretLocal.wallets![0].privateKey,
-        from: secretLocal.wallets![0].address,
+        privateKey: walletSecret!.wallets![0].privateKey,
+        from: walletSecret!.wallets![0].address,
         to: address,
         amount: amount,
         rpc_url: token.network.rpc_url,
@@ -102,7 +113,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
     if (token?.network?.chain_id && token.network.chain_id === '0') {
       console.log('dasdasd');
 
-      const ownerAddress = secretLocal.wallets?.[1]?.address;
+      const ownerAddress = walletSecret!.wallets?.[1]?.address;
       if (!ownerAddress) return;
       getGas({
         chain_id: token.network.chain_id,
@@ -133,11 +144,27 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
     }
     if (isEVMSuccess || isBTCSuccess) {
       hideAppLoading();
+      const data = dataTxHexEVM ? dataTxHexEVM : dataTxHexBTC;
+      dispatch(setCurrentTransactionHash(data));
+      dispatch(
+        setDetailCurrentTransaction({
+          transaction_hash: data,
+          time_transaction: '',
+          action_transaction: '0',
+          from_address: from_address,
+          to_address: address,
+          fee_network: '',
+          network_name: token.network.network_name,
+          block_hash: '',
+          block_height: 0,
+          value: amount,
+        }),
+      );
       goBack();
     }
     if (isErrorBTC || isErrorEVM) {
       hideAppLoading();
-      showToastMessage('error');
+      showToastMessage('fail to create transaction');
       goBack();
     }
   }, [
@@ -199,7 +226,7 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
             From
           </Text>
           <Text style={styles.textBody1Regular}>
-            {secretLocal.wallets![walletIndex].address}
+            {walletSecret!.wallets![walletIndex].address}
           </Text>
         </View>
         <View style={{gap: 8, marginBottom: 16}}>

@@ -30,6 +30,7 @@ import {
   UploadAvatarApiParams,
   UploadMediaResponse,
 } from '../../services/api/types';
+import {store} from '@/redux';
 
 function* loginUserSaga(action: PayloadAction<any>): SagaIterator<any> {
   showAppLoading();
@@ -95,34 +96,13 @@ function* signUpUserSaga(
       yield put(
         setCurrentWalletIDLocal(dataSignUp?.walletDefault.wallet.wallet_id!),
       );
-      yield put(setSecretLocal(dataSignUp?.walletDefault.walletSecret!));
+      yield put(
+        setSecretLocal({
+          wallet_id: dataSignUp?.walletDefault.wallet.wallet_id!,
+          ...dataSignUp?.walletDefault.walletSecret,
+        }),
+      );
       action.payload.callback && action.payload.callback();
-    }
-  } catch (e: any) {
-    showToastMessage(e.message);
-  } finally {
-    hideAppLoading();
-  }
-}
-function* importWalletSaga(
-  action: PayloadAction<ImportWalletApiParams>,
-): SagaIterator<any> {
-  showAppLoading();
-  try {
-    const {message, data, status, error}: FullResponse<ImportWalletResponse> =
-      yield call(authApi.importWalletApi, {
-        password: action.payload.password,
-        mnemonic: action.payload.mnemonic,
-      });
-
-    if (error === '0' || data) {
-      yield put(setAccessInfo(data!.token));
-      yield put(setCurrentUserProfile(data!.user));
-      yield put(setIsAuthenticated(true));
-      yield put(setIsFirstLaunch(false));
-      yield put(setCurrentWalletIDLocal(data?.walletDefault.wallet.wallet_id!));
-      yield put(setSecretLocal(data?.walletDefault.walletSecret!));
-      navigate('HomeScreen');
     }
   } catch (e: any) {
     showToastMessage(e.message);
@@ -153,6 +133,5 @@ function* uploadAvatarSaga(
 export default function* authSaga() {
   yield takeLatest(loginUser, loginUserSaga);
   yield takeLatest(signUpUser, signUpUserSaga);
-  yield takeLatest(importWallet, importWalletSaga);
   yield takeLatest(uploadAvatar, uploadAvatarSaga);
 }

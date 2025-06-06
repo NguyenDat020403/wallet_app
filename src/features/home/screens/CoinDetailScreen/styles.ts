@@ -8,8 +8,10 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     position: 'relative',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
+    paddingTop: 16,
   },
   infoCoin: {
+    paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 16,
