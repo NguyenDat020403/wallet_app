@@ -8,49 +8,53 @@ import {TabView} from '@rneui/base';
 import {CryptoTabItem} from '../../components';
 import {useForm, useWatch} from 'react-hook-form';
 import {IconFind} from '@/assets/icons';
-import {Tokens} from '../../redux/RTKQuery/types';
 
-interface SendScreenProps extends MainStackScreenProps<'SendScreen'> {}
+interface ReceiveScreenProps extends MainStackScreenProps<'ReceiveScreen'> {}
 
-const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
+const ReceiveScreen: React.FC<ReceiveScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
-  const data = route.params.listCoin;
-  const tokenData: Tokens[] = data?.filter(
-    (token: Tokens) => parseFloat(token.balance) > 0,
-  );
+  const data = route.params.tokens?.tokens;
+  const wallet_id = route.params.tokens?.wallet.wallet_id;
 
   const handleTabIndex = (newTabIndex: number) => {
     setTabIndex(newTabIndex);
   };
 
-  const [filteredData, setFilteredData] = useState(tokenData);
+  const [filteredData, setFilteredData] = useState(data);
 
-  const {control} = useForm<{
+  const {
+    control,
+    handleSubmit,
+    formState: {isValid},
+  } = useForm<{
     token_symbol: string;
   }>({
     mode: 'all',
     defaultValues: {
       token_symbol: '',
     },
+    // resolver: yupResolver(schemaValidate),
   });
   const token_symbol = useWatch({control, name: 'token_symbol'});
+
   useEffect(() => {
     if (!token_symbol || token_symbol.trim() === '') {
-      setFilteredData(tokenData);
+      setFilteredData(data);
       return;
     }
 
     const keyword = token_symbol.toLowerCase();
-    const filtered = tokenData?.filter(item =>
+    const filtered = data?.filter(item =>
       item.token.symbol.toLowerCase().includes(keyword),
     );
     setFilteredData(filtered);
   }, [token_symbol, data]);
+
   return (
     <AppWrapper>
+      <AppHeader title="Select cryptocurrency" />
       <View style={styles.container}>
-        <AppHeader title="Send" />
         <View style={{padding: 16}}>
           <View style={{position: 'relative'}}>
             <AppTextInput
@@ -68,19 +72,22 @@ const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
             />
           </View>
         </View>
-        {filteredData && (
+        {filteredData ? (
           <CryptoTabItem
             data={filteredData}
             onPress={(network_id, index) => {
-              navigation.navigate('CoinDetailScreen', {
-                token: tokenData[index!],
+              navigation.navigate('ReceiveQRCodeScreen', {
+                data: data![index || 0],
+                wallet_id: wallet_id!,
               });
             }}
           />
+        ) : (
+          <></>
         )}
       </View>
     </AppWrapper>
   );
 };
 
-export default SendScreen;
+export default ReceiveScreen;

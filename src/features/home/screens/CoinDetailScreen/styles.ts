@@ -8,7 +8,6 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     position: 'relative',
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 16,
-    paddingTop: 16,
   },
   infoCoin: {
     paddingHorizontal: 16,
@@ -19,8 +18,8 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textBody3Regular: {
     ...typography.body3Regular,
   },
-  textBody2Medium: {
-    ...typography.body2Medium,
+  textTitle2Bold: {
+    ...typography.title2Bold,
   },
   textBody2SemiBold: {
     ...typography.body2SemiBold,
@@ -36,18 +35,9 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     fontFamily: 'ibm_bold',
     color: '#000',
   },
-  textHeading1: {
-    ...typography.heading1,
-  },
   icon: {
     width: 24,
     height: 24,
-  },
-  button: {
-    backgroundColor: '#0000003',
-    borderRadius: 4,
-    padding: 8,
-    alignSelf: 'flex-start',
   },
   bottomContainer: {
     position: 'absolute',
@@ -60,6 +50,20 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  divider: {
+    height: 0.5,
+    alignSelf: 'center',
+    width: insets.screenWidth - 64,
+    backgroundColor: '#B3B3B3',
+  },
+  swapIcon: {
+    position: 'absolute',
+    padding: 8,
+    borderRadius: 150,
+    backgroundColor: '#000',
+    zIndex: 100,
+    alignSelf: 'center',
   },
 }));
 

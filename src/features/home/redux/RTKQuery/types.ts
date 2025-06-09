@@ -181,3 +181,31 @@ export interface ListWalletToken {
   address: string;
   networks: Network;
 }
+
+export interface SwapInfoResponse {
+  data: TokenContract[];
+  tokens: Token[];
+}
+export interface TokenContract {
+  rate: string;
+  usd: string;
+  contractBalance: string;
+  address: string;
+}
+
+export interface ContractBalances {
+  tokenA: string;
+  tokenB: string;
+}
+
+export interface TokenAddresses {
+  tokenA: string;
+  tokenB: string;
+}
+
+export interface WalletNetworkResponse {
+  wallet_network_id: string;
+  wallet_id: string;
+  network_id: string;
+  address: string;
+}

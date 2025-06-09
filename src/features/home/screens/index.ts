@@ -8,3 +8,6 @@ export {default as WalletScreen} from './WalletScreen';
 export {default as AddWalletScreen} from './AddWalletScreen';
 export {default as ImportWalletScreen} from './ImportWalletScreen';
 export {default as WalletAddressScreen} from './WalletAddressScreen';
+export {default as ReceiveScreen} from './ReceiveScreen';
+export {default as ReceiveQRCodeScreen} from './ReceiveQRCodeScreen';
+export {default as ScanScreen} from './ScanScreen';

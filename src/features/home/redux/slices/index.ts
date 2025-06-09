@@ -5,6 +5,7 @@ import {
   getCurrentTransactionRequest,
   HomeInitialState,
   ImportWalletApiParams,
+  SwapTokenApiParams,
   UserWallet,
 } from './types';
 import {
@@ -36,6 +37,7 @@ export const homeSlice = createSlice({
   reducers: {
     createWallet: (_, _action: PayloadAction<any>) => {},
     importWallet: (_, _action: PayloadAction<ImportWalletApiParams>) => {},
+    swapToken: (_, _action: PayloadAction<SwapTokenApiParams>) => {},
     sendBTCTransaction: (
       _,
       _action: PayloadAction<createTransactionBTCRequest>,
@@ -75,6 +77,7 @@ export const homeSlice = createSlice({
 export const {
   createWallet,
   importWallet,
+  swapToken,
   setDetailCurrentTransaction,
   getDetailCurrentTransaction,
   sendBTCTransaction,

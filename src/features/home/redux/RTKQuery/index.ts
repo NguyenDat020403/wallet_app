@@ -16,9 +16,11 @@ import {
   getTransactionsHistoryRequest,
   ListWalletToken,
   SendAddressHistoryRequest,
+  SwapInfoResponse,
   TokenMarketDataResponse,
   TransactionHistory,
   TransactionHistoryByDate,
+  WalletNetworkResponse,
   WalletResponse,
 } from './types';
 import {showToastMessage} from '@/functions';
@@ -97,6 +99,24 @@ const tokenRTKQueryApi = RTKQueryTokenApi.injectEndpoints({
         body: body,
       }),
       transformResponse: (response: FullResponse<ListWalletToken[]>) =>
+        response.data,
+    }),
+    getSwapTokenInfo: builder.mutation({
+      query: (body: {rpc_url: string; contract_address: string}) => ({
+        url: '/info',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<SwapInfoResponse>) =>
+        response.data,
+    }),
+    tokenByNetwork: builder.mutation({
+      query: (body: {network_id: string; wallet_id: string}) => ({
+        url: '/tokenByNetwork',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<WalletNetworkResponse>) =>
         response.data,
     }),
   }),
@@ -179,8 +199,12 @@ const notificationRTKQueryApi = RTKQueryNotificationApi.injectEndpoints({
   overrideExisting: true,
 });
 export const {useRegisterTokenNotificationMutation} = notificationRTKQueryApi;
-export const {useGetTokenMarketDataMutation, useGetWalletListTokenMutation} =
-  tokenRTKQueryApi;
+export const {
+  useGetSwapTokenInfoMutation,
+  useGetTokenMarketDataMutation,
+  useGetWalletListTokenMutation,
+  useTokenByNetworkMutation,
+} = tokenRTKQueryApi;
 export const {
   useGetWalletMutation,
   useGetUserWalletsMutation,

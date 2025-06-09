@@ -23,6 +23,7 @@ import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {setCurrentWalletIDLocal} from '@/features/auth/redux/slices';
 import {setUserWallets} from '../../redux/slices';
+import {goBack} from '@/navigation/RootNavigation';
 
 interface WalletScreenProps extends MainStackScreenProps<'WalletScreen'> {}
 
@@ -115,7 +116,11 @@ const WalletScreen: React.FC<WalletScreenProps> = ({navigation, route}) => {
       title: 'Seed Phrase',
       iconName: 'key',
       onPress: () => {
-        console.log('Seed Phrase');
+        navigation.navigate('RecoveryPhraseScreen', {
+          callBack: () => {
+            goBack();
+          },
+        });
       },
     },
   ];

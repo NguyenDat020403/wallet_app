@@ -7,15 +7,8 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textBody3Regular: {
     ...typography.body3Regular,
   },
-  textBody2Regular: {
-    ...typography.body2Regular,
-    opacity: 0.6,
-  },
   textBody2Medium: {
     ...typography.body2Medium,
-  },
-  textBody2SemiBold: {
-    ...typography.body2SemiBold,
   },
   textCap1: {
     ...typography.caption1,
@@ -27,7 +20,11 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textHero: {
     ...typography.hero,
   },
+  textHeading1: {
+    ...typography.heading1,
+  },
   userInfo: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: 8,
     alignSelf: 'center',
@@ -49,16 +46,6 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     width: 24,
     height: 24,
   },
-  underline: {
-    borderBottomWidth: 1,
-    borderBottomColor: 'white',
-  },
-  tabBar: {
-    flexDirection: 'row',
-    gap: 16,
-    alignSelf: 'center',
-    paddingVertical: 16,
-  },
   addTokenComponent: {
     position: 'absolute',
     bottom: 80,
@@ -70,6 +57,18 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderRadius: 8,
+  },
+  walletItem: {
+    paddingVertical: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  addWalletButton: {
+    position: 'absolute',
+    bottom: insets.bottom + 16,
+    left: 16,
+    right: 16,
   },
 }));
 

@@ -264,14 +264,16 @@ const TransactionScreen3: React.FC<TransactionScreen3> = ({
           isEVM={token.network.chain_id !== '0'}
           setSelectedFee={setSelectedFee}
           indexCurrent={selectedFee.index}
-          footerComponent={
-            <AppButton
-              title="Confirm"
-              onPress={() => {
-                setIsVisible(false);
-              }}
-            />
-          }
+        />
+        <AppButton
+          title="Confirm"
+          buttonStyle={{
+            marginHorizontal: 16,
+            marginBottom: 16 + safeAreaInsets.bottom,
+          }}
+          onPress={() => {
+            setIsVisible(false);
+          }}
         />
       </AppBottomSheetModal>
     </View>
@@ -355,9 +357,9 @@ const FeeList: React.FC<FeeListProps> = ({
     <View
       style={{
         gap: 12,
-        height: (ScreenHeight * 80) / 100 - safeAreaInsets.bottom - 16,
-        marginBottom: 16,
-        position: 'relative',
+        flex: 1,
+        paddingHorizontal: 16,
+        marginTop: 16,
       }}>
       {(isEVM ? ListFeeEVM : ListFeeBTC).map(item => {
         console.log(item);

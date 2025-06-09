@@ -7,24 +7,8 @@ const useStyles = makeStyles(({colors}) => ({
     backgroundColor: '#FFFFFF',
     padding: 16,
   },
-  textBody3Regular: {
-    ...typography.body3Regular,
-  },
-  textBody3Medium: {
-    ...typography.body3Medium,
-  },
-  textBody2Regular: {
-    ...typography.body2Regular,
-  },
-
   textBody2Medium: {
     ...typography.body2Medium,
-  },
-  textBody2SemiBold: {
-    ...typography.body2SemiBold,
-  },
-  textCap1: {
-    ...typography.caption1,
   },
   textBody1Regular: {
     ...typography.body1Regular,

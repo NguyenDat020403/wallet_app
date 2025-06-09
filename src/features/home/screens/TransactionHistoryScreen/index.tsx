@@ -44,6 +44,7 @@ const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
         callBack(t) {
           setData(t);
         },
+        rpc_url: token.network.rpc_url,
       }),
     );
   }, []);
@@ -88,6 +89,7 @@ const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
       id: 6,
       title: 'Block hash',
       value: data && data.block_hash ? data.block_hash : 'no data',
+      isCopy: true,
     },
     {
       id: 7,
@@ -127,8 +129,15 @@ const TransactionHistoryScreen: React.FC<TransactionHistoryScreenProps> = ({
                       style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
+                        alignItems: 'center',
                       }}>
-                      <Text style={styles.textBody1Regular}>{item.value}</Text>
+                      <Text
+                        style={[
+                          styles.textBody1Regular,
+                          {width: safeAreaInsets.screenWidth - 32 - 40},
+                        ]}>
+                        {item.value}
+                      </Text>
                       {item.isCopy && (
                         <Image
                           source={IconCopy}

@@ -6,11 +6,7 @@ import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
 import {OptionItem} from '../../components';
-import {
-  IconArrowRight,
-  IconCloudBackUp,
-  IconManualBackUp,
-} from '../../assets/icons';
+import {IconArrowRight, IconCloudBackUp} from '../../assets/icons';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {setIsAuthenticated} from '../../redux/slices';
@@ -19,21 +15,6 @@ import {QRCodeModal} from './screens';
 
 interface RecoveryPhraseScreenProps
   extends MainStackScreenProps<'RecoveryPhraseScreen'> {}
-
-const ListSecretWords = [
-  'physical',
-  'vote',
-  'apple',
-  'eager',
-  'income',
-  'obey',
-  'summer',
-  'other',
-  'purpose',
-  'radar',
-  'avoid',
-  'draw',
-];
 
 const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   navigation,
@@ -47,6 +28,11 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   const [showBlur, setShowBlur] = useState(true);
 
   const [isVisible, setIsVisible] = useState(false);
+
+  const handleOnContinue = () => {
+    dispatch(setIsAuthenticated(true));
+    navigation.navigate('AppTabScreen');
+  };
 
   return (
     <AppWrapper>
@@ -131,10 +117,14 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
         <AppButton
           title="Done"
           onPress={() => {
-            dispatch(setIsAuthenticated(true));
-            navigation.navigate('AppTabScreen');
+            if (route.params?.callBack) {
+              route.params.callBack();
+            } else {
+              handleOnContinue();
+            }
           }}
         />
+
         <QRCodeModal
           isVisible={isVisible}
           setIsVisible={setIsVisible}

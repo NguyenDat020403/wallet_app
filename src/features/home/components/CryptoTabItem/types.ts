@@ -1,4 +1,4 @@
-import {MarketData} from '../../redux/RTKQuery/types';
+import {MarketData, Token} from '../../redux/RTKQuery/types';
 
 export const fakeCoins = [
   {
@@ -85,16 +85,9 @@ export const fakeCoins = [
 
 export default fakeCoins;
 export interface Tokens {
-  token: {
-    token_id: string;
-    token_name: string;
-    symbol: string;
-    decimals: number;
-    thumbnail: any;
-    price_feed_id: any;
-    percent_change_24h: any;
-  };
+  token: Token;
   network: Network;
+  contract_address?: string;
   balance: string;
   market_data?: MarketData;
 }

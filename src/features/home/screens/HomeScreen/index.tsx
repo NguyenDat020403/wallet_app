@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   ViewStyle,
   ImageStyle,
-  ScrollView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -22,14 +21,9 @@ import {
   IconReceive,
   IconSend,
   IconSetting,
-  IconSwap,
-  IconWallet,
-  IconWalletActive,
-  IconWalletItem,
 } from '@/assets/icons';
 import {IconCopy} from '@/features/auth/assets/icons';
-import {ImageAvatar} from '@/features/auth/assets/images';
-import {Icon, TabView} from '@rneui/base';
+import {Icon} from '@rneui/base';
 import {
   useGetUserWalletsMutation,
   useGetWalletMutation,
@@ -43,7 +37,6 @@ import {setUserWallets} from '../../redux/slices';
 import {UserWallet} from '../../redux/slices/types';
 import {AppBottomSheetModal, AppButton, AppImage} from '@/components';
 import Animated from 'react-native-reanimated';
-import {testList} from './types';
 import {FlatList} from 'react-native-gesture-handler';
 
 interface HomeScreenProps extends MainStackScreenProps<'HomeScreen'> {}
@@ -52,9 +45,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const dispatch = useAppDispatch();
-  const {currentUser, currentWalletID, secretLocal} = useAppSelector(
-    state => state.authReducer,
-  );
+  const {currentWalletID} = useAppSelector(state => state.authReducer);
   const {userWallet} = useAppSelector(state => state.homeReducer);
   const currentUserWallet = userWallet.find(
     w => w.wallet_id === currentWalletID,
@@ -91,16 +82,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   useEffect(() => {
     handleCheckPermission();
     getUserWallets({});
-    getWalletDetail({wallet_id: currentWalletID});
   }, []);
-
   useEffect(() => {
-    console.log('currentWalletThay doi');
+    if (currentWalletID) {
+      getWalletDetail({wallet_id: currentWalletID});
+    }
   }, [currentWalletID]);
-
-  useEffect(() => {
-    getWalletDetail({wallet_id: currentWalletInfo?.wallet_id});
-  }, [currentWalletInfo]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -117,7 +104,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         userWallets.find(w => w.wallet_id === currentWalletID),
       );
     }
-  }, [userWallets, isSuccess]);
+  }, [userWallets, isSuccess, currentWalletID]);
   return (
     <AppWrapper>
       <AppHeader
@@ -143,7 +130,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
                 haveDefault={false}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('ScanScreen');
+              }}>
               <AppImage
                 source={IconQR}
                 resizeMode="stretch"
@@ -156,10 +146,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       />
       <View style={styles.container}>
         <TouchableOpacity
+          hitSlop={20}
           onPress={() => {
             setIsVisible(true);
           }}
-          activeOpacity={0.8}
           style={styles.userInfo}>
           <Image
             source={{uri: currentWalletInfo && currentWalletInfo?.thumbnail}}
@@ -188,7 +178,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               navigation.navigate('SendScreen', {listCoin: data?.tokens});
             }}
           />
-          <ActionItem icon={IconReceive} title="receive" />
+          <ActionItem
+            icon={IconReceive}
+            title="receive"
+            onPress={() => {
+              navigation.navigate('ReceiveScreen', {tokens: data});
+            }}
+          />
         </View>
         <CryptoTabItem
           isHomeList
@@ -213,7 +209,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         setIsVisible={setIsVisible}
         snapPoints={['100%']}>
         <AppHeader
-          leftComponent={
+          leftComponent={<View />}
+          rightComponent={
             <TouchableOpacity
               onPress={() => {
                 setIsVisible(false);
@@ -225,17 +222,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
               />
             </TouchableOpacity>
           }
-          rightComponent={
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('WalletScreen');
-                setIsVisible(false);
-              }}>
-              <Text style={styles.textBody1Regular}>Options</Text>
-            </TouchableOpacity>
-          }
         />
-
+        <View style={{paddingHorizontal: 16}}>
+          <Text style={styles.textHeading1}>Wallets Balance</Text>
+          <Text style={[styles.textHero, {color: '#b3b3b3'}]}>
+            {walletBalance.toFixed(5)}
+          </Text>
+        </View>
         <Animated.View style={{padding: 16}}>
           <FlatList
             data={userWallet}
@@ -243,11 +236,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
-                  style={{
-                    paddingVertical: 16,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                  style={styles.walletItem}
+                  onPress={() => {
+                    setCurrentWalletInfo(item);
+                    dispatch(setCurrentWalletIDLocal(item.wallet_id));
+                    setIsVisible(false);
                   }}>
                   <View style={{flexDirection: 'row', gap: 12}}>
                     <AppImage
@@ -293,13 +286,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
             }}
           />
         </Animated.View>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            bottom: safeAreaInsets.bottom + 16,
-            left: 16,
-            right: 16,
-          }}>
+        <Animated.View style={styles.addWalletButton}>
           <AppButton
             title="Add Wallet"
             onPress={() => {

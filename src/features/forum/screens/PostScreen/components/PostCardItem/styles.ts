@@ -9,39 +9,13 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     position: 'relative',
     paddingBottom: 60,
   },
-  createPost: {
-    borderRadius: 8,
-    backgroundColor: '#efefef',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginHorizontal: 16,
-    marginVertical: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  textBody3Regular: {
-    ...typography.body3Regular,
-  },
-  textBody2Regular: {
-    ...typography.body2Regular,
-    opacity: 0.6,
-  },
-  textBody2Medium: {
-    ...typography.body2Medium,
-  },
-  textBody2SemiBold: {
-    ...typography.body2SemiBold,
-  },
   textCap1: {
     ...typography.caption1,
   },
   textBody1Regular: {
     ...typography.body1Regular,
   },
-  textHeading1: {
-    ...typography.heading1,
-  },
+
   divider: {
     height: 0.5,
     width: insets.screenWidth,

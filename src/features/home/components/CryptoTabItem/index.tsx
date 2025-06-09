@@ -147,9 +147,9 @@ const CoinItem: React.FC<CoinItemProps> = ({
           {Number(data.balance) === 0 ? 0 : Number(data.balance).toFixed(5)}
         </Text>
         <Text style={[styles.textCap1, {color: '#7B849B'}]}>
-          {(
-            data.market_data?.price &&
-            Number(data.balance) * data.market_data?.price
+          {(data.market_data?.price
+            ? Number(data.balance) * data.market_data?.price
+            : 0
           )?.toFixed(2)}
         </Text>
       </View>

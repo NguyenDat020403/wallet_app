@@ -13,8 +13,15 @@ import {
   ImportWalletApiParams,
   ImportWalletResponse,
   NewWalletResponse,
+  SwapTokenApiParams,
+  SwapTokenResponse,
 } from '../slices/types';
-import {createWallet, getCurrentTransaction, importWallet} from '../slices';
+import {
+  createWallet,
+  getCurrentTransaction,
+  importWallet,
+  swapToken,
+} from '../slices';
 import {
   setCurrentWalletIDLocal,
   setSecretLocal,
@@ -96,8 +103,27 @@ function* importWalletSaga(
     hideAppLoading();
   }
 }
+
+function* swapTokenSaga(
+  action: PayloadAction<SwapTokenApiParams>,
+): SagaIterator<any> {
+  showAppLoading();
+  try {
+    const {message, data, status, error}: FullResponse<SwapTokenResponse> =
+      yield call(homeApi.swapTokenApi, action.payload);
+
+    if (error === '0' || data) {
+      navigate('AppTabScreen');
+    }
+  } catch (e: any) {
+    showToastMessage(e.message);
+  } finally {
+    hideAppLoading();
+  }
+}
 export default function* homeSaga() {
   yield takeLatest(getCurrentTransaction, getCurrentTransactionSaga);
   yield takeLatest(createWallet, createWalletSaga);
   yield takeLatest(importWallet, importWalletSaga);
+  yield takeLatest(swapToken, swapTokenSaga);
 }

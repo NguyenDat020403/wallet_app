@@ -2,6 +2,12 @@ import {typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}) => ({
+  wrapper: {
+    flex: 1,
+    position: 'relative',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+  },
   container: {
     flex: 1,
     flexDirection: 'row',

@@ -65,10 +65,10 @@ const typography = StyleSheet.create({
     color: '#000000',
   },
   body1Bold: {
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: 'nunito_bold',
     fontWeight: '700',
-    lineHeight: 21,
+    color: '#000000',
   },
   body2: {
     fontFamily: 'nunito_regular',
@@ -77,10 +77,11 @@ const typography = StyleSheet.create({
     color: '#000000',
   },
   body2Bold: {
-    fontFamily: 'nunito_semibold',
+    fontFamily: 'nunito_bold',
     fontSize: 16,
+    fontWeight: '700',
     lineHeight: 17,
-    color: '#202020',
+    color: '#000000',
   },
   body2SemiBold: {
     fontFamily: 'nunito_semibold',
@@ -122,6 +123,7 @@ const typography = StyleSheet.create({
     fontSize: 18,
     lineHeight: 21,
     color: '#000000',
+    fontWeight: 'bold',
   },
   caption1: {
     color: '#000',
@@ -192,6 +194,7 @@ const typography = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'nunito_bold',
     lineHeight: 30,
+    color: '#000',
   },
   title2Medium: {
     fontSize: 18,

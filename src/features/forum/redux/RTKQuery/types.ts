@@ -1,8 +1,8 @@
-export interface ListPostResponse {
+export interface ListResponse<T> {
   total: number;
   page: number;
   limit: number;
-  data: Post[];
+  data: T[];
 }
 export interface Post {
   post_id: string;
@@ -26,4 +26,18 @@ export interface Image {
   post_id: string;
   imageUrl: string;
   created_at: string;
+}
+export interface Comment {
+  comment_id: string;
+  post_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: any;
+  user: User;
+}
+export interface CreatePostResponse {
+  post: Post;
+  resource: Image[];
 }

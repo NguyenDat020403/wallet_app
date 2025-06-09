@@ -3,18 +3,12 @@ import {spacing, typography} from '@/styles';
 import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
-  textRegular: {
-    ...typography.body1Regular,
-  },
-  textSemiBold: {
-    ...typography.body2SemiBold,
-  },
-  setting: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    gap: 40,
-    flexWrap: 'wrap',
-    paddingBottom: 24,
+  iconFind: {
+    width: 24,
+    height: 24,
+    position: 'absolute',
+    top: 24,
+    left: 12,
   },
 }));
 

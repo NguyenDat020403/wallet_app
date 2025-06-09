@@ -5,15 +5,21 @@ import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {AppImage} from '@/components';
 import {Image} from '../../redux/RTKQuery/types';
 import {IconCopy} from '@/features/auth/assets/icons';
+import {Icon} from '@rneui/base';
+import {Asset} from 'react-native-image-picker';
 
 type PostMediaViewProps = {
-  resource: Image[];
+  resource?: Image[];
+  imagesDevice?: Asset[];
 };
 
-const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
+const PostMediaView: React.FC<PostMediaViewProps> = ({
+  resource,
+  imagesDevice,
+}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
-  const MEDIA_LENGHT = resource.length;
+  const MEDIA_LENGHT = resource ? resource.length : imagesDevice?.length;
   const CONTAINER_WIDTH = safeAreaInsets.screenWidth - 32;
 
   switch (MEDIA_LENGHT) {
@@ -21,9 +27,11 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
       return <></>;
     case 1:
       return (
-        <View style={{paddingVertical: 16}}>
+        <View>
           <AppImage
-            source={{uri: resource[0].imageUrl}}
+            source={{
+              uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
+            }}
             style={{
               width: CONTAINER_WIDTH,
               height: CONTAINER_WIDTH,
@@ -34,9 +42,11 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
       );
     case 2:
       return (
-        <View style={{flexDirection: 'row', gap: 8, paddingVertical: 16}}>
+        <View style={{flexDirection: 'row', gap: 8}}>
           <AppImage
-            source={{uri: resource[0].imageUrl}}
+            source={{
+              uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
+            }}
             style={{
               borderRadius: 12,
               width: CONTAINER_WIDTH / 2 - 4,
@@ -44,7 +54,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
             }}
           />
           <AppImage
-            source={{uri: resource[1].imageUrl}}
+            source={{
+              uri: resource ? resource[1].imageUrl : imagesDevice![1].uri,
+            }}
             style={{
               borderRadius: 12,
               width: CONTAINER_WIDTH / 2 - 4,
@@ -55,10 +67,12 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
       );
     case 3:
       return (
-        <View style={{gap: 4, paddingVertical: 16}}>
+        <View style={{gap: 4}}>
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -66,7 +80,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
               }}
             />
             <AppImage
-              source={{uri: resource[1].imageUrl}}
+              source={{
+                uri: resource ? resource[1].imageUrl : imagesDevice![1].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -76,7 +92,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
           </View>
           <View style={{position: 'relative'}}>
             <AppImage
-              source={{uri: resource[2].imageUrl}}
+              source={{
+                uri: resource ? resource[2].imageUrl : imagesDevice![2].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH,
@@ -89,10 +107,12 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
       );
     case 4:
       return (
-        <View style={{gap: 4, paddingVertical: 16}}>
+        <View style={{gap: 4}}>
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -100,7 +120,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
               }}
             />
             <AppImage
-              source={{uri: resource[1].imageUrl}}
+              source={{
+                uri: resource ? resource[1].imageUrl : imagesDevice![1].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -110,7 +132,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
           </View>
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[2].imageUrl : imagesDevice![2].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -118,7 +142,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
               }}
             />
             <AppImage
-              source={{uri: resource[1].imageUrl}}
+              source={{
+                uri: resource ? resource[3].imageUrl : imagesDevice![3].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -130,10 +156,12 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
       );
     default:
       return (
-        <View style={{gap: 4, paddingVertical: 16}}>
+        <View style={{gap: 4}}>
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -141,7 +169,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
               }}
             />
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[1].imageUrl : imagesDevice![1].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -151,7 +181,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
           </View>
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
-              source={{uri: resource[0].imageUrl}}
+              source={{
+                uri: resource ? resource[2].imageUrl : imagesDevice![2].uri,
+              }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
@@ -160,7 +192,9 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
             />
             <View style={{position: 'relative'}}>
               <AppImage
-                source={{uri: resource[0].imageUrl}}
+                source={{
+                  uri: resource ? resource[3].imageUrl : imagesDevice![3].uri,
+                }}
                 style={{
                   borderRadius: 12,
                   width: CONTAINER_WIDTH / 2 - 4,
@@ -172,10 +206,11 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({resource}) => {
                 <Text style={[styles.textBody1Regular]}>
                   +{MEDIA_LENGHT - 3}
                 </Text>
-                <AppImage
-                  source={IconCopy}
-                  style={{width: 16, height: 16}}
-                  haveDefault={false}
+                <Icon
+                  type="feather"
+                  name="image"
+                  iconStyle={{fontSize: 16}}
+                  color={'#FFFFFF'}
                 />
               </View>
             </View>

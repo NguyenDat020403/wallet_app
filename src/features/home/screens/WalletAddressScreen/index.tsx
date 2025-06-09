@@ -11,7 +11,7 @@ import {
   AppWrapper,
 } from '@/components';
 import {TouchableOpacity} from 'react-native';
-import {Icon, TabView} from '@rneui/base';
+import {Icon, ScreenWidth, TabView} from '@rneui/base';
 import {CryptoTabItem} from '../../components';
 import {Controller, useForm, useWatch} from 'react-hook-form';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -131,7 +131,14 @@ const WalletAddressScreen: React.FC<WalletAddressScreenProps> = ({
                     <Text style={styles.textBody2Medium}>
                       {item.networks.network_name}
                     </Text>
-                    <Text style={styles.textCap1} numberOfLines={1}>
+                    <Text
+                      style={[
+                        styles.textCap1,
+                        {
+                          width: ScreenWidth - 32 - 40 - 16 - 24 - 16,
+                        },
+                      ]}
+                      numberOfLines={1}>
                       {item.address}
                     </Text>
                   </View>

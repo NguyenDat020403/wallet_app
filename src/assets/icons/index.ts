@@ -35,6 +35,7 @@ export {default as IconWarning} from './IconWarning.png';
 export {default as IconFingerprint} from './IconFingerprint.png';
 export {default as IconPicture} from './IconPicture.png';
 export {default as IconWalletItem} from './IconWalletItem.png';
+export {default as IconAddImage} from './IconAddImage.png';
 
 //Navigation
 export {default as IconChat} from './IconChat.png';

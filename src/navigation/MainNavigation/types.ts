@@ -1,6 +1,11 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {AppTabStackParamList} from '../BottomTabNavigator/types';
-import {Network, Tokens} from '@/features/home/redux/RTKQuery/types';
+import {
+  DetailWalletResponse,
+  Network,
+  Token,
+  Tokens,
+} from '@/features/home/redux/RTKQuery/types';
 import {UserWallet} from '@/features/home/redux/slices/types';
 
 export type MainStackParamList = {
@@ -19,6 +24,9 @@ export type MainStackParamList = {
   WalletScreen: {wallet: UserWallet};
   WalletAddressScreen: {wallet_id: string};
   AddWalletScreen: undefined;
+  ReceiveScreen: {tokens?: DetailWalletResponse};
+  ReceiveQRCodeScreen: {data: Tokens; wallet_id: string};
+  ScanScreen: undefined;
   //auth
   FirstScreen: undefined;
   ImportWalletScreen: undefined;
@@ -28,8 +36,9 @@ export type MainStackParamList = {
   IcloudBackUpScreen: undefined;
   ManualBackUpScreen: {listWordSecret: any[]};
   ConfirmManualBackUpScreen: {listWordSecret: any[]};
-  RecoveryPhraseScreen: undefined;
+  RecoveryPhraseScreen: {callBack?: () => void};
   LoginScreen: {isGoBackEnable?: boolean};
   //forum
   PostScreen: undefined;
+  CreatePostScreen: undefined;
 };

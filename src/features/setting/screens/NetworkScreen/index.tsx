@@ -77,13 +77,7 @@ const NetworkScreen: React.FC<NetworkScreenProps> = ({navigation, route}) => {
           />
           <AppImage
             source={IconFind}
-            style={{
-              width: 24,
-              height: 24,
-              position: 'absolute',
-              top: 24,
-              left: 12,
-            }}
+            style={styles.iconFind}
             haveDefault={false}
           />
         </View>

@@ -11,7 +11,7 @@ import * as authScreenList from '@/features/auth/screens';
 import * as settingScreenList from '@/features/setting/screens';
 import * as networkScreenList from '@/features/setting/screens/NetworkScreen/screens';
 import * as homeScreenList from '@/features/home/screens';
-import {useRegisterTokenNotificationMutation} from '@/features/home/redux/RTKQuery';
+import * as forumScreenList from '@/features/forum/screens';
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {
@@ -23,6 +23,7 @@ const route = {
   ...authScreenList,
   ...homeScreenList,
   ...networkScreenList,
+  ...forumScreenList,
 };
 
 const MainNavigator = () => {

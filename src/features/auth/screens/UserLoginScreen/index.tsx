@@ -128,7 +128,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation, route}) => {
         onPress={() => {
           setIsWarning(false);
         }}
-        titleButton="Import Now"
+        titleButton="Close"
         action="WARNING"
         isVisible={isWarning}
         setIsVisible={setIsWarning}

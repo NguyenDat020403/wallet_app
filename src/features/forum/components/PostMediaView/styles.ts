@@ -11,6 +11,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   },
   textBody1Regular: {
     ...typography.body1Regular,
+    color: '#FFF',
   },
   imagesList: {
     position: 'absolute',

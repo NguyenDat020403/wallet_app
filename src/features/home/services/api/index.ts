@@ -1,4 +1,4 @@
-import {apiTransaction, apiWallet} from '@/services/api';
+import {apiToken, apiTransaction, apiWallet} from '@/services/api';
 import {HOME_API} from '../../constants';
 import {
   createTransactionBTCRequest,
@@ -7,7 +7,10 @@ import {
 } from '../../redux/RTKQuery/types';
 import {FullResponse} from '@/redux/RTKQuery/types';
 import {getCurrentTransactionRequest} from './types';
-import {ImportWalletApiParams} from '../../redux/slices/types';
+import {
+  ImportWalletApiParams,
+  SwapTokenApiParams,
+} from '../../redux/slices/types';
 
 //auth
 export const sendTransactionBTC = async (
@@ -41,4 +44,9 @@ export const importWalletApi = async (params: ImportWalletApiParams) => {
   return await apiWallet
     .post(HOME_API.IMPORT_WALLET, params)
     .then(res => res.data);
+};
+
+//token
+export const swapTokenApi = async (params: SwapTokenApiParams) => {
+  return await apiToken.post(HOME_API.SWAP_TOKEN, params).then(res => res.data);
 };

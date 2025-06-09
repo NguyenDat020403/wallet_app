@@ -16,7 +16,7 @@ import {convertDate} from './functions';
 type UserHeaderInfoProps = {
   name: string;
   avatar: string;
-  created_at: string;
+  created_at?: string;
 };
 
 const UserHeaderInfo: React.FC<UserHeaderInfoProps> = ({
@@ -34,9 +34,11 @@ const UserHeaderInfo: React.FC<UserHeaderInfoProps> = ({
         type="AVATAR"
         style={{width: 40, height: 40}}
       />
-      <View>
+      <View style={{justifyContent: 'center'}}>
         <Text style={styles.textBody2Medium}>{name}</Text>
-        <Text style={styles.textCap1}>{convertDate(created_at)}</Text>
+        {created_at && (
+          <Text style={styles.textCap1}>{convertDate(created_at)}</Text>
+        )}
       </View>
     </View>
   );

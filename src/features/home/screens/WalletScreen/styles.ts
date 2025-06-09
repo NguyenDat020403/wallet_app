@@ -4,13 +4,6 @@ import {makeStyles} from '@rneui/themed';
 
 const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   container: {flex: 1, backgroundColor: '#FFFFFF', padding: 16},
-  textBody3Regular: {
-    ...typography.body3Regular,
-  },
-  textBody2Regular: {
-    ...typography.body2Regular,
-    opacity: 0.6,
-  },
   textBody2Medium: {
     ...typography.body2Medium,
   },
@@ -22,9 +15,6 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   },
   textBody1Regular: {
     ...typography.body1Regular,
-  },
-  textHeading1: {
-    ...typography.heading1,
   },
   inputStyle: {
     marginVertical: 8,
