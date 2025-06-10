@@ -22,11 +22,19 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     backgroundColor: '#b3b3b3',
   },
   bottomPost: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: 12,
     paddingBottom: 12,
     paddingTop: 4,
     alignSelf: 'center',
+  },
+  action: {
+    flexDirection: 'row',
+    gap: 8,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 }));
 

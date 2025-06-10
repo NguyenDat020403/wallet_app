@@ -1,6 +1,7 @@
 import {FullResponse} from '@/redux/RTKQuery/types';
 import {RTKQueryPostApi} from '@/redux/RTKQuery';
 import {Comment, CreatePostResponse, ListResponse, Post} from './types';
+import {showToastMessage} from '@/functions';
 
 const postRTKQueryApi = RTKQueryPostApi.injectEndpoints({
   endpoints: builder => ({
@@ -12,6 +13,30 @@ const postRTKQueryApi = RTKQueryPostApi.injectEndpoints({
       }),
       transformResponse: (response: FullResponse<ListResponse<Post>>) =>
         response.data?.data,
+    }),
+    likePost: builder.mutation({
+      query: (body: {post_id: string}) => ({
+        url: '/likePost',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<any>) => {
+        if (response.error === '1') {
+          showToastMessage('Error');
+        }
+      },
+    }),
+    likeComment: builder.mutation({
+      query: (body: {comment_id: string}) => ({
+        url: '/likeComment',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<any>) => {
+        if (response.error === '1') {
+          showToastMessage('Error');
+        }
+      },
     }),
     getCommentsPost: builder.mutation({
       query: (params: {postId: string; page?: number; limit?: number}) => ({
@@ -34,6 +59,14 @@ const postRTKQueryApi = RTKQueryPostApi.injectEndpoints({
       transformResponse: (response: FullResponse<CreatePostResponse>) =>
         response.data,
     }),
+    commentPost: builder.mutation({
+      query: (body: {post_id: string; content: string}) => ({
+        url: '/comment',
+        method: 'POST',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<Comment>) => response.data,
+    }),
   }),
   overrideExisting: true,
 });
@@ -41,4 +74,7 @@ export const {
   useGetListPostMutation,
   useGetCommentsPostMutation,
   useCreatePostMutation,
+  useLikePostMutation,
+  useLikeCommentMutation,
+  useCommentPostMutation,
 } = postRTKQueryApi;

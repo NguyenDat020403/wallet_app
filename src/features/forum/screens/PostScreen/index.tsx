@@ -1,11 +1,10 @@
 import {
-  View,
   Text,
   TouchableOpacity,
   ViewStyle,
   ImageStyle,
-  FlatList,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
@@ -14,16 +13,25 @@ import AppWrapper from '@/components/AppWrapper';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import AppHeader from '@/components/AppHeader';
 import {
+  useCommentPostMutation,
   useGetCommentsPostMutation,
   useGetListPostMutation,
 } from '../../redux/RTKQuery';
-import {PostMediaView, UserHeaderInfo} from '../../components';
+import {
+  CommentBottomSheet,
+  PostMediaView,
+  UserHeaderInfo,
+} from '../../components';
 import {AppBottomSheetModal, AppImage} from '@/components';
 import {useAppSelector} from '@/redux/hooks';
-import {IconPicture} from '@/assets/icons';
+import {AppIcon, IconPicture} from '@/assets/icons';
 import {Icon} from '@rneui/base';
 import {Post} from '../../redux/RTKQuery/types';
 import PostCardItem from './components/PostCardItem';
+import {FlatList, TextInput} from 'react-native-gesture-handler';
+import {convertDate} from '@/functions/convertDate/functions';
+import {BottomSheetTextInput, BottomSheetView} from '@gorhom/bottom-sheet';
+import {View} from 'react-native';
 
 interface PostScreenProps extends MainStackScreenProps<'PostScreen'> {}
 
@@ -36,10 +44,11 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [postId, setPostId] = useState('');
 
   const [getListPost, {data, isLoading}] = useGetListPostMutation();
-  const [getComments, {data: listComment, isLoading: commentLoading}] =
-    useGetCommentsPostMutation();
 
   const fetchPosts = async (currentPage: number) => {
     const response: Post[] = await getListPost({
@@ -65,8 +74,6 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   useEffect(() => {
     console.log(data);
   }, [data]);
-  const [refreshing, setRefreshing] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
 
   const onRefresh = async () => {
     fetchPosts(1);
@@ -79,13 +86,9 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
       setPage(nextPage);
     }
   };
-  const handleOpenComment = (postId: string) => {
+  const handleOpenComment = (postIdPress: string) => {
     setIsVisible(true);
-    getComments({
-      postId: postId,
-      limit: 10,
-      page: 1,
-    });
+    setPostId(postIdPress);
   };
   const renderItem = useCallback(
     ({item}) => (
@@ -99,36 +102,40 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   );
 
   return (
-    <AppWrapper>
-      <AppHeader style={{paddingHorizontal: 16}} title="Post" />
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('CreatePostScreen');
-        }}
-        activeOpacity={0.7}
-        style={styles.createPost}>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 12,
-            alignItems: 'center',
-          }}>
+    <AppWrapper style={{position: 'relative'}}>
+      <View style={styles.header}>
+        <View style={styles.iconWrapper}>
+          <AppImage
+            source={AppIcon}
+            haveDefault={false}
+            style={styles.iconImage}
+          />
+        </View>
+        <TouchableOpacity style={styles.userSection}>
           <AppImage
             source={{uri: currentUser.avatar}}
-            type="AVATAR"
-            style={{width: 32, height: 32}}
+            haveDefault={false}
+            style={styles.avatar}
           />
-          <Text style={styles.textBody1Regular}>Got any news?</Text>
-        </View>
+          <Text numberOfLines={1} style={styles.textBody1Regular}>
+            {currentUser.username}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('CreatePostScreen')}
+        activeOpacity={0.7}
+        style={styles.fab}>
         <Icon
           type="feather"
-          name="image"
-          iconStyle={{fontSize: 16}}
-          color={'#000'}
+          name="plus"
+          color="#fff"
+          iconStyle={{fontSize: 24}}
         />
       </TouchableOpacity>
+
       <View style={styles.container}>
-        <View style={styles.divider} />
         <FlatList
           onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
@@ -145,25 +152,11 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
           renderItem={renderItem}
         />
       </View>
-      <AppBottomSheetModal
-        snapPoints={['70%', '100%']}
+      <CommentBottomSheet
         isVisible={isVisible}
-        setIsVisible={setIsVisible}>
-        <AppHeader
-          leftComponent={<Text style={styles.textCap1}>123k likes</Text>}
-          rightComponent={
-            <TouchableOpacity
-              hitSlop={20}
-              onPress={() => {
-                setIsVisible(false);
-              }}
-              style={{padding: 4}}>
-              <Icon type="feather" name="x" iconStyle={{fontSize: 16}} />
-            </TouchableOpacity>
-          }
-        />
-        <View></View>
-      </AppBottomSheetModal>
+        setIsVisible={setIsVisible}
+        post_id={postId}
+      />
     </AppWrapper>
   );
 };

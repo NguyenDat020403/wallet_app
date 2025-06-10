@@ -14,13 +14,20 @@ export interface Post {
   deleted_at: any;
   user: User;
   images: Image[];
+  likes?: LikePost[];
+  isCurrentUserLike: boolean;
+}
+export interface LikePost {
+  post_like_id: string;
+  post_id: string;
+  user_id: string;
+  created_at: string;
 }
 export interface User {
   user_id: string;
   username: string;
   avatar: string;
 }
-
 export interface Image {
   image_id: string;
   post_id: string;
@@ -33,9 +40,15 @@ export interface Comment {
   user_id: string;
   content: string;
   created_at: string;
-  updated_at: string;
-  deleted_at: any;
   user: User;
+  likes?: LikeComment[];
+  isCurrentUserLike?: boolean;
+}
+export interface LikeComment {
+  comment_like_id: string;
+  comment_id: string;
+  user_id: string;
+  created_at: string;
 }
 export interface CreatePostResponse {
   post: Post;

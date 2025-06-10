@@ -1,11 +1,17 @@
 import {PostMediaView, UserHeaderInfo} from '@/features/forum/components';
 import {Post} from '@/features/forum/redux/RTKQuery/types';
-import React, {memo, SetStateAction} from 'react';
+import React, {memo, SetStateAction, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import useStyles from './styles';
-import {useGetCommentsPostMutation} from '@/features/forum/redux/RTKQuery';
+import {
+  useGetCommentsPostMutation,
+  useLikePostMutation,
+} from '@/features/forum/redux/RTKQuery';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {Icon} from '@rneui/base';
+import {AppImage} from '@/components';
+import {IconComment, IconLike, IconLikeActive} from '@/assets/icons';
+import {useAppSelector} from '@/redux/hooks';
 
 interface PostCardProps {
   item: Post;
@@ -20,14 +26,19 @@ const PostCard: React.FC<PostCardProps> = ({
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
+  const {currentUser} = useAppSelector(state => state.authReducer);
+
+  const [likePost] = useLikePostMutation();
+
+  const [iconLike, setIconLike] = useState(item.isCurrentUserLike);
 
   const ListActionBottom = [
     {
-      icon: 'thumbs-up',
+      icon: iconLike ? IconLikeActive : IconLike,
       title: 'Like',
     },
     {
-      icon: 'message-square',
+      icon: IconComment,
       title: 'Comment',
     },
   ];
@@ -35,7 +46,6 @@ const PostCard: React.FC<PostCardProps> = ({
     (safeAreaInsets.screenWidth - 32) / ListActionBottom.length - 4;
   return (
     <View>
-      <View style={[styles.divider, {paddingTop: 2}]} />
       <View style={{paddingHorizontal: 16, paddingVertical: 8}}>
         <UserHeaderInfo
           name={item.user.username}
@@ -60,21 +70,20 @@ const PostCard: React.FC<PostCardProps> = ({
                   if (actionItem.title === 'Comment') {
                     onPressComment(item.post_id);
                   } else {
+                    setIconLike(!iconLike);
+                    likePost({
+                      post_id: item.post_id,
+                    });
                     console.log('like');
                   }
                 }}
-                style={{
-                  flexDirection: 'row',
-                  gap: 4,
-                  flex: 1,
-                  width: itemWith,
-                  justifyContent: 'center',
-                }}>
-                <Icon
-                  type="feather"
-                  name={actionItem.icon}
-                  iconStyle={{fontSize: 16}}
+                style={[styles.action, {width: itemWith}]}>
+                <AppImage
+                  haveDefault={false}
+                  source={actionItem.icon}
+                  style={{width: 20, height: 20}}
                 />
+
                 <Text style={styles.textCap1}>{actionItem.title}</Text>
               </TouchableOpacity>
             );

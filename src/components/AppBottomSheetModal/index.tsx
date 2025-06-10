@@ -106,7 +106,9 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
       }}>
       <BottomSheetView
         style={[
-          {paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0},
+          {
+            paddingBottom: isBottomInset ? safeAreaInsets.bottom : 0,
+          },
           !autoSize && {flex: 1},
         ]}>
         <View style={[!autoSize && {flex: 1}]}>{children}</View>

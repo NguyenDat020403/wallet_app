@@ -8,6 +8,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     backgroundColor: '#FFFFFF',
     position: 'relative',
     paddingBottom: 60,
+    marginVertical: 16,
   },
   createPost: {
     borderRadius: 8,
@@ -53,6 +54,50 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     paddingBottom: 12,
     paddingTop: 4,
     alignSelf: 'center',
+  },
+  header: {
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    elevation: 5,
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    height: 60,
+    width: 60,
+    overflow: 'hidden',
+  },
+  iconImage: {
+    width: 60,
+    height: 60,
+  },
+  userSection: {
+    justifyContent: 'flex-end',
+    width: (insets.screenWidth - 32) / 2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: insets.bottom + 60 + 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    zIndex: 10000,
+    // backgroundColor: '#007AFF',
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 6,
   },
 }));
 
