@@ -7,7 +7,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     flex: 1,
     backgroundColor: '#FFFFFF',
     position: 'relative',
-    paddingBottom: 60,
+    paddingBottom: 60 - 16,
     marginVertical: 16,
   },
   createPost: {
@@ -98,6 +98,12 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 6,
+  },
+  noTokenContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+    paddingTop: 16,
   },
 }));
 

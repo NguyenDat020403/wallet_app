@@ -11,6 +11,7 @@ import {
   ImportWalletApiParams,
   SwapTokenApiParams,
 } from '../../redux/slices/types';
+import tokenService from '@/features/auth/services/tokenService';
 
 //auth
 export const sendTransactionBTC = async (
@@ -41,8 +42,15 @@ export const createWallet = async () => {
 };
 
 export const importWalletApi = async (params: ImportWalletApiParams) => {
+  const accessToken = tokenService.getLocalAccessToken();
+  console.log(accessToken);
   return await apiWallet
-    .post(HOME_API.IMPORT_WALLET, params)
+    .post(HOME_API.IMPORT_WALLET, params, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
     .then(res => res.data);
 };
 

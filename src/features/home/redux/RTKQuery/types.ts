@@ -208,4 +208,5 @@ export interface WalletNetworkResponse {
   wallet_id: string;
   network_id: string;
   address: string;
+  networks?: Network;
 }

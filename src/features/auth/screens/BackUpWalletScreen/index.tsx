@@ -5,7 +5,7 @@ import {AppButton, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
-import {Image} from '@rneui/base';
+import {Image, ScreenWidth} from '@rneui/base';
 import {ImageAvatar} from '@/features/auth/assets/images';
 import {useAppSelector} from '@/redux/hooks';
 
@@ -42,7 +42,14 @@ const BackUpWalletScreen: React.FC<BackUpWalletScreenProps> = ({
               }
               style={{width: 40, height: 40, borderRadius: 150}}
             />
-            <Text style={styles.textBody2Regular}>{currentUser.username}</Text>
+            <Text
+              style={[
+                styles.textBody2Regular,
+                {width: (ScreenWidth - 32 - 48) / 2},
+              ]}
+              numberOfLines={1}>
+              {currentUser.username}
+            </Text>
           </View>
           <View>
             <Text style={styles.textBody2SemiBold}>0 $</Text>

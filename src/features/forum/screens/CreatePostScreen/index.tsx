@@ -26,6 +26,7 @@ import {Icon, Image} from '@rneui/base';
 import {BottomSheetFlatList} from '@gorhom/bottom-sheet';
 import {FlatList} from 'react-native-gesture-handler';
 import {Controller, useForm} from 'react-hook-form';
+import {goBack} from '@/navigation/RootNavigation';
 
 interface CreatePostScreenProps
   extends MainStackScreenProps<'CreatePostScreen'> {}
@@ -72,6 +73,7 @@ const CreatePostScreen: React.FC<CreatePostScreenProps> = ({navigation}) => {
 
     try {
       const res = await createPost(formData).unwrap();
+      goBack();
       console.log('Post created:', res);
       // handle success (e.g. reset form, navigate, toast...)
     } catch (err) {
@@ -104,6 +106,7 @@ const CreatePostScreen: React.FC<CreatePostScreenProps> = ({navigation}) => {
       />
       <View style={styles.container}>
         <UserHeaderInfo
+          id={currentUser.user_id || ''}
           name={currentUser.username || ''}
           avatar={currentUser.avatar || ''}
         />

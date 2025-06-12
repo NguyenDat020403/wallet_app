@@ -61,3 +61,6 @@ export {default as IconAddWallet} from './IconAddWallet.png';
 export {default as IconLike} from './IconLike.png';
 export {default as IconLikeActive} from './IconLikeActive.png';
 export {default as IconComment} from './IconComment.png';
+export {default as IconWalletInfo} from './IconWalletInfo.png';
+export {default as IconMessage} from './IconMessage.png';
+export {default as IconSendProfile} from './IconSendProfile.png';

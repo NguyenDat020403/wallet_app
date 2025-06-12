@@ -1,3 +1,8 @@
+import {
+  WalletNetworkResponse,
+  WalletResponse,
+} from '@/features/home/redux/RTKQuery/types';
+
 export interface GetListNetworkResponse {
   wallet_network_id: string;
   wallet_id: string;
@@ -39,4 +44,8 @@ export interface CreateTokenRequest {
   network_id: string;
   symbol: string;
   decimal: number;
+}
+export interface WalletNetwork {
+  wallet: WalletResponse;
+  walletNetwork: WalletNetworkResponse[];
 }

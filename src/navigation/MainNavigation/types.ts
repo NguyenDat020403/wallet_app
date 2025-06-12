@@ -7,6 +7,8 @@ import {
   Tokens,
 } from '@/features/home/redux/RTKQuery/types';
 import {UserWallet} from '@/features/home/redux/slices/types';
+import {Post} from '@/features/forum/redux/RTKQuery/types';
+import {User} from '@/features/auth/redux/slices/types';
 
 export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
@@ -17,9 +19,6 @@ export type MainStackParamList = {
   TransactionScreen: {token: any};
   TransactionHistoryScreen: {token: Tokens; txHash: string};
   MenuScreen: undefined;
-  NetworkScreen: undefined;
-  AddNetworkScreen: {network?: Network; isEnableEdit?: boolean};
-  TokenScreen: undefined;
   CoinMarketScreen: {token: Tokens};
   WalletScreen: {wallet: UserWallet};
   WalletAddressScreen: {wallet_id: string};
@@ -27,6 +26,13 @@ export type MainStackParamList = {
   ReceiveScreen: {tokens?: DetailWalletResponse};
   ReceiveQRCodeScreen: {data: Tokens; wallet_id: string};
   ScanScreen: undefined;
+
+  //setting
+  NetworkScreen: undefined;
+  AddNetworkScreen: {network?: Network; isEnableEdit?: boolean};
+  TokenScreen: undefined;
+  ProfileScreen: {userId: string};
+
   //auth
   FirstScreen: undefined;
   ImportWalletScreen: undefined;
@@ -41,4 +47,9 @@ export type MainStackParamList = {
   //forum
   PostScreen: undefined;
   CreatePostScreen: undefined;
+  PostDetailScreen: {
+    data?: Post;
+    postId?: string;
+    userId?: string;
+  };
 };

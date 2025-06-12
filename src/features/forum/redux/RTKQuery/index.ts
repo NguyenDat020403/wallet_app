@@ -5,6 +5,14 @@ import {showToastMessage} from '@/functions';
 
 const postRTKQueryApi = RTKQueryPostApi.injectEndpoints({
   endpoints: builder => ({
+    getPost: builder.mutation({
+      query: (params: {userId: string; postId: string}) => ({
+        url: '',
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: FullResponse<Post>) => response.data,
+    }),
     getListPost: builder.mutation({
       query: (params: {page: number; limit: number}) => ({
         url: '/getPosts',
@@ -67,14 +75,28 @@ const postRTKQueryApi = RTKQueryPostApi.injectEndpoints({
       }),
       transformResponse: (response: FullResponse<Comment>) => response.data,
     }),
+    deletePost: builder.mutation({
+      query: (body: {post_id: string}) => ({
+        url: '/deletePost',
+        method: 'PATCH',
+        body: body,
+      }),
+      transformResponse: (response: FullResponse<any>) => {
+        if (response.error === '1') {
+          showToastMessage(response.message);
+        }
+      },
+    }),
   }),
   overrideExisting: true,
 });
 export const {
+  useGetPostMutation,
   useGetListPostMutation,
   useGetCommentsPostMutation,
   useCreatePostMutation,
   useLikePostMutation,
   useLikeCommentMutation,
   useCommentPostMutation,
+  useDeletePostMutation,
 } = postRTKQueryApi;

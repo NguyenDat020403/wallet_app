@@ -57,6 +57,7 @@ const typography = StyleSheet.create({
   body1Medium: {
     fontSize: 14,
     color: '#000000',
+    fontWeight: '500',
     fontFamily: 'nunito_medium',
   },
   body1Regular: {

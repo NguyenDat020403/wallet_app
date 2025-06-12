@@ -1,36 +1,22 @@
 import {
   Text,
   TouchableOpacity,
-  ViewStyle,
-  ImageStyle,
   ActivityIndicator,
-  Keyboard,
+  FlatList,
 } from 'react-native';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppWrapper from '@/components/AppWrapper';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
-import AppHeader from '@/components/AppHeader';
-import {
-  useCommentPostMutation,
-  useGetCommentsPostMutation,
-  useGetListPostMutation,
-} from '../../redux/RTKQuery';
-import {
-  CommentBottomSheet,
-  PostMediaView,
-  UserHeaderInfo,
-} from '../../components';
-import {AppBottomSheetModal, AppImage} from '@/components';
+import {useGetListPostMutation} from '../../redux/RTKQuery';
+import {CommentBottomSheet} from '../../components';
+import {AppImage} from '@/components';
 import {useAppSelector} from '@/redux/hooks';
-import {AppIcon, IconPicture} from '@/assets/icons';
-import {Icon} from '@rneui/base';
+import {AppIcon, IconWarning} from '@/assets/icons';
+import {Icon, Image} from '@rneui/base';
 import {Post} from '../../redux/RTKQuery/types';
 import PostCardItem from './components/PostCardItem';
-import {FlatList, TextInput} from 'react-native-gesture-handler';
-import {convertDate} from '@/functions/convertDate/functions';
-import {BottomSheetTextInput, BottomSheetView} from '@gorhom/bottom-sheet';
 import {View} from 'react-native';
 
 interface PostScreenProps extends MainStackScreenProps<'PostScreen'> {}
@@ -40,6 +26,7 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   const styles = useStyles(safeAreaInsets);
 
   const {currentUser} = useAppSelector(state => state.authReducer);
+  const {postDeletedId} = useAppSelector(state => state.forumReducer);
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
@@ -47,6 +34,7 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [postId, setPostId] = useState('');
+  const onCommentSuccessRef = useRef<() => void>(() => {});
 
   const [getListPost, {data, isLoading}] = useGetListPostMutation();
 
@@ -72,8 +60,15 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    if (postDeletedId) {
+      setPosts(pre => {
+        if (pre) {
+          return pre.filter(post => post.post_id !== postDeletedId);
+        }
+        return pre;
+      });
+    }
+  }, [postDeletedId]);
 
   const onRefresh = async () => {
     fetchPosts(1);
@@ -86,9 +81,13 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
       setPage(nextPage);
     }
   };
-  const handleOpenComment = (postIdPress: string) => {
+  const handleOpenComment = (
+    postIdPress: string,
+    onCommentSuccess: () => void,
+  ) => {
     setIsVisible(true);
     setPostId(postIdPress);
+    onCommentSuccessRef.current = onCommentSuccess;
   };
   const renderItem = useCallback(
     ({item}) => (
@@ -137,7 +136,9 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
 
       <View style={styles.container}>
         <FlatList
+          showsVerticalScrollIndicator={false}
           onEndReached={handleLoadMore}
+          keyExtractor={item => item.post_id.toString()}
           onEndReachedThreshold={0.5}
           ListFooterComponent={
             isLoading ? <ActivityIndicator size="small" color="#000" /> : null
@@ -145,14 +146,19 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
           refreshing={isLoading || refreshing}
           onRefresh={onRefresh}
           data={posts}
-          // eslint-disable-next-line react/no-unstable-nested-components
-          ListEmptyComponent={() => {
-            return <Text style={styles.textBody1Regular}> No data </Text>;
-          }}
+          ListEmptyComponent={
+            <View style={styles.noTokenContainer}>
+              <Icon type="feather" name="x" iconStyle={{fontSize: 20}} />
+              <Text style={styles.textBody3Regular}>No post found</Text>
+            </View>
+          }
           renderItem={renderItem}
         />
       </View>
       <CommentBottomSheet
+        onCommentSuccess={() => {
+          onCommentSuccessRef.current();
+        }}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
         post_id={postId}

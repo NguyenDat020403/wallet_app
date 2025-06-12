@@ -70,3 +70,8 @@ export const RTKQueryPostApi = createApi({
   baseQuery: baseQueryWithReAuth(Config.API_URL_POST),
   endpoints: builder => ({}),
 });
+export const RTKQueryUserApi = createApi({
+  reducerPath: 'RTKQueryUserApi',
+  baseQuery: baseQueryWithReAuth(Config.API_URL_USER),
+  endpoints: builder => ({}),
+});

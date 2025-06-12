@@ -11,16 +11,20 @@ import {Asset} from 'react-native-image-picker';
 type PostMediaViewProps = {
   resource?: Image[];
   imagesDevice?: Asset[];
+  containerWidth?: number;
+  scaleRatio?: number;
 };
 
 const PostMediaView: React.FC<PostMediaViewProps> = ({
   resource,
   imagesDevice,
+  containerWidth,
+  scaleRatio,
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const MEDIA_LENGHT = resource ? resource.length : imagesDevice?.length;
-  const CONTAINER_WIDTH = safeAreaInsets.screenWidth - 32;
+  const CONTAINER_WIDTH = containerWidth ?? safeAreaInsets.screenWidth - 32;
 
   switch (MEDIA_LENGHT) {
     case 0:
@@ -71,37 +75,38 @@ const PostMediaView: React.FC<PostMediaViewProps> = ({
           <View style={{flexDirection: 'row', gap: 8}}>
             <AppImage
               source={{
-                uri: resource ? resource[0].imageUrl : imagesDevice![0].uri,
-              }}
-              style={{
-                borderRadius: 12,
-                width: CONTAINER_WIDTH / 2 - 4,
-                height: ((CONTAINER_WIDTH / 2 - 4) / 3) * 4,
-              }}
-            />
-            <AppImage
-              source={{
                 uri: resource ? resource[1].imageUrl : imagesDevice![1].uri,
               }}
               style={{
                 borderRadius: 12,
                 width: CONTAINER_WIDTH / 2 - 4,
-                height: ((CONTAINER_WIDTH / 2 - 4) / 3) * 4,
+                height: CONTAINER_WIDTH / 2 - 4,
               }}
             />
-          </View>
-          <View style={{position: 'relative'}}>
-            <AppImage
-              source={{
-                uri: resource ? resource[2].imageUrl : imagesDevice![2].uri,
-              }}
-              style={{
-                borderRadius: 12,
-                width: CONTAINER_WIDTH,
-                height: undefined,
-                aspectRatio: 16 / 9,
-              }}
-            />
+            <View style={{position: 'relative'}}>
+              <AppImage
+                source={{
+                  uri: resource ? resource[2].imageUrl : imagesDevice![2].uri,
+                }}
+                style={{
+                  borderRadius: 12,
+                  width: CONTAINER_WIDTH / 2 - 4,
+                  height: CONTAINER_WIDTH / 2 - 4,
+                }}
+              />
+              <View style={styles.imagesList} />
+              <View style={styles.imageCountMore}>
+                <Text style={[styles.textBody1Regular]}>
+                  +{MEDIA_LENGHT - 2}
+                </Text>
+                <Icon
+                  type="feather"
+                  name="image"
+                  iconStyle={{fontSize: 16}}
+                  color={'#FFFFFF'}
+                />
+              </View>
+            </View>
           </View>
         </View>
       );

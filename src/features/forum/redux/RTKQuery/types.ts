@@ -16,6 +16,8 @@ export interface Post {
   images: Image[];
   likes?: LikePost[];
   isCurrentUserLike: boolean;
+  likeCount: number;
+  commentCount: number;
 }
 export interface LikePost {
   post_like_id: string;

@@ -1,7 +1,7 @@
 import {FirebaseMessagingTypes} from '@react-native-firebase/messaging';
 import notifee, {EventType} from '@notifee/react-native';
 import {navigate, navigationRef} from '@/navigation/RootNavigation';
-import {AppState, PermissionsAndroid, Platform} from 'react-native';
+import {AppState, Linking, PermissionsAndroid, Platform} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import {store} from '@/redux';
 import {setDeviceNotiToken} from '@/features/auth/redux/slices';
@@ -33,9 +33,16 @@ export const onForegroundEvent = async () => {
   // await checkPermission();
   return notifee.onForegroundEvent(({type, detail}) => {
     if (type === EventType.PRESS) {
+      console.log('first', detail);
       const {notification} = detail;
-      const navigationId = notification?.data?.navigationId;
-      navigate(navigationId);
+      // const navigationId = notification?.data?.navigationId;
+      // if (notification !== undefined && navigationId === 'PostDetailScreen') {
+      navigate('PostDetailScreen', {
+        userId: 'dbc046ba-c2e8-411f-ad67-a272250a8ec1',
+        postId: '964a900c-b0e0-4ed6-bec6-e99e09d7ac1b',
+      });
+      // }
+      // navigate(navigationId);
     }
   });
 };
@@ -90,5 +97,23 @@ export const requestCameraPermission = async () => {
     // }
   } else {
     console.log('Camera permission not granted');
+  }
+};
+export const handleAppLinkOpen = ({url}: {url: string}) => {
+  console.log('[DeepLink]', url);
+
+  try {
+    const parsedUrl = new URL(url); // ✅ JavaScript native
+    const path = parsedUrl.pathname.replace(/^\/+/g, ''); // loại bỏ dấu /
+    const postId = parsedUrl.searchParams.get('postId');
+    const userId = parsedUrl.searchParams.get('userId');
+
+    console.log('[Parsed]', {path, postId, userId});
+
+    if (path === 'post-detail' && postId && userId) {
+      navigationRef.current?.navigate('PostDetailScreen', {postId, userId});
+    }
+  } catch (error) {
+    console.warn('Invalid URL in deep link:', url);
   }
 };

@@ -3,11 +3,12 @@ import setInterceptor from './interceptor';
 import Config from 'react-native-config';
 import {Platform} from 'react-native';
 import {store} from '@/redux';
+import tokenService from '@/features/auth/services/tokenService';
+const accessToken = tokenService.getLocalAccessToken();
+
 const headers = {
   Accept: 'application/json',
-  Authorization: `Bearer ${
-    store.getState().authReducer.accessInfo.access_token
-  }`,
+  Authorization: `Bearer ${accessToken}`,
 };
 
 const apiIdentity = axios.create({

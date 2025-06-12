@@ -13,17 +13,20 @@ import {
 } from '../../redux/RTKQuery';
 import {convertDate} from '@/functions/convertDate/functions';
 import useStyles from './styles';
+import CommentInputBar from '../CommentInputBar';
 
 type CommentBottomSheetProps = {
   isVisible: boolean;
   setIsVisible: React.Dispatch<SetStateAction<boolean>>;
   post_id: string;
+  onCommentSuccess?: () => void;
 };
 
 const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
   post_id,
   isVisible,
   setIsVisible,
+  onCommentSuccess,
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
@@ -42,7 +45,7 @@ const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
       limit: 20,
       page: 1,
     });
-  }, []);
+  }, [post_id]);
 
   useEffect(() => {
     setListComment(data);
@@ -58,6 +61,7 @@ const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
       });
       setCommentText('');
       Keyboard.dismiss();
+      onCommentSuccess && onCommentSuccess();
     }
   }, [commentData]);
 
@@ -160,63 +164,14 @@ const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
             );
           }}
         />
-        <View
-          style={{
-            paddingBottom: safeAreaInsets.bottom + 16,
-            paddingHorizontal: 16,
-            paddingTop: 16,
-            elevation: 2,
-            zIndex: 1000,
-            gap: 8,
-            borderTopColor: '#5f5f5f',
-          }}>
-          <BottomSheetTextInput
-            value={commentText}
-            onChangeText={setCommentText}
-            multiline={true}
-            placeholder="Comment..."
-            style={{
-              backgroundColor: '#efefef',
-              paddingLeft: 12,
-              borderRadius: 8,
-            }}
-          />
-          {(keyboardVisible || commentText.trim().length > 0) && (
-            <View
-              style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-              <View style={{flexDirection: 'row', gap: 8}}>
-                <TouchableOpacity style={{alignSelf: 'center'}}>
-                  <Icon
-                    color={'#5f5f5f'}
-                    type="feather"
-                    name="camera"
-                    iconStyle={{fontSize: 20}}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity style={{alignSelf: 'center'}}>
-                  <Icon
-                    color={'#5f5f5f'}
-                    type="feather"
-                    name="smile"
-                    iconStyle={{fontSize: 20}}
-                  />
-                </TouchableOpacity>
-              </View>
-              <TouchableOpacity
-                style={{alignSelf: 'center'}}
-                onPress={() => {
-                  handleComment(listComment[0].post_id);
-                }}>
-                <Icon
-                  color={'#5f5f5f'}
-                  type="feather"
-                  name="send"
-                  iconStyle={{fontSize: 20}}
-                />
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
+
+        <CommentInputBar
+          safeAreaInsets={safeAreaInsets}
+          commentText={commentText}
+          setCommentText={setCommentText}
+          keyboardVisible={keyboardVisible}
+          onSubmit={() => handleComment(post_id)}
+        />
       </View>
     </AppBottomSheetModal>
   );
