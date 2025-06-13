@@ -18,11 +18,11 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     backgroundColor: '#fff',
   },
   info: {
+    paddingHorizontal: 16,
     alignItems: 'center',
     backgroundColor: '#fff',
     borderBottomColor: '#efefef',
     borderBottomWidth: 0.5,
-    paddingBottom: 16,
     width: insets.screenWidth,
   },
   action: {

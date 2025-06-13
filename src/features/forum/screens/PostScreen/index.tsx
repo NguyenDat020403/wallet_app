@@ -110,7 +110,11 @@ const PostScreen: React.FC<PostScreenProps> = ({navigation}) => {
             style={styles.iconImage}
           />
         </View>
-        <TouchableOpacity style={styles.userSection}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('ProfileScreen', {userId: currentUser.user_id});
+          }}
+          style={styles.userSection}>
           <AppImage
             source={{uri: currentUser.avatar}}
             haveDefault={false}

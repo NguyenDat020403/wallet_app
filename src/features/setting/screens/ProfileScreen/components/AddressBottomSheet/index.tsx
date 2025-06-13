@@ -14,6 +14,7 @@ import {
 } from 'react-native-reanimated';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {showToastMessage} from '@/functions';
+import {ScrollView} from 'react-native-gesture-handler';
 type AddressBottomSheetProps = {
   data?: WalletNetwork[];
   isVisible: boolean;
@@ -40,7 +41,7 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = ({
           paddingBottom: safeAreaInsets.bottom + 16,
           paddingTop: 16,
         }}>
-        <View>
+        <ScrollView>
           {data?.map((item, index) => (
             <WalletItem
               key={index}
@@ -52,7 +53,7 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = ({
               }
             />
           ))}
-        </View>
+        </ScrollView>
       </View>
     </AppBottomSheetModal>
   );

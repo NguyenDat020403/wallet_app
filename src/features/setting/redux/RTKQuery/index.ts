@@ -19,6 +19,15 @@ const userRTKQueryApi = RTKQueryUserApi.injectEndpoints({
       transformResponse: (response: FullResponse<UserResponse>) =>
         response.data,
     }),
+    update: builder.mutation({
+      query: (params: {userId: string}) => ({
+        url: '',
+        method: 'PATCH',
+        params,
+      }),
+      transformResponse: (response: FullResponse<UserResponse>) =>
+        response.data,
+    }),
   }),
   overrideExisting: true,
 });

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {AppTab} from '../BottomTabNavigator';
 import {ScreenComponent} from '../types';
 import {MainStackParamList} from './types';
@@ -12,6 +12,7 @@ import * as settingScreenList from '@/features/setting/screens';
 import * as networkScreenList from '@/features/setting/screens/NetworkScreen/screens';
 import * as homeScreenList from '@/features/home/screens';
 import * as forumScreenList from '@/features/forum/screens';
+import * as chatScreenList from '@/features/chat/screens';
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const screenOptions: NativeStackNavigationOptions = {
@@ -24,10 +25,12 @@ const route = {
   ...homeScreenList,
   ...networkScreenList,
   ...forumScreenList,
+  ...chatScreenList,
 };
 
 const MainNavigator = () => {
   const {isFirstLaunch} = useAppSelector(store => store.authReducer);
+
   return (
     <Stack.Navigator
       initialRouteName={isFirstLaunch ? 'FirstScreen' : 'AppTabScreen'}

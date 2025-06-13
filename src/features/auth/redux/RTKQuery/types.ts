@@ -32,7 +32,7 @@ export interface UserResponse {
   user_id?: string;
   username?: string;
   avatar?: string;
-  bio?: any;
+  bio?: string;
   email?: string;
   notiToken?: string;
 }

@@ -33,6 +33,7 @@ function buildDeepLinkFromNotificationData(data: any) {
     case 'PostDetailScreen':
       const postId = data?.postId;
       const userId = data?.userId;
+      console.log('no vao ham nay');
       if (postId && userId) {
         return `myapp://post-detail?postId=${postId}&userId=${userId}`;
       }
@@ -81,15 +82,22 @@ const linking: LinkingOptions<MainStackParamList> = {
     const foreground = messaging().onMessage(async remoteMessage => {
       console.log('A new FCM message arrived: ', remoteMessage);
       displayNotification(remoteMessage);
-      onForegroundEvent();
     });
 
     const unsubscribe = messaging().onNotificationOpenedApp(remoteMessage => {
       const url = buildDeepLinkFromNotificationData(remoteMessage.data);
+      console.log(url);
       if (typeof url === 'string') {
         listener(url);
+      } else {
+        console.warn(
+          'Cannot build deeplink from notification data',
+          remoteMessage.data,
+        );
       }
     });
+    onForegroundEvent();
+
     return () => {
       linkingSubscription.remove();
       unsubscribe();
@@ -104,7 +112,6 @@ const RootNavigator = () => {
   const accessToken = useAppSelector(
     state => state.authReducer.accessInfo.access_token,
   );
-
   useEffect(() => {
     Linking.addEventListener('url', handleAppLinkOpen);
 

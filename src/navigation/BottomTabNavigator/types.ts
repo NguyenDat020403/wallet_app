@@ -1,7 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import * as forumScreen from '@features/forum/screens';
 export type ChatTabStackParamList = {
-  HomeScreen: undefined;
+  UserChatListScreen: undefined;
 };
 export type PostTabStackParamList = {
   PostScreen: undefined;

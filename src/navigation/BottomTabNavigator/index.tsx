@@ -23,6 +23,7 @@ import {
 import {HomeScreen} from '@/features/home/screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {PostScreen} from '@/features/forum/screens';
+import {UserChatListScreen} from '@/features/chat/screens';
 const Tab = createBottomTabNavigator<AppTabStackParamList>();
 const StackChat = createNativeStackNavigator<ChatTabStackParamList>();
 const StackHome = createNativeStackNavigator<HomeTabStackParamList>();
@@ -75,7 +76,7 @@ function HomeStack() {
 }
 
 const chatTabRoute = {
-  PostScreen,
+  UserChatListScreen,
 };
 
 function ChatStack() {

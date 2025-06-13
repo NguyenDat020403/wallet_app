@@ -4,6 +4,7 @@ import {
   RTKQueryNotificationApi,
   RTKQueryTokenApi,
   RTKQueryTransactionApi,
+  RTKQueryUserApi,
   RTKQueryWalletApi,
 } from '@/redux/RTKQuery';
 import {
@@ -81,6 +82,7 @@ const networkRTKQueryApi = RTKQueryNetworkApi.injectEndpoints({
   }),
   overrideExisting: true,
 });
+
 const tokenRTKQueryApi = RTKQueryTokenApi.injectEndpoints({
   endpoints: builder => ({
     getTokenMarketData: builder.mutation({

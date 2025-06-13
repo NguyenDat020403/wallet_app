@@ -32,6 +32,7 @@ export type MainStackParamList = {
   AddNetworkScreen: {network?: Network; isEnableEdit?: boolean};
   TokenScreen: undefined;
   ProfileScreen: {userId: string};
+  ProfileEditScreen: undefined;
 
   //auth
   FirstScreen: undefined;
@@ -52,4 +53,8 @@ export type MainStackParamList = {
     postId?: string;
     userId?: string;
   };
+
+  //chat
+  UserChatListScreen: undefined;
+  UserChatDetailScreen: {userId: string; userName: string; avatar: string};
 };

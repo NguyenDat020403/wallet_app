@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {ImageAvatar} from '@/features/auth/assets/images';
-import {BackgroundImage} from '@rneui/base';
+import {BackgroundImage, Icon} from '@rneui/base';
 import {
   useGetUserMutation,
   useGetUserPostsMutation,
@@ -31,6 +31,18 @@ import PostCardItem from '@/features/forum/screens/PostScreen/components/PostCar
 import {Post} from '#/src/features/forum/redux/RTKQuery/types';
 import {CommentBottomSheet} from '@/features/forum/components';
 import {AddressBottomSheet} from './components';
+import Animated, {
+  Extrapolation,
+  interpolate,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+
+const HEADER_MAX_HEIGHT = 300;
+const AVATAR_MAX_SIZE = 120;
+const AVATAR_MIN_SIZE = 40;
+
 interface ProfileScreenProps extends MainStackScreenProps<'ProfileScreen'> {}
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
@@ -148,60 +160,135 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
     ({item}) => <PostCardItem item={item} onPressComment={handleOpenComment} />,
     [],
   );
+  const scrollY = useSharedValue(0);
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const animatedAvatarStyle = useAnimatedStyle(() => {
+    const size = interpolate(
+      scrollY.value,
+      [0, HEADER_MAX_HEIGHT],
+      [AVATAR_MAX_SIZE, AVATAR_MIN_SIZE],
+      Extrapolation.CLAMP,
+    );
+    return {
+      width: size,
+      height: size,
+      borderRadius: size / 2,
+    };
+  });
+  const animatedHeaderStyle = useAnimatedStyle(() => {
+    const height = interpolate(
+      scrollY.value,
+      [0, HEADER_MAX_HEIGHT],
+      [HEADER_MAX_HEIGHT, 0],
+      Extrapolation.CLAMP,
+    );
+    return {
+      height,
+    };
+  });
+  const showSmallAvatarStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value - 250,
+      [0, 100],
+      [0, 1],
+      Extrapolation.EXTEND,
+    );
+    return {
+      opacity,
+      flexDirection: 'row',
+      alignItems: 'center',
+    };
+  });
   return (
     <AppWrapper>
-      <AppHeader title="Profile" />
+      <AppHeader
+        midComponent={
+          <Animated.View style={showSmallAvatarStyle}>
+            <AppImage
+              source={{uri: data?.avatar}}
+              style={{width: 24, height: 24, borderRadius: 12, marginRight: 8}}
+            />
+            <Text numberOfLines={1} style={{fontWeight: 'bold', fontSize: 16}}>
+              {data?.username}
+            </Text>
+          </Animated.View>
+        }
+        rightComponent={
+          <>
+            {isCurrentUser && (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('ProfileEditScreen');
+                }}>
+                <Icon
+                  type="feather"
+                  name="settings"
+                  iconStyle={{fontSize: 16}}
+                  color={'#000'}
+                />
+              </TouchableOpacity>
+            )}
+          </>
+        }
+      />
       {data && (
         <>
-          <ScrollView contentContainerStyle={styles.container}>
-            <View style={styles.info}>
-              <AppImage source={{uri: data.avatar}} style={styles.avatar} />
-              <Text style={styles.name}>{data?.username}</Text>
-              <Text style={styles.email}>Email: {data.email}</Text>
-              <Text style={styles.bio}>
-                {data.bio || 'Chưa có giới thiệu.'}
-              </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  gap: 12,
-                }}>
-                {ListAction.map(item => {
-                  return (
-                    <TouchableOpacity
-                      style={styles.action}
-                      onPress={item.onPress}>
-                      <AppImage
-                        haveDefault={false}
-                        source={item.icon}
-                        style={{width: 24, height: 24}}
-                      />
-                      <Text style={styles.textRegular}>{item.title}</Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+          <Animated.View style={[styles.info, animatedHeaderStyle]}>
+            <Animated.Image
+              source={{uri: data.avatar}}
+              style={[styles.avatar, animatedAvatarStyle]}
+            />
+            <Text style={styles.name} numberOfLines={1}>
+              {data?.username}
+            </Text>
+            <Text style={styles.email} numberOfLines={1}>
+              Email: {data.email}
+            </Text>
+            <Text style={styles.bio} numberOfLines={2}>
+              {data.bio || 'Nothing here.'}
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                gap: 12,
+              }}>
+              {ListAction.map(item => {
+                return (
+                  <TouchableOpacity
+                    style={styles.action}
+                    onPress={item.onPress}>
+                    <AppImage
+                      haveDefault={false}
+                      source={item.icon}
+                      style={{width: 24, height: 24}}
+                    />
+                    <Text style={styles.textRegular}>{item.title}</Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
-            <View style={styles.posts}>
-              <FlatList
-                nestedScrollEnabled
-                showsVerticalScrollIndicator={false}
-                onEndReached={handleLoadMore}
-                keyExtractor={item => item.post_id.toString()}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={
-                  isLoading ? (
-                    <ActivityIndicator size="small" color="#000" />
-                  ) : null
-                }
-                refreshing={isLoading}
-                onRefresh={onRefresh}
-                data={posts}
-                renderItem={renderItem}
-              />
-            </View>
-          </ScrollView>
+          </Animated.View>
+          <Animated.FlatList
+            style={{backgroundColor: '#FFF'}}
+            onScroll={scrollHandler}
+            nestedScrollEnabled
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
+            onEndReached={handleLoadMore}
+            keyExtractor={item => item.post_id.toString()}
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={
+              isLoading ? <ActivityIndicator size="small" color="#000" /> : null
+            }
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+            data={posts}
+            renderItem={renderItem}
+          />
           <CommentBottomSheet
             onCommentSuccess={() => {
               onCommentSuccessRef.current();

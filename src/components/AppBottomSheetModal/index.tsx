@@ -28,7 +28,7 @@ type AppBottomSheetModalProps = PropsWithChildren<{
   footerComponent?: React.FC<BottomSheetFooterProps>;
   isTopInset?: boolean;
   isBottomInset?: boolean;
-  animatedPosition?: SharedValue<number>;
+  // animatedPosition?: SharedValue<number>;
 }>;
 export type AppBottomSheetModalRef = {
   present: () => void;
@@ -47,7 +47,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
     autoSize,
     footerComponent,
     isBottomInset = false,
-    animatedPosition,
+    // animatedPosition,
   },
   ref,
 ) => {
@@ -88,7 +88,7 @@ const AppBottomSheetModal: React.ForwardRefRenderFunction<
       footerComponent={footerComponent}
       enableDynamicSizing={autoSize}
       containerStyle={{zIndex: 10}}
-      animatedPosition={animatedPosition}
+      // animatedPosition={animatedPosition}
       keyboardBehavior="interactive"
       keyboardBlurBehavior="restore"
       android_keyboardInputMode="adjustPan"

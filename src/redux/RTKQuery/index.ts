@@ -75,3 +75,8 @@ export const RTKQueryUserApi = createApi({
   baseQuery: baseQueryWithReAuth(Config.API_URL_USER),
   endpoints: builder => ({}),
 });
+export const RTKQueryMessageApi = createApi({
+  reducerPath: 'RTKQueryMessageApi',
+  baseQuery: baseQueryWithReAuth(Config.API_URL_MESSAGE),
+  endpoints: builder => ({}),
+});

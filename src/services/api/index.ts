@@ -39,11 +39,17 @@ const apiToken = axios.create({
   headers,
 });
 
+const apiUser = axios.create({
+  baseURL: Config.API_URL_USER,
+  headers,
+});
+
 const apiUpload = axios.create({
   baseURL: Config.API_URL_UPLOAD,
   headers,
 });
 
+setInterceptor(apiUser);
 setInterceptor(apiToken);
 setInterceptor(apiWallet);
 setInterceptor(apiUpload);
@@ -53,6 +59,7 @@ setInterceptor(apiNotification);
 setInterceptor(apiTransaction);
 
 export {
+  apiUser,
   apiIdentity,
   apiNotification,
   apiTransaction,

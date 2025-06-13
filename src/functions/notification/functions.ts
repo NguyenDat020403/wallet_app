@@ -21,6 +21,10 @@ export const displayNotification = async (
     android: {
       channelId,
       sound: 'default',
+      pressAction: {
+        id: 'default',
+        launchActivity: 'default',
+      },
     },
   });
 };
@@ -29,20 +33,19 @@ export const checkPermission = async () => {
     sound: true,
   });
 };
-export const onForegroundEvent = async () => {
-  // await checkPermission();
-  return notifee.onForegroundEvent(({type, detail}) => {
+export const onForegroundEvent = () => {
+  notifee.onForegroundEvent(({type, detail}) => {
     if (type === EventType.PRESS) {
-      console.log('first', detail);
-      const {notification} = detail;
-      // const navigationId = notification?.data?.navigationId;
-      // if (notification !== undefined && navigationId === 'PostDetailScreen') {
-      navigate('PostDetailScreen', {
-        userId: 'dbc046ba-c2e8-411f-ad67-a272250a8ec1',
-        postId: '964a900c-b0e0-4ed6-bec6-e99e09d7ac1b',
-      });
-      // }
-      // navigate(navigationId);
+      console.log('Notification pressed', detail);
+      const data = detail.notification?.data;
+      if (data?.userId && data?.postId) {
+        navigate('PostDetailScreen', {
+          userId: data.userId.toString(),
+          postId: data.postId.toString(),
+        });
+      } else {
+        console.warn('Missing userId or postId in notification data');
+      }
     }
   });
 };
@@ -105,13 +108,20 @@ export const handleAppLinkOpen = ({url}: {url: string}) => {
   try {
     const parsedUrl = new URL(url); // ✅ JavaScript native
     const path = parsedUrl.pathname.replace(/^\/+/g, ''); // loại bỏ dấu /
-    const postId = parsedUrl.searchParams.get('postId');
-    const userId = parsedUrl.searchParams.get('userId');
+    const postId = decodeURIComponent(
+      parsedUrl.searchParams.get('postId') ?? '',
+    );
+    const userId = decodeURIComponent(
+      parsedUrl.searchParams.get('userId') ?? '',
+    );
 
     console.log('[Parsed]', {path, postId, userId});
 
     if (path === 'post-detail' && postId && userId) {
-      navigationRef.current?.navigate('PostDetailScreen', {postId, userId});
+      navigationRef.current?.navigate('PostDetailScreen', {
+        postId: postId,
+        userId: userId,
+      });
     }
   } catch (error) {
     console.warn('Invalid URL in deep link:', url);

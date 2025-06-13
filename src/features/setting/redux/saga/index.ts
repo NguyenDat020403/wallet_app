@@ -12,7 +12,10 @@ import {
   Network,
 } from '../RTKQuery/types';
 import {settingApi} from '../../services';
-import {createNetwork, createToken} from '../slices';
+import {createNetwork, createToken, updateUser} from '../slices';
+import {UpdateUserApiParams} from './types';
+import {UserResponse} from '@/features/auth/redux/RTKQuery/types';
+import {setCurrentUserProfile} from '@/features/auth/redux/slices';
 
 function* createNetworkSaga(
   action: PayloadAction<CreateNetworkRequest>,
@@ -57,7 +60,24 @@ function* createTokenSaga(
     hideAppLoading();
   }
 }
+
+function* updateUserSaga(
+  action: PayloadAction<UpdateUserApiParams>,
+): SagaIterator {
+  showAppLoading();
+  try {
+    const {data} = yield call(settingApi.update, action.payload);
+    yield put(setCurrentUserProfile(data));
+    action.payload.callback?.();
+  } catch (e: any) {
+    showToastMessage(e.message || 'Update failed');
+  } finally {
+    hideAppLoading();
+  }
+}
+
 export default function* settingSaga() {
   yield takeLatest(createNetwork, createNetworkSaga);
   yield takeLatest(createToken, createTokenSaga);
+  yield takeLatest(updateUser, updateUserSaga);
 }

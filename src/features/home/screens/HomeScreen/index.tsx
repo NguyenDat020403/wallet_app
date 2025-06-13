@@ -45,7 +45,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
   const dispatch = useAppDispatch();
-  const {currentWalletID} = useAppSelector(state => state.authReducer);
+  const {currentWalletID, currentUser} = useAppSelector(
+    state => state.authReducer,
+  );
   const {userWallet} = useAppSelector(state => state.homeReducer);
   const currentUserWallet = userWallet.find(
     w => w.wallet_id === currentWalletID,
