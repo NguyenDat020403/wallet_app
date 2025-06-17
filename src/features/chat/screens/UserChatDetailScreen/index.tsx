@@ -28,6 +28,8 @@ import {ChatDetailResponse} from '../../redux/RTKQuery/types';
 import {AppImage, AppTextInput} from '@/components';
 import {Icon} from '@rneui/base';
 import {useForm} from 'react-hook-form';
+import socketMessage from '@/services/socket';
+
 // const fakeChatDetailResponse: ChatDetailResponse = {
 //   messages: [
 //     {
@@ -177,12 +179,35 @@ const UserChatDetailScreen: React.FC<UserChatDetailScreenProps> = ({
     }
   };
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetY = event.nativeEvent.contentOffset.y;
-    if (offsetY <= 0 && !isLoading) {
-      fetchMoreMessages();
-    }
-  };
+  useEffect(() => {
+    // Kết nối
+    socketMessage.connect();
+
+    socketMessage.emit('join', {userId: route.params.userId});
+
+    socketMessage.on('new_message', message => {
+      console.log('new tin nhan: ', message);
+      if (message.sender_id !== currentUser.user_id) {
+        setData(prev => {
+          if (!prev) {
+            return message;
+          }
+
+          return {
+            ...prev,
+            messages: [message, ...prev.messages], // prepend
+          };
+        });
+      }
+    });
+
+    // Cleanup khi component unmount
+    return () => {
+      socketMessage.off('new_message');
+      socketMessage.disconnect();
+    };
+  }, [route.params.userId]);
+
   return (
     <AppWrapper>
       <AppHeader

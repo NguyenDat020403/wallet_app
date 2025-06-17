@@ -22,8 +22,10 @@ import {schemaValidate} from './schemaValidate';
 import {Tokens} from '@/features/home/redux/RTKQuery/types';
 import {useGetSendTransactionToAddressHistoryMutation} from '@/features/home/redux/RTKQuery';
 import {useAppSelector} from '@/redux/hooks';
+import {showToastMessage} from '@/functions';
 
 type TransactionScreen1Props = {
+  receiveAddress?: string;
   setAddress: React.Dispatch<React.SetStateAction<string>>;
   setTabIndex: React.Dispatch<React.SetStateAction<number>>;
   token: Tokens;
@@ -33,6 +35,7 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
   setAddress,
   setTabIndex,
   token,
+  receiveAddress,
 }) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
@@ -65,10 +68,22 @@ const TransactionScreen1: React.FC<TransactionScreen1Props> = ({
   }>({
     mode: 'all',
     defaultValues: {
-      address: '',
+      address: receiveAddress ? receiveAddress : '',
     },
     resolver: yupResolver(schemaValidate),
   });
+
+  useEffect(() => {
+    if (receiveAddress) {
+      const isValidEthAddress = /^0x[a-fA-F0-9]{40}$/.test(receiveAddress);
+
+      if (token.network.chain_id !== '0' && !isValidEthAddress) {
+        showToastMessage('Please check the token & address');
+      } else {
+        setValue('address', receiveAddress, {shouldValidate: true});
+      }
+    }
+  }, [receiveAddress]);
 
   const [isPressPaste, setIsPressPaste] = useState(false);
 

@@ -30,8 +30,8 @@ const RecoveryPhraseScreen: React.FC<RecoveryPhraseScreenProps> = ({
   const [isVisible, setIsVisible] = useState(false);
 
   const handleOnContinue = () => {
-    dispatch(setIsAuthenticated(true));
-    navigation.navigate('AppTabScreen');
+    // dispatch(setIsAuthenticated(true));
+    navigation.navigate('ConfirmManualBackUpScreen', {listWordSecret: words});
   };
 
   return (

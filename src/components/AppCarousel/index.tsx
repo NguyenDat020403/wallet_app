@@ -24,7 +24,7 @@ const AppCarousel: React.FC<AppCarouselProps> = ({data, style}) => {
         {
           marginHorizontal: -16,
           width: safeAreaInsets.screenWidth,
-          height: 80,
+          height: 60,
           justifyContent: 'center',
         },
         style,

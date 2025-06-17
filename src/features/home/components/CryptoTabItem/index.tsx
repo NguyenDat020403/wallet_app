@@ -1,23 +1,27 @@
-import React, {useEffect} from 'react';
-import {FlatList, RefreshControl, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {FlatList, TouchableOpacity, View} from 'react-native';
 import {Text} from '@rneui/themed';
-import {AppImage, AppListLoading, AppWrapper} from '@/components';
-import {MainStackScreenProps} from '@/navigation/types';
+import {AppImage, AppListLoading, AppTextInput} from '@/components';
 import useStyles from './styles';
 import {Image} from '@rneui/base';
-import {IconDown, IconWarning} from '@/assets/icons';
-import {ImageAvatar} from '@/features/auth/assets/images';
+import {IconFind, IconWarning} from '@/assets/icons';
 import {navigate} from '@/navigation/RootNavigation';
-import {Network, Tokens} from './types';
+import {Tokens} from './types';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
+import {GroupedTokens} from '../../redux/RTKQuery/types';
+import {ScrollView} from 'react-native';
+import {useForm, useWatch} from 'react-hook-form';
 
 type CryptoTabItemProps = {
-  data?: Tokens[];
+  data?: GroupedTokens;
   isLoading?: boolean;
   onRefresh?: () => {};
   refreshing?: boolean;
   onPress?: (network_id?: string, index?: number) => void;
   isHomeList?: boolean;
+  selectedNetwork?: string;
+  setSelectedNetwork?: (name: string) => void;
+  isSearch?: boolean;
 };
 
 const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
@@ -27,24 +31,109 @@ const CryptoTabItem: React.FC<CryptoTabItemProps> = ({
   refreshing,
   onPress,
   isHomeList = false,
+  selectedNetwork,
+  setSelectedNetwork,
+  isSearch,
 }) => {
   const styles = useStyles();
+  const networkNames = Object.keys(data || {});
+  const [internalNetwork, setInternalNetwork] = useState(networkNames[0]);
+  const currentNetwork = selectedNetwork ? selectedNetwork : internalNetwork;
+  const handleSetNetwork = setSelectedNetwork ?? setInternalNetwork;
+  const tokens = data?.[currentNetwork]?.tokens || [];
+
+  useEffect(() => {
+    if (!internalNetwork && networkNames.length > 0) {
+      setInternalNetwork(networkNames[0]);
+    }
+  }, [networkNames, internalNetwork]);
+
+  const {control} = useForm<{token_symbol: string}>({
+    mode: 'all',
+    defaultValues: {
+      token_symbol: '',
+    },
+  });
+
+  const token_symbol = useWatch({control, name: 'token_symbol'});
+
+  const filteredTokens = useMemo(() => {
+    if (!token_symbol.trim()) {
+      return tokens;
+    }
+
+    const keyword = token_symbol.toLowerCase();
+    return tokens.filter(token =>
+      token.token.symbol.toLowerCase().includes(keyword),
+    );
+  }, [token_symbol, tokens]);
 
   return (
     <View style={styles.container}>
+      {isSearch && tokens.length > 0 && (
+        <View style={{paddingTop: 16, paddingHorizontal: 16}}>
+          <View style={{position: 'relative'}}>
+            <AppTextInput
+              key={'token_symbol'}
+              type="INPUT"
+              placeholder="Search cryptocurrency"
+              name="token_symbol"
+              style={{paddingLeft: 40}}
+              control={control}
+            />
+            <AppImage
+              source={IconFind}
+              style={styles.iconFind}
+              haveDefault={false}
+            />
+          </View>
+        </View>
+      )}
+
+      <View style={{marginVertical: 10}}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 10, gap: 8}}>
+          {networkNames.map(name => (
+            <TouchableOpacity
+              key={name}
+              onPress={() => handleSetNetwork(name)}
+              style={{
+                backgroundColor:
+                  currentNetwork === name ? '#1A1110' : '#efefef',
+                paddingHorizontal: 14,
+                paddingVertical: 8,
+                borderRadius: 20,
+              }}>
+              <Text
+                style={[
+                  styles.textBody1Regular,
+                  {
+                    color: currentNetwork === name ? '#FFF' : '#333',
+                  },
+                ]}>
+                {name}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
       <FlatList
         refreshing={refreshing}
         onRefresh={onRefresh}
-        data={data}
+        data={filteredTokens}
         style={{marginBottom: 60}}
         contentContainerStyle={{gap: 16, paddingBottom: 16}}
         ListEmptyComponent={
           isLoading ? (
             <AppListLoading isLoading={isLoading} />
-          ) : !data ? (
+          ) : tokens.length === 0 ? (
             <View style={styles.noTokenContainer}>
               <Image source={IconWarning} style={{width: 150, height: 150}} />
-              <Text style={styles.textBody3Regular}>No tokens found</Text>
+              <Text style={styles.textBody1Regular}>
+                Your wallet has no tokens available for sending.
+              </Text>
             </View>
           ) : (
             <></>
@@ -69,7 +158,7 @@ export default CryptoTabItem;
 
 type CoinItemProps = {
   data: Tokens;
-  onPress?: (network_id?: string) => void;
+  onPress?: (network_id?: string, index?: number) => void;
   isHomeList?: boolean;
   index: number;
 };

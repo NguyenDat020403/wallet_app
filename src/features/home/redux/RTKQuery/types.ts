@@ -210,3 +210,13 @@ export interface WalletNetworkResponse {
   address: string;
   networks?: Network;
 }
+export type GroupedTokens = {
+  [networkName: string]: {
+    network: Network;
+    tokens: Tokens[];
+  };
+};
+export interface DetailWalletResponseV1 {
+  wallet: WalletResponse;
+  groupedTokens: GroupedTokens;
+}

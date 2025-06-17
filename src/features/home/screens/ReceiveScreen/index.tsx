@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {AppHeader, AppImage, AppTextInput, AppWrapper} from '@/components';
@@ -14,77 +14,38 @@ interface ReceiveScreenProps extends MainStackScreenProps<'ReceiveScreen'> {}
 const ReceiveScreen: React.FC<ReceiveScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
   const [tabIndex, setTabIndex] = useState(0);
-  const data = route.params.tokens?.tokens;
+  const groupedTokens = route.params.tokens?.groupedTokens;
   const wallet_id = route.params.tokens?.wallet.wallet_id;
+  const networkNames = useMemo(
+    () => Object.keys(groupedTokens || {}),
+    [groupedTokens],
+  );
 
-  const handleTabIndex = (newTabIndex: number) => {
-    setTabIndex(newTabIndex);
-  };
-
-  const [filteredData, setFilteredData] = useState(data);
-
-  const {
-    control,
-    handleSubmit,
-    formState: {isValid},
-  } = useForm<{
-    token_symbol: string;
-  }>({
-    mode: 'all',
-    defaultValues: {
-      token_symbol: '',
-    },
-    // resolver: yupResolver(schemaValidate),
-  });
-  const token_symbol = useWatch({control, name: 'token_symbol'});
-
-  useEffect(() => {
-    if (!token_symbol || token_symbol.trim() === '') {
-      setFilteredData(data);
-      return;
-    }
-
-    const keyword = token_symbol.toLowerCase();
-    const filtered = data?.filter(item =>
-      item.token.symbol.toLowerCase().includes(keyword),
-    );
-    setFilteredData(filtered);
-  }, [token_symbol, data]);
-
+  // Chọn mạng mặc định đầu tiên
+  const [selectedNetwork, setSelectedNetwork] = useState<string>(
+    networkNames[0] || '',
+  );
   return (
     <AppWrapper>
       <AppHeader title="Select cryptocurrency" />
       <View style={styles.container}>
-        <View style={{padding: 16}}>
-          <View style={{position: 'relative'}}>
-            <AppTextInput
-              key={'token_symbol'}
-              type="INPUT"
-              placeholder="Search cryptocurrency"
-              name="token_symbol"
-              style={{paddingLeft: 40}}
-              control={control}
-            />
-            <AppImage
-              source={IconFind}
-              style={styles.iconFind}
-              haveDefault={false}
-            />
-          </View>
-        </View>
-        {filteredData ? (
-          <CryptoTabItem
-            data={filteredData}
-            onPress={(network_id, index) => {
+        <CryptoTabItem
+          isSearch
+          data={groupedTokens}
+          selectedNetwork={selectedNetwork}
+          setSelectedNetwork={setSelectedNetwork}
+          isHomeList={false}
+          onPress={(network_id, index) => {
+            const token =
+              groupedTokens[selectedNetwork!]?.tokens[index!] || null;
+            if (token) {
               navigation.navigate('ReceiveQRCodeScreen', {
-                data: data![index || 0],
+                data: token,
                 wallet_id: wallet_id!,
               });
-            }}
-          />
-        ) : (
-          <></>
-        )}
+            }
+          }}
+        />
       </View>
     </AppWrapper>
   );

@@ -38,6 +38,7 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   icon: {
     width: 24,
     height: 24,
+    borderRadius: 150,
   },
   bottomContainer: {
     position: 'absolute',

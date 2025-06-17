@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {AppButton, AppImage, AppTextInput, AppWrapper} from '@/components';
+import {
+  AppButton,
+  AppDialog,
+  AppImage,
+  AppTextInput,
+  AppWrapper,
+} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
@@ -39,6 +45,8 @@ const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     name: string;
     type: string;
   }>();
+  const [isVisibleDialog, setIsVisibleDialog] = useState(false);
+
   const {
     control,
     handleSubmit,
@@ -53,7 +61,7 @@ const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   });
 
   const bioWatch = useWatch({control, name: 'bio'});
-  const isMaxLength = bioWatch.length > 255;
+  const isMaxLength = bioWatch && bioWatch.length > 255;
 
   const handlePickImage = async () => {
     const result = await launchImageLibrary({
@@ -75,6 +83,9 @@ const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         username: body.accountName,
         bio: body.bio,
         file: avatar,
+        callback: () => {
+          setIsVisibleDialog(true);
+        },
       }),
     );
   };
@@ -146,6 +157,16 @@ const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           onPress={() => {
             handleSubmit(onSave)();
           }}
+        />
+        <AppDialog
+          onPress={() => {
+            setIsVisibleDialog(false);
+          }}
+          action="SUCCESS"
+          title="Success"
+          isVisible={isVisibleDialog}
+          setIsVisible={setIsVisibleDialog}
+          titleButton="Confirm"
         />
       </View>
     </AppWrapper>

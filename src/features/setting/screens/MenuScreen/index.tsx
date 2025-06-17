@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Icon, Image, Text} from '@rneui/themed';
-import {AppWrapper} from '@/components';
+import {AppImage, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
@@ -17,14 +17,16 @@ import {
   IconTermOfService,
   IconUser,
 } from '@/assets/icons';
-import {useAppSelector} from '@/redux/hooks';
+import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {ImageAvatar} from '@/features/auth/assets/images';
+import {logout} from '@/features/auth/redux/slices';
 
 interface MenuScreenProps extends MainStackScreenProps<'MenuScreen'> {}
 
 const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
   const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles(safeAreaInsets);
+  const dispatch = useAppDispatch();
   const {currentUser} = useAppSelector(state => state.authReducer);
   const ListWalletAction = [
     {
@@ -52,7 +54,13 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
       id: 1,
       icon: IconLogout,
       title: 'Log out',
-      onPress: () => {},
+      onPress: () => {
+        dispatch(logout());
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'FirstScreen'}],
+        });
+      },
     },
   ];
   const ListAppInfoAction = [
@@ -81,6 +89,11 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
       <View style={{paddingHorizontal: 16}}>
         <TouchableOpacity
           activeOpacity={0.7}
+          onPress={() => {
+            navigation.navigate('ProfileScreen', {
+              userId: currentUser.user_id,
+            });
+          }}
           style={{
             justifyContent: 'space-between',
             flexDirection: 'row',
@@ -91,13 +104,12 @@ const MenuScreen: React.FC<MenuScreenProps> = ({navigation, route}) => {
             paddingHorizontal: 16,
             borderRadius: 12,
           }}>
-          <View style={{flexDirection: 'row', gap: 12}}>
-            <Image
+          <View style={{flexDirection: 'row', gap: 12, alignItems: 'center'}}>
+            <AppImage
               source={
                 currentUser.avatar ? {uri: currentUser.avatar} : ImageAvatar
               }
-              style={{width: 32, height: 32}}
-              containerStyle={{alignSelf: 'center'}}
+              style={{width: 32, height: 32, borderRadius: 150}}
             />
             <View>
               <Text style={styles.textSemiBold}>{currentUser.username}</Text>

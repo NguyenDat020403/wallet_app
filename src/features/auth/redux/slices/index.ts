@@ -4,8 +4,6 @@ import {persistReducer} from 'redux-persist';
 import {MainStackParamList} from '@/navigation/MainNavigation/types';
 import {AccessInfo, AuthInitialState, SecretLocal, User} from './types';
 import {
-  ImportWalletApiParams,
-  ImportWalletParams,
   LoginUserApiParams,
   SignUpUserApiParams,
   UploadAvatarApiParams,
@@ -79,7 +77,6 @@ export const authSlice = createSlice({
 export const {
   loginUser,
   signUpUser,
-  importWallet,
   uploadAvatar,
   setBiometricPublicKey,
   setIsFirstLaunch,

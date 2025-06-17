@@ -8,6 +8,8 @@ declare module 'react-native-config' {
     API_URL_POST: string;
     API_URL_TRANSACTION: string;
     API_URL_NOTIFICATION: string;
+    API_URL_USER: string;
+    API_URL_MESSAGE: string;
   }
   export const Config: NativeConfig;
   export default Config;

@@ -2,6 +2,8 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {AppTabStackParamList} from '../BottomTabNavigator/types';
 import {
   DetailWalletResponse,
+  DetailWalletResponseV1,
+  GroupedTokens,
   Network,
   Token,
   Tokens,
@@ -14,7 +16,7 @@ export type MainStackParamList = {
   AppTabScreen: BottomTabScreenProps<AppTabStackParamList>;
 
   HomeScreen: undefined;
-  SendScreen: {listCoin: any};
+  SendScreen: {listCoin: GroupedTokens};
   CoinDetailScreen: {token: Tokens};
   TransactionScreen: {token: any};
   TransactionHistoryScreen: {token: Tokens; txHash: string};
@@ -23,9 +25,9 @@ export type MainStackParamList = {
   WalletScreen: {wallet: UserWallet};
   WalletAddressScreen: {wallet_id: string};
   AddWalletScreen: undefined;
-  ReceiveScreen: {tokens?: DetailWalletResponse};
+  ReceiveScreen: {tokens?: DetailWalletResponseV1};
   ReceiveQRCodeScreen: {data: Tokens; wallet_id: string};
-  ScanScreen: undefined;
+  ScanScreen: {callBack?: (data: any) => void};
 
   //setting
   NetworkScreen: undefined;

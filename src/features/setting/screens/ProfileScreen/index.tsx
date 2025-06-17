@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {AppImage, AppWrapper} from '@/components';
+import {AppDialog, AppImage, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
@@ -38,6 +38,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from 'react-native-reanimated';
+import {useFocusEffect} from '@react-navigation/native';
+import {ImageError} from '@/assets/images';
 
 const HEADER_MAX_HEIGHT = 300;
 const AVATAR_MAX_SIZE = 120;
@@ -54,7 +56,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
 
   const isCurrentUser = currentUser.user_id === userId;
   const [getUserInfo, {data: dataUser}] = useGetUserMutation();
-  const [getUserPosts, {data: dataPost, isLoading}] = useGetUserPostsMutation();
+  const [getUserPosts, {data: dataPost, isLoading, isSuccess}] =
+    useGetUserPostsMutation();
   const [getUserWalletNetwork, {data: dataWallet}] =
     useGetUserWalletNetworkMutation();
   const [data, setData] = useState<UserResponse>();
@@ -81,10 +84,15 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
 
   const ListAction = [
     {
+      isCurrentUser: isCurrentUser,
       title: 'Chat',
       icon: IconMessage,
       onPress: () => {
-        console.log('chat');
+        navigation.navigate('UserChatDetailScreen', {
+          userId: data?.user_id,
+          userName: data?.username,
+          avatar: data?.avatar,
+        });
       },
     },
     {
@@ -93,13 +101,6 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
       onPress: () => {
         console.log('wallet');
         setIsVisibleAddress(true);
-      },
-    },
-    {
-      title: 'Send',
-      icon: IconSendProfile,
-      onPress: () => {
-        console.log('send');
       },
     },
   ];
@@ -122,9 +123,11 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
     }
   };
 
-  useEffect(() => {
-    fetchPosts(1);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchPosts(1);
+    }, []),
+  );
 
   useEffect(() => {
     if (postDeletedId) {
@@ -191,8 +194,8 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
   });
   const showSmallAvatarStyle = useAnimatedStyle(() => {
     const opacity = interpolate(
-      scrollY.value - 250,
-      [0, 100],
+      scrollY.value,
+      [150, 300],
       [0, 1],
       Extrapolation.EXTEND,
     );
@@ -202,8 +205,68 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
       alignItems: 'center',
     };
   });
+  const actionListStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [0, 20],
+      [1, 0],
+      Extrapolation.EXTEND,
+    );
+    return {
+      opacity,
+      flexDirection: 'row',
+      gap: 12,
+    };
+  });
+  const avatarOpacityStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [0, 200],
+      [1, 0],
+      Extrapolation.EXTEND,
+    );
+    return {
+      opacity,
+    };
+  });
+  const infoOpacityStyle = useAnimatedStyle(() => {
+    const opacity = interpolate(
+      scrollY.value,
+      [0, 100],
+      [1, 0],
+      Extrapolation.EXTEND,
+    );
+    return {
+      opacity,
+      gap: 12,
+      alignItems: 'center',
+    };
+  });
+  const renderFooterList = () => {
+    if (isLoading) {
+      return <ActivityIndicator size="small" color="#000" />;
+    }
+
+    if (posts.length > 0 && isSuccess) {
+      return (
+        <View
+          style={{
+            height: 200,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={[styles.textRegular, {textAlign: 'center'}]}>
+            You've reached the end
+          </Text>
+        </View>
+      );
+    }
+
+    return null;
+  };
+
   return (
-    <AppWrapper>
+    <AppWrapper style={{position: 'relative'}}>
       <AppHeader
         midComponent={
           <Animated.View style={showSmallAvatarStyle}>
@@ -234,29 +297,40 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
           </>
         }
       />
+      {posts.length > 0 && isSuccess && isCurrentUser && (
+        <TouchableOpacity
+          onPress={() => navigation.navigate('CreatePostScreen')}
+          activeOpacity={0.7}
+          style={styles.fab1}>
+          <Icon
+            type="feather"
+            name="plus"
+            color="#fff"
+            iconStyle={{fontSize: 24}}
+          />
+        </TouchableOpacity>
+      )}
       {data && (
         <>
           <Animated.View style={[styles.info, animatedHeaderStyle]}>
             <Animated.Image
-              source={{uri: data.avatar}}
-              style={[styles.avatar, animatedAvatarStyle]}
+              source={data.avatar ? {uri: data.avatar} : ImageError}
+              style={[styles.avatar, animatedAvatarStyle, avatarOpacityStyle]}
             />
-            <Text style={styles.name} numberOfLines={1}>
-              {data?.username}
-            </Text>
-            <Text style={styles.email} numberOfLines={1}>
-              Email: {data.email}
-            </Text>
-            <Text style={styles.bio} numberOfLines={2}>
-              {data.bio || 'Nothing here.'}
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                gap: 12,
-              }}>
-              {ListAction.map(item => {
+            <Animated.View style={infoOpacityStyle}>
+              <Text style={styles.name} numberOfLines={1}>
+                {data?.username}
+              </Text>
+              <Text style={styles.email} numberOfLines={1}>
+                Email: {data.email}
+              </Text>
+              <Text style={styles.bio} numberOfLines={1}>
+                {data.bio || 'Nothing here.'}
+              </Text>
+            </Animated.View>
+
+            <Animated.View style={[actionListStyle]}>
+              {ListAction.filter(item => !item.isCurrentUser).map(item => {
                 return (
                   <TouchableOpacity
                     style={styles.action}
@@ -270,20 +344,52 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({navigation, route}) => {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </Animated.View>
           </Animated.View>
           <Animated.FlatList
             style={{backgroundColor: '#FFF'}}
             onScroll={scrollHandler}
             nestedScrollEnabled
+            contentContainerStyle={{
+              paddingTop: 300,
+            }}
             scrollEventThrottle={16}
             showsVerticalScrollIndicator={false}
             onEndReached={handleLoadMore}
+            ListEmptyComponent={
+              isSuccess &&
+              posts.length === 0 && (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('CreatePostScreen')}
+                  activeOpacity={0.7}
+                  style={styles.fab}>
+                  <View>
+                    <Text
+                      style={[
+                        styles.textRegular,
+                        {
+                          textAlign: 'center',
+                        },
+                      ]}>
+                      It looks like you haven't posted anything yet.
+                    </Text>
+                    <Text
+                      style={[
+                        styles.textRegular,
+                        {
+                          textAlign: 'center',
+                        },
+                      ]}>
+                      Tap here to create your first post.
+                    </Text>
+                  </View>
+                  <Icon type="feather" name="plus" iconStyle={{fontSize: 20}} />
+                </TouchableOpacity>
+              )
+            }
             keyExtractor={item => item.post_id.toString()}
             onEndReachedThreshold={0.5}
-            ListFooterComponent={
-              isLoading ? <ActivityIndicator size="small" color="#000" /> : null
-            }
+            ListFooterComponent={renderFooterList}
             refreshing={isLoading}
             onRefresh={onRefresh}
             data={posts}

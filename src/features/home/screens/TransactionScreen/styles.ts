@@ -9,6 +9,10 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     borderRadius: 12,
     width: (insets.screenWidth - 32) / 5,
   },
+  iconHeader: {
+    width: 24,
+    height: 24,
+  },
 }));
 
 export default useStyles;

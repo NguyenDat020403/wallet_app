@@ -7,6 +7,7 @@ import {TextStyle, View, ViewStyle} from 'react-native';
 import AppButton from '../AppButton';
 import {StyleProp} from 'react-native';
 import {IconSuccess, IconWarning} from '@/assets/icons';
+import AppImage from '../AppImage';
 
 type AppDialogProps = {
   isVisible: boolean;
@@ -64,7 +65,15 @@ const AppDialog: React.FC<AppDialogProps> = ({
         margin: 0,
       }}>
       <View style={[styles.container, style]}>
-        <Image source={icon} style={{width: 200, height: 200}} />
+        <AppImage
+          source={icon}
+          style={{
+            width: 150,
+            height: 150,
+            borderRadius: 300,
+          }}
+          haveDefault={false}
+        />
         <Text style={[styles.textBody3Regular, titleStyle]}>
           {title && title}
         </Text>

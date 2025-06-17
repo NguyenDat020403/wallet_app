@@ -42,6 +42,13 @@ const useStyles = makeStyles(({colors}) => ({
     flexDirection: 'row',
     gap: 8,
   },
+  iconFind: {
+    width: 24,
+    height: 24,
+    position: 'absolute',
+    top: 24,
+    left: 12,
+  },
 }));
 
 export default useStyles;

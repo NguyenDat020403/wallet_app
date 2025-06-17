@@ -4,6 +4,7 @@ import {WalletDefaultResponse} from '@/features/auth/redux/RTKQuery/types';
 export type HomeInitialState = {
   userWallet: UserWallet[];
   currentTransactionHash: string;
+  isChangeWalletName: boolean;
   detailCurrentTransaction: TransactionHistory;
 };
 

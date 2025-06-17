@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {AppHeader, AppImage, AppTextInput, AppWrapper} from '@/components';
@@ -8,75 +8,64 @@ import {TabView} from '@rneui/base';
 import {CryptoTabItem} from '../../components';
 import {useForm, useWatch} from 'react-hook-form';
 import {IconFind} from '@/assets/icons';
-import {Tokens} from '../../redux/RTKQuery/types';
+import {GroupedTokens, Tokens} from '../../redux/RTKQuery/types';
 
 interface SendScreenProps extends MainStackScreenProps<'SendScreen'> {}
 
 const SendScreen: React.FC<SendScreenProps> = ({navigation, route}) => {
   const styles = useStyles();
-  const [tabIndex, setTabIndex] = useState(0);
-  const data = route.params.listCoin;
-  const tokenData: Tokens[] = data?.filter(
-    (token: Tokens) => parseFloat(token.balance) > 0,
+  const groupedTokens: GroupedTokens = route.params.listCoin;
+  const filteredGroupedTokens = useMemo(() => {
+    const result: GroupedTokens = {};
+
+    Object.entries(groupedTokens).forEach(([networkName, networkData]) => {
+      const filteredTokens = networkData.tokens.filter(
+        token => parseFloat(token.balance) > 0,
+      );
+
+      if (filteredTokens.length > 0) {
+        result[networkName] = {
+          ...networkData,
+          tokens: filteredTokens,
+        };
+      }
+    });
+
+    return result;
+  }, [groupedTokens]);
+
+  const networkNames = useMemo(
+    () => Object.keys(groupedTokens || {}),
+    [groupedTokens],
   );
 
-  const handleTabIndex = (newTabIndex: number) => {
-    setTabIndex(newTabIndex);
-  };
+  const [selectedNetwork, setSelectedNetwork] = useState<string>(
+    networkNames[0] || '',
+  );
 
-  const [filteredData, setFilteredData] = useState(tokenData);
-
-  const {control} = useForm<{
-    token_symbol: string;
-  }>({
-    mode: 'all',
-    defaultValues: {
-      token_symbol: '',
-    },
-  });
-  const token_symbol = useWatch({control, name: 'token_symbol'});
-  useEffect(() => {
-    if (!token_symbol || token_symbol.trim() === '') {
-      setFilteredData(tokenData);
-      return;
-    }
-
-    const keyword = token_symbol.toLowerCase();
-    const filtered = tokenData?.filter(item =>
-      item.token.symbol.toLowerCase().includes(keyword),
-    );
-    setFilteredData(filtered);
-  }, [token_symbol, data]);
   return (
     <AppWrapper>
       <View style={styles.container}>
         <AppHeader title="Send" />
-        <View style={{padding: 16}}>
-          <View style={{position: 'relative'}}>
-            <AppTextInput
-              key={'token_symbol'}
-              type="INPUT"
-              placeholder="Search cryptocurrency"
-              name="token_symbol"
-              style={{paddingLeft: 40}}
-              control={control}
-            />
-            <AppImage
-              source={IconFind}
-              style={styles.iconFind}
-              haveDefault={false}
-            />
-          </View>
-        </View>
-        {filteredData && (
+        {filteredGroupedTokens ? (
           <CryptoTabItem
-            data={filteredData}
+            isSearch
+            data={filteredGroupedTokens}
+            selectedNetwork={selectedNetwork}
+            setSelectedNetwork={setSelectedNetwork}
+            isHomeList={false}
             onPress={(network_id, index) => {
-              navigation.navigate('CoinDetailScreen', {
-                token: tokenData[index!],
-              });
+              const token =
+                filteredGroupedTokens[selectedNetwork!]?.tokens[index!] || null;
+              if (token) {
+                navigation.navigate('CoinDetailScreen', {token});
+              }
             }}
           />
+        ) : (
+          <Text style={styles.textBody1Regular}>
+            Your wallet has no tokens available for sending.
+          </Text>
         )}
       </View>
     </AppWrapper>

@@ -59,10 +59,12 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
     borderRadius: 8,
   },
   walletItem: {
+    paddingHorizontal: 16,
     paddingVertical: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderRadius: 8,
   },
   addWalletButton: {
     position: 'absolute',

@@ -30,8 +30,7 @@ const TransactionScreen2: React.FC<TransactionScreen2Props> = ({
 
   useEffect(() => {
     const numericAmount = parseFloat(amount);
-
-    if (!numericAmount || numericAmount === 0) {
+    if (numericAmount === 0) {
       setIsBalanceAmount(false);
     } else if (numericAmount > parseFloat(token.balance)) {
       setIsBalanceAmount(false);
@@ -94,7 +93,7 @@ const TransactionScreen2: React.FC<TransactionScreen2Props> = ({
               styles.textHeading1,
               {flexShrink: 1, flex: 1, color: '#B0B0B0'},
               {
-                color: amount > token.balance ? 'red' : '#000',
+                color: !isBalanceAmount ? 'red' : '#000',
               },
             ]}>
             {amount}

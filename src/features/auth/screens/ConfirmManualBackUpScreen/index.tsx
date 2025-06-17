@@ -5,6 +5,9 @@ import {AppButton, AppDialog, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import AppHeader from '@/components/AppHeader';
+import {showToastMessage} from '@/functions';
+import {useAppDispatch} from '@/redux/hooks';
+import {logout} from '../../redux/slices';
 
 interface ConfirmManualBackUpScreenProps
   extends MainStackScreenProps<'ConfirmManualBackUpScreen'> {}
@@ -14,11 +17,14 @@ const ConfirmManualBackUpScreen: React.FC<ConfirmManualBackUpScreenProps> = ({
   route,
 }) => {
   const styles = useStyles();
+  const dispatch = useAppDispatch();
   const [data, setData] = useState([
     {id: '1', selectedWord: ''},
     {id: '2', selectedWord: ''},
     {id: '3', selectedWord: ''},
   ]);
+  const [failCount, setFailCount] = useState(0);
+
   const listWord = route.params.listWordSecret;
   const list1 = [listWord[0], listWord[2], listWord[6]];
   const list2 = [listWord[8], listWord[2], listWord[5]];
@@ -42,7 +48,17 @@ const ConfirmManualBackUpScreen: React.FC<ConfirmManualBackUpScreenProps> = ({
     ) {
       setIsVisibleSuccessModal(true);
     } else {
-      setIsCheckMatch(true);
+      const newFailCount = failCount + 1;
+      setFailCount(newFailCount);
+      if (newFailCount >= 5) {
+        dispatch(logout());
+        navigation.reset({
+          index: 0,
+          routes: [{name: 'FirstScreen'}],
+        });
+      } else {
+        showToastMessage(`Incorrect, try again. ${newFailCount}`);
+      }
     }
   };
 
@@ -127,6 +143,7 @@ const ConfirmManualBackUpScreen: React.FC<ConfirmManualBackUpScreenProps> = ({
         />
       </View>
       <AppDialog
+        titleButton="Continue"
         onPress={() => {
           navigation.navigate('AppTabScreen');
         }}

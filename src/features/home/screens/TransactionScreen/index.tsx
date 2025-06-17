@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Easing, KeyboardAvoidingView, View} from 'react-native';
 import {Text} from '@rneui/themed';
-import {AppButton, AppHeader, AppWrapper} from '@/components';
+import {AppButton, AppHeader, AppImage, AppWrapper} from '@/components';
 import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 import {
@@ -11,6 +11,8 @@ import {
 } from './screens';
 import {useSafeAreaInsetsWindowDimension} from '@/hooks';
 import {TabView} from '@rneui/base';
+import {TouchableOpacity} from 'react-native';
+import {IconQR} from '@/assets/icons';
 
 interface TransactionScreenProps
   extends MainStackScreenProps<'TransactionScreen'> {}
@@ -30,7 +32,26 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
 
   return (
     <AppWrapper>
-      <AppHeader title="Transaction" />
+      <AppHeader
+        title="Transaction"
+        rightComponent={
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ScanScreen', {
+                callBack: data => {
+                  setAddress(data);
+                },
+              });
+            }}>
+            <AppImage
+              source={IconQR}
+              resizeMode="stretch"
+              style={styles.iconHeader}
+              haveDefault={false}
+            />
+          </TouchableOpacity>
+        }
+      />
       <View style={styles.container}>
         <View
           style={{
@@ -59,6 +80,7 @@ const TransactionScreen: React.FC<TransactionScreenProps> = ({
           {/* Tab 1  */}
           <TabView.Item style={{flex: 1}}>
             <TransactionScreen1
+              receiveAddress={address}
               setAddress={setAddress}
               setTabIndex={setTabIndex}
               token={token}

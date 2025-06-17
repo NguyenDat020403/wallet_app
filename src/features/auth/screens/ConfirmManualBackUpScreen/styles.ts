@@ -25,13 +25,13 @@ const useStyles = makeStyles(({colors}) => ({
     ...typography.body1Regular,
   },
   boxWord: {
-    backgroundColor: '#323232',
-    borderRadius: 4,
+    backgroundColor: '#efefef',
+    borderRadius: 8,
     padding: 16,
   },
   wordSelect: {
-    backgroundColor: '#323232',
-    borderRadius: 4,
+    backgroundColor: '#efefef',
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: '#FFFFFF',
     padding: 12,

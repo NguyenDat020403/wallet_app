@@ -4,10 +4,13 @@ import {MainStackScreenProps} from '@/navigation/types';
 import useStyles from './styles';
 
 import {RNCamera} from 'react-native-camera';
+import {useSafeAreaInsetsWindowDimension} from '@/hooks';
+import {goBack} from '@/navigation/RootNavigation';
 
 interface ScanScreenProps extends MainStackScreenProps<'ScanScreen'> {}
 
 const ScanScreen: React.FC<ScanScreenProps> = ({navigation, route}) => {
+  const safeAreaInsets = useSafeAreaInsetsWindowDimension();
   const styles = useStyles();
 
   const [scanned, setScanned] = useState(false);
@@ -15,6 +18,10 @@ const ScanScreen: React.FC<ScanScreenProps> = ({navigation, route}) => {
   const onBarCodeRead = ({data}) => {
     if (scanned) return;
 
+    if (data) {
+      route.params.callBack && route.params.callBack(data);
+      goBack();
+    }
     setScanned(true);
     console.log('QR Data:', data);
   };
@@ -23,7 +30,7 @@ const ScanScreen: React.FC<ScanScreenProps> = ({navigation, route}) => {
       <RNCamera
         style={{
           flex: 1,
-          justifyContent: 'flex-end',
+          justifyContent: 'center',
           alignItems: 'center',
         }}
         onBarCodeRead={onBarCodeRead}
@@ -37,11 +44,12 @@ const ScanScreen: React.FC<ScanScreenProps> = ({navigation, route}) => {
         }}>
         <View
           style={{
-            flex: 1,
+            width: safeAreaInsets.screenWidth - 32,
+            height: safeAreaInsets.screenWidth - 32,
             borderWidth: 2,
             borderColor: '#00FF00',
-            margin: 30,
             borderRadius: 8,
+            justifyContent: 'center',
           }}
         />
       </RNCamera>

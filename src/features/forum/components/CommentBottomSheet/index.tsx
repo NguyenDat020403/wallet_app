@@ -90,7 +90,7 @@ const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
       isVisible={isVisible}
       setIsVisible={setIsVisible}>
       <View style={{flex: 1}}>
-        <AppHeader
+        {/* <AppHeader
           leftComponent={<Text style={styles.textCap1}>123k likes</Text>}
           rightComponent={
             <TouchableOpacity
@@ -102,7 +102,7 @@ const CommentBottomSheet: React.FC<CommentBottomSheetProps> = ({
               <Icon type="feather" name="x" iconStyle={{fontSize: 16}} />
             </TouchableOpacity>
           }
-        />
+        /> */}
         <FlatList
           data={listComment}
           contentContainerStyle={{gap: 12}}

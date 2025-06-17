@@ -67,12 +67,11 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
   };
 
   const handleSwapVisible = () => {
-    setIsVisible(true);
-
     getSwapTokenInfo({
       rpc_url: data.network.rpc_url,
       contract_address: '0xD31AfbF1d2A6D8D745D9E6D3d1C15F1bc5F6624d',
     });
+    setIsVisible(true);
   };
 
   const handleSwapTokens = () => {
@@ -144,7 +143,10 @@ const CoinDetailScreen: React.FC<CoinDetailScreenProps> = ({
         style={{paddingHorizontal: 16}}
         midComponent={
           <View style={{flexDirection: 'row', gap: 8}}>
-            <Image source={ImageAvatar} style={styles.icon} />
+            <AppImage
+              source={{uri: data.token.thumbnail}}
+              style={styles.icon}
+            />
             <Text style={styles.textBody3Regular}>{coinName}</Text>
           </View>
         }

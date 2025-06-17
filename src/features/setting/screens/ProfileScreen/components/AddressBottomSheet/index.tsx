@@ -14,7 +14,7 @@ import {
 } from 'react-native-reanimated';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {showToastMessage} from '@/functions';
-import {ScrollView} from 'react-native-gesture-handler';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 type AddressBottomSheetProps = {
   data?: WalletNetwork[];
   isVisible: boolean;
@@ -32,17 +32,18 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = ({
 
   return (
     <AppBottomSheetModal
-      autoSize
+      snapPoints={['70%', '100%']}
       isVisible={isVisible}
       setIsVisible={setIsVisible}>
-      <View
+      <FlatList
+        showsVerticalScrollIndicator={false}
         style={{
-          paddingHorizontal: 16,
-          paddingBottom: safeAreaInsets.bottom + 16,
-          paddingTop: 16,
-        }}>
-        <ScrollView>
-          {data?.map((item, index) => (
+          marginHorizontal: 16,
+          marginBottom: safeAreaInsets.bottom,
+        }}
+        data={data}
+        renderItem={({item, index}) => {
+          return (
             <WalletItem
               key={index}
               item={item}
@@ -52,9 +53,9 @@ const AddressBottomSheet: React.FC<AddressBottomSheetProps> = ({
                 setExpandedIndex(prev => (prev === i ? null : i))
               }
             />
-          ))}
-        </ScrollView>
-      </View>
+          );
+        }}
+      />
     </AppBottomSheetModal>
   );
 };
@@ -154,9 +155,14 @@ const WalletItem: React.FC<WalletItemProps> = ({
                   {i.address}
                 </Text>
               </View>
+              {/* <View style={{flexDirection: 'row', gap: 8}}> */}
               <TouchableOpacity onPress={() => handleCopy(i.address)}>
                 <Icon type="feather" name="copy" iconStyle={{fontSize: 16}} />
               </TouchableOpacity>
+              {/* <TouchableOpacity onPress={() => handleCopy(i.address)}>
+                  <Icon type="feather" name="send" iconStyle={{fontSize: 16}} />
+                </TouchableOpacity> */}
+              {/* </View> */}
             </TouchableOpacity>
           ))}
         </Animated.View>

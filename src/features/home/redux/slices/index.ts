@@ -16,6 +16,7 @@ import {
 
 const initialState: HomeInitialState = {
   userWallet: [],
+  isChangeWalletName: false,
   currentTransactionHash: '',
   detailCurrentTransaction: {
     time_transaction: '',
@@ -59,6 +60,9 @@ export const homeSlice = createSlice({
     setCurrentTransactionHash: (state, action: PayloadAction<string>) => {
       state.currentTransactionHash = action.payload;
     },
+    setIsChangeWalletName: (state, action: PayloadAction<boolean>) => {
+      state.isChangeWalletName = action.payload;
+    },
     getCurrentTransactionHash: (state, action) => {
       state.currentTransactionHash = action.payload;
     },
@@ -80,6 +84,7 @@ export const {
   swapToken,
   setDetailCurrentTransaction,
   getDetailCurrentTransaction,
+  setIsChangeWalletName,
   sendBTCTransaction,
   sendEVMTransaction,
   getCurrentTransaction,

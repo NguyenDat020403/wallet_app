@@ -11,6 +11,7 @@ import {
   createTransactionBTCRequest,
   createTransactionEVMRequest,
   DetailWalletResponse,
+  DetailWalletResponseV1,
   GasEstimateRequest,
   GasEstimatesResponse,
   getCurrentTransactionRequest,
@@ -36,6 +37,15 @@ const walletRTKQueryApi = RTKQueryWalletApi.injectEndpoints({
         body: body,
       }),
       transformResponse: (response: FullResponse<DetailWalletResponse>) =>
+        response.data,
+    }),
+    getWalletV1: builder.mutation({
+      query: (params: {wallet_id: string}) => ({
+        url: '/getWalletV1',
+        method: 'GET',
+        params,
+      }),
+      transformResponse: (response: FullResponse<DetailWalletResponseV1>) =>
         response.data,
     }),
     getUserWallets: builder.mutation({
@@ -209,6 +219,7 @@ export const {
 } = tokenRTKQueryApi;
 export const {
   useGetWalletMutation,
+  useGetWalletV1Mutation,
   useGetUserWalletsMutation,
   useUpdateWalletNameMutation,
   useDeleteWalletNameMutation,

@@ -22,6 +22,12 @@ const useStyles = makeStyles(({colors}, insets: AppEdgeInsets) => ({
   textBody3Regular: {
     ...typography.body3Regular,
   },
+  noTokenContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+    paddingTop: 16,
+  },
 }));
 
 export default useStyles;

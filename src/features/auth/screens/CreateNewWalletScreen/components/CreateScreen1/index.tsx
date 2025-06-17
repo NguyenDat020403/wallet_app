@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, ScrollView, TextInput, View} from 'react-native';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+  TextInput,
+  View,
+} from 'react-native';
 import {Text} from '@rneui/themed';
 import useStyles from './styles';
 import {AppButton, AppWrapper} from '@/components';
@@ -59,6 +65,7 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
         password: data.password,
         biometricPublicKey: biometricPublicKey,
         callback: () => {
+          Keyboard.dismiss();
           tabIndex(1);
         },
       }),
@@ -110,6 +117,8 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
             style={{
               alignItems: 'center',
               paddingVertical: 16,
+              flexShrink: 1,
+              justifyContent: 'space-between',
             }}>
             <TouchableOpacity
               onPress={async () => {
@@ -124,10 +133,11 @@ const CreateScreen1: React.FC<CreateScreen1Props> = ({tabIndex}) => {
               }}>
               <Image source={IconFingerprint} style={{width: 32, height: 32}} />
             </TouchableOpacity>
+            {/* <AppCarousel data={ListIconAnimation} /> */}
           </View>
         </ScrollView>
-        <AppCarousel data={ListIconAnimation} />
       </View>
+
       <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={60}>
         <AppButton
           buttonStyle={{

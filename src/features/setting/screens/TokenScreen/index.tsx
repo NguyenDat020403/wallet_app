@@ -149,6 +149,7 @@ const TokenScreen: React.FC<TokenScreenProps> = ({navigation, route}) => {
           Select Blockchain Network
         </Text>
         <FlatList
+          style={{paddingHorizontal: 16}}
           data={data}
           contentContainerStyle={{gap: 24}}
           renderItem={({item}) => {

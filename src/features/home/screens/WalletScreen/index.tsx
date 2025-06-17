@@ -22,7 +22,7 @@ import {
 import {hideAppLoading, showAppLoading} from '@/features/common/functions';
 import {useAppDispatch, useAppSelector} from '@/redux/hooks';
 import {setCurrentWalletIDLocal} from '@/features/auth/redux/slices';
-import {setUserWallets} from '../../redux/slices';
+import {setIsChangeWalletName, setUserWallets} from '../../redux/slices';
 import {goBack} from '@/navigation/RootNavigation';
 
 interface WalletScreenProps extends MainStackScreenProps<'WalletScreen'> {}
@@ -70,6 +70,7 @@ const WalletScreen: React.FC<WalletScreenProps> = ({navigation, route}) => {
 
   const onConfirm = () => {
     updateWalletName({wallet_id: wallet.wallet_id, wallet_name: walletName});
+    dispatch(setIsChangeWalletName(true));
     showAppLoading();
   };
   const onDelete = () => {
@@ -91,6 +92,7 @@ const WalletScreen: React.FC<WalletScreenProps> = ({navigation, route}) => {
       );
       dispatch(setCurrentWalletIDLocal(wallet_existed[0].wallet_id));
       dispatch(setUserWallets(wallet_existed));
+
       navigation.replace('AppTabScreen');
     }
   }, [isSuccess, isDeletedSuccess]);

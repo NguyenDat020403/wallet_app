@@ -68,7 +68,7 @@ function* updateUserSaga(
   try {
     const {data} = yield call(settingApi.update, action.payload);
     yield put(setCurrentUserProfile(data));
-    action.payload.callback?.();
+    action.payload.callback && action.payload.callback();
   } catch (e: any) {
     showToastMessage(e.message || 'Update failed');
   } finally {
